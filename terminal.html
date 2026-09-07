@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aethelas — Terminal</title>
+    <meta name="description" content="Aethelas Terminal — Interactive command-line interface for Verifiable AI Memory." />
+    <link rel="canonical" href="https://aethelas.in/terminal.html" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== FULL CSS ===== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { background:#020408; color:#b0c8f0; font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; min-height:100vh; }
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:#020408; }
+        ::-webkit-scrollbar-thumb { background:#00d4ff; border-radius:12px; box-shadow:0 0 30px rgba(0,212,255,0.4); }
+        :root {
+            --q-cyan:#00d4ff; --q-purple:#a855f7; --q-pink:#f472b6; --q-gold:#fbbf24;
+            --q-teal:#2dd4bf; --q-indigo:#6366f1; --q-rose:#fb7185; --q-blue:#3b82f6;
+            --bg-deep:#020408; --bg-card:rgba(4,8,20,0.55); --border-glow:rgba(0,212,255,0.12);
+            --text-primary:#eaf0ff; --text-secondary:#8aa0c8; --text-muted:#3a4a6a;
+            --font-display:'Orbitron',monospace; --font-body:'Inter',sans-serif; --font-mono:'JetBrains Mono',monospace;
+            --neuro-glow:0 0 60px rgba(0,212,255,0.06);
+        }
+        #neuro-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.95; }
+        #aurora-overlay { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.04) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.03) 0%, transparent 50%); filter:blur(60px); animation:auroraDrift 20s ease-in-out infinite alternate; }
+        @keyframes auroraDrift { 0% { transform:translate(0,0) scale(1); opacity:0.5; } 100% { transform:translate(60px,-40px) scale(1.2); opacity:0.8; } }
+        #quantum-grid { position:fixed; inset:0; z-index:0; pointer-events:none; background-image:linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px); background-size:80px 80px; opacity:0.4; mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%); -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%); }
+        #scanlines { position:fixed; inset:0; z-index:0; pointer-events:none; background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); opacity:0.25; }
+        .site-nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:rgba(2,4,8,0.5); backdrop-filter:blur(30px) saturate(1.6); -webkit-backdrop-filter:blur(30px) saturate(1.6); border-bottom:1px solid rgba(0,212,255,0.06); box-shadow:0 4px 60px rgba(0,0,0,0.6); }
+        .site-nav .nav-brand { font-family:var(--font-display); font-size:20px; font-weight:800; color:#fff; letter-spacing:0.06em; text-decoration:none; display:flex; align-items:center; gap:10px; }
+        .site-nav .nav-brand .brand-glow { display:inline-block; width:8px; height:8px; background:var(--q-cyan); border-radius:50%; box-shadow:0 0 30px var(--q-cyan),0 0 60px rgba(0,212,255,0.2); animation:pulseDot 2.4s ease-in-out infinite; }
+        @keyframes pulseDot { 0%,100% { opacity:0.4; transform:scale(0.7); } 50% { opacity:1; transform:scale(1.3); } }
+        .site-nav .nav-brand span { color:var(--q-cyan); }
+        .site-nav .nav-links { display:flex; gap:4px; align-items:center; }
+        .site-nav .nav-links a { font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; padding:8px 18px; border-radius:100px; transition:all 0.35s cubic-bezier(0.23,1,0.32,1); border:1px solid transparent; position:relative; }
+        .site-nav .nav-links a::before { content:''; position:absolute; inset:-1px; border-radius:100px; padding:1px; background:linear-gradient(135deg, var(--q-cyan), var(--q-purple)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity 0.4s; }
+        .site-nav .nav-links a:hover::before { opacity:1; }
+        .site-nav .nav-links a:hover { color:var(--text-primary); background:rgba(0,212,255,0.04); }
+        .site-nav .nav-links a.active { color:var(--q-cyan); border-color:rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); box-shadow:0 0 40px rgba(0,212,255,0.04); }
+        .site-nav .nav-cta { color:#020408 !important; background:var(--q-cyan) !important; border:none !important; font-weight:700; box-shadow:0 0 50px rgba(0,212,255,0.2); }
+        .site-nav .nav-cta:hover { background:#fff !important; color:#020408 !important; box-shadow:0 0 80px rgba(0,212,255,0.4); transform:scale(1.04); }
+        .wrap { position:relative; z-index:2; max-width:1280px; margin:0 auto; }
+        .hero { min-height:50vh; display:flex; align-items:center; justify-content:center; padding:160px 2rem 4rem; text-align:center; position:relative; }
+        .hero-inner { max-width:860px; position:relative; }
+        .hero-eyebrow { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--q-cyan); margin-bottom:1.8rem; opacity:0.5; text-shadow:0 0 40px rgba(0,212,255,0.15); }
+        .hero h1 { font-family:var(--font-display); font-weight:900; font-size:clamp(2.5rem,6vw,4rem); line-height:1.0; letter-spacing:-0.03em; color:#fff; text-shadow:0 0 80px rgba(0,212,255,0.08); margin-bottom:1.2rem; }
+        .hero h1 .neuro-text { background:linear-gradient(135deg, var(--q-cyan), var(--q-purple), var(--q-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; filter:drop-shadow(0 0 60px rgba(0,212,255,0.15)); display:inline-block; }
+        .hero-tagline { font-size:1.1rem; color:var(--text-secondary); max-width:600px; margin:0 auto 2.8rem; opacity:0.7; font-weight:300; letter-spacing:0.02em; }
+
+        .terminal-container { padding:0 2rem 4rem; }
+        .terminal-window {
+            max-width:960px; margin:0 auto; background:rgba(2,4,8,0.85); border:1px solid var(--border-glow);
+            border-radius:16px; overflow:hidden; backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+            box-shadow:0 24px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(0,212,255,0.04);
+            position:relative; min-height:500px; display:flex; flex-direction:column;
+        }
+        .terminal-window::before { content:''; position:absolute; inset:-1px; border-radius:16px; padding:1px; background:linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+        .terminal-header { display:flex; align-items:center; gap:0.5rem; padding:0.6rem 1.2rem; background:rgba(0,212,255,0.02); border-bottom:1px solid rgba(0,212,255,0.04); flex-shrink:0; }
+        .terminal-header .dot { width:10px; height:10px; border-radius:50%; background:#ff5f56; transition:all 0.3s; }
+        .terminal-header .dot:nth-child(2) { background:#ffbd2e; }
+        .terminal-header .dot:nth-child(3) { background:#27c93f; }
+        .terminal-header .dot:hover { filter:brightness(1.6); transform:scale(1.2); }
+        .terminal-header span { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); margin-left:0.8rem; letter-spacing:0.1em; opacity:0.5; }
+        .terminal-body { padding:1.2rem 1.8rem; font-family:var(--font-mono); font-size:0.8rem; line-height:1.8; color:var(--text-secondary); min-height:400px; max-height:600px; overflow-y:auto; flex:1; }
+        .terminal-body .line { margin-bottom:0.1rem; }
+        .terminal-body .prompt { color:var(--q-cyan); }
+        .terminal-body .cmd { color:#fff; font-weight:500; }
+        .terminal-body .output { color:var(--text-secondary); }
+        .terminal-body .output.highlight { color:var(--q-gold); }
+        .terminal-body .output.neuro { color:var(--q-purple); }
+        .terminal-body .output.error { color:var(--q-pink); }
+        .terminal-body .output.success { color:var(--q-teal); }
+        .terminal-body .output.cyan { color:var(--q-cyan); }
+        .terminal-input-line { display:flex; align-items:center; gap:0.5rem; margin-top:0.3rem; }
+        .terminal-input-line .prompt { color:var(--q-cyan); flex-shrink:0; }
+        .terminal-input-line .cursor { display:inline-block; width:8px; height:16px; background:var(--q-cyan); vertical-align:middle; animation:blink 1s step-end infinite; box-shadow:0 0 20px var(--q-cyan); }
+        @keyframes blink { 50% { opacity:0; } }
+        .terminal-input-line input { background:transparent; border:none; color:#fff; font-family:var(--font-mono); font-size:0.8rem; outline:none; flex:1; caret-color:var(--q-cyan); }
+        .terminal-input-line input::placeholder { color:var(--text-muted); opacity:0.5; }
+
+        footer { padding:2.5rem 2rem 3rem; text-align:center; background:rgba(2,4,8,0.4); border-top:1px solid rgba(0,212,255,0.03); margin-top:2rem; }
+        footer .co { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.2rem; letter-spacing:0.06em; }
+        footer .co span { color:var(--q-cyan); }
+        footer .meta { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); letter-spacing:0.12em; margin-bottom:0.8rem; opacity:0.5; }
+        footer .footer-links { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+        footer .footer-links a { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.3s; }
+        footer .footer-links a:hover { color:var(--q-cyan); }
+
+        .reveal { opacity:0; transform:translateY(50px) scale(0.97); transition:opacity 1s cubic-bezier(0.23,1,0.32,1), transform 1s cubic-bezier(0.23,1,0.32,1); }
+        .reveal.in { opacity:1; transform:translateY(0) scale(1); }
+
+        @media (max-width:768px) {
+            .hero { min-height:40vh; padding-top:120px; }
+            .site-nav { padding:10px 16px; }
+            .site-nav .nav-links a { padding:6px 10px; font-size:8px; letter-spacing:0.08em; }
+            .site-nav .nav-brand { font-size:15px; }
+            .site-nav .nav-links a:not(.nav-cta):not(.active) { display:none; }
+            .terminal-body { font-size:0.7rem; padding:1rem; max-height:400px; }
+            .terminal-input-line input { font-size:0.7rem; }
+            .terminal-container { padding:0 1rem 3rem; }
+        }
+        @media (max-width:480px) { .hero h1 { font-size:clamp(2rem,10vw,2.8rem); } .hero-tagline { font-size:0.9rem; } .terminal-body { font-size:0.6rem; padding:0.8rem; max-height:350px; } }
+        @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } #aurora-overlay, #quantum-grid, #scanlines { display:none; } .site-nav .nav-brand .brand-glow { animation:none; } }
+    </style>
+</head>
+<body>
+    <canvas id="neuro-canvas"></canvas>
+    <div id="aurora-overlay"></div>
+    <div id="quantum-grid"></div>
+    <div id="scanlines"></div>
+
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand"><span class="brand-glow"></span>Aethelas<span>.</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="research.html">Research</a>
+            <a href="verify.html">Verify</a>
+            <a href="blog.html">Blog</a>
+            <a href="terminal.html" class="active nav-cta">Launch App</a>
+        </div>
+    </nav>
+
+    <div class="wrap">
+        <header class="hero">
+            <div class="hero-inner">
+                <div class="hero-eyebrow">✦ Aethelas Terminal</div>
+                <h1><span class="neuro-text">Command</span> Interface</h1>
+                <p class="hero-tagline">Interact with the Aethelas system. Type <span style="color:var(--q-cyan); font-family:var(--font-mono);">help</span> for available commands.</p>
+            </div>
+        </header>
+
+        <section class="terminal-container">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <span>aethelas@neural: ~/terminal</span>
+                </div>
+                <div class="terminal-body" id="terminal-output"></div>
+                <div class="terminal-body" style="border-top:1px solid rgba(0,212,255,0.04); padding-top:0.5rem;">
+                    <div class="terminal-input-line">
+                        <span class="prompt">$</span>
+                        <input type="text" id="terminal-input" placeholder="Enter a command..." autofocus />
+                        <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="co">Aethelas<span>.</span></div>
+            <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="research.html">Research</a>
+                <a href="verify.html">Verify</a>
+                <a href="blog.html">Blog</a>
+                <a href="terminal.html">Terminal</a>
+                <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ===== NEURAL CANVAS =====
+        (function() {
+            const canvas = document.getElementById('neuro-canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H, particles = [], mouse = { x: null, y: null };
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            class NeuroParticle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * W; this.y = Math.random() * H;
+                    this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 1.8 + 0.4; this.baseSize = this.size;
+                    const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1', '#3b82f6'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+                    this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+                    this.type = Math.random() > 0.7 ? 'core' : 'normal';
+                }
+                update() {
+                    this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
+                    this.x += this.vx + Math.sin(this.phase) * 0.02;
+                    this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
+                    this.x += Math.cos(this.orbitAngle) * 0.04;
+                    this.y += Math.sin(this.orbitAngle) * 0.04;
+                    if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+                    if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
+                    this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+                    if (mouse.x !== null) {
+                        const dx = this.x - mouse.x, dy = this.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 200) { const force = (200 - dist) / 200 * 0.08;
+                            this.x += dx / dist * force * 0.5; this.y += dy / dist * force * 0.5; }
+                    }
+                }
+                draw() {
+                    const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.6; ctx.fill();
+                    if (this.type === 'core') {
+                        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+                        grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+                        ctx.globalAlpha = 0.08; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+                        ctx.fillStyle = grad; ctx.fill();
+                    }
+                    ctx.globalAlpha = 1;
+                }
+            }
+            const numParticles = Math.min(280, Math.floor(W * H / 5000));
+            for (let i = 0; i < numParticles; i++) particles.push(new NeuroParticle());
+            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+            function drawConnections() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p1 = particles[i], p2 = particles[j], dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 160) {
+                            ctx.globalAlpha = (1 - dist / 160) * 0.12;
+                            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = p1.color; ctx.lineWidth = 0.4; ctx.stroke();
+                        }
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+            function animate() {
+                ctx.clearRect(0, 0, W, H);
+                for (const p of particles) { p.update(); p.draw(); }
+                drawConnections();
+                const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.8);
+                grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(2,4,8,0.4)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+                requestAnimationFrame(animate);
+            }
+            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
+            animate();
+        })();
+
+        // ===== TERMINAL ENGINE =====
+        (function() {
+            const output = document.getElementById('terminal-output');
+            const input = document.getElementById('terminal-input');
+            let history = [];
+            let historyIndex = -1;
+
+            // --- Command Definitions ---
+            const commands = {
+                help: {
+                    description: 'Show available commands',
+                    execute: function() {
+                        const cmds = Object.keys(commands).sort();
+                        let result = '<span class="output cyan">Available Commands:</span>\n';
+                        for (const cmd of cmds) {
+                            const desc = commands[cmd].description || 'No description';
+                            result += `  <span class="output highlight">${cmd}</span> — ${desc}\n`;
+                        }
+                        result += '\n<span class="output">Type any command and press Enter.</span>';
+                        return result;
+                    }
+                },
+                status: {
+                    description: 'Show system status',
+                    execute: function() {
+                        const timestamp = new Date().toISOString();
+                        return `<span class="output success">✅ System Status</span>
+                        <span class="output">  chain: aethelas-mainnet-1</span>
+                        <span class="output">  consensus: iPoS BFT</span>
+                        <span class="output">  block_time: 5s</span>
+                        <span class="output">  nodes: 20 active</span>
+                        <span class="output">  red_team_attacks: 18/18 blocked</span>
+                        <span class="output">  uptime: 72h 14m</span>
+                        <span class="output">  timestamp: ${timestamp}</span>`;
+                    }
+                },
+                info: {
+                    description: 'Show system information',
+                    execute: function() {
+                        return `<span class="output cyan">📊 System Information</span>
+                        <span class="output">  architecture: 7-16-8-1</span>
+                        <span class="output">  weight_count: 273</span>
+                        <span class="output">  weights_hash: 73e5d1cb4788beb2</span>
+                        <span class="output">  never_stops: true</span>
+                        <span class="output">  model_type: continual_neural_network</span>
+                        <span class="output">  memory_type: verifiable</span>
+                        <span class="output">  unlearning: supported</span>
+                        <span class="output">  proof: merkle_root_changed</span>`;
+                    }
+                },
+                memory: {
+                    description: 'Show memory status',
+                    execute: function() {
+                        return `<span class="output neuro">🧠 Memory Status</span>
+                        <span class="output">  total_entries: 1,247</span>
+                        <span class="output">  verified_entries: 1,203</span>
+                        <span class="output">  unverified_entries: 44</span>
+                        <span class="output">  retention_rate: 96.5%</span>
+                        <span class="output">  last_snapshot: 2026-09-06 14:23:52</span>
+                        <span class="output">  memory_root: 0x7f3a9b2c4d5e6f7a8b9c</span>`;
+                    }
+                },
+                prove: {
+                    description: 'Prove a record exists (simulated)',
+                    execute: function() {
+                        const hash = '0x' + Array.from({length:40}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                        return `<span class="output success">🔗 Verification Proof</span>
+                        <span class="output">  status: ✅ verified</span>
+                        <span class="output">  merkle_root: ${hash}</span>
+                        <span class="output">  timestamp: ${new Date().toISOString()}</span>
+                        <span class="output">  signature: 0x${Array.from({length:32}, () => Math.floor(Math.random()*16).toString(16)).join('')}</span>
+                        <span class="output">  proof_type: cryptographic</span>`;
+                    }
+                },
+                unlearn: {
+                    description: 'Simulate unlearning a record',
+                    execute: function() {
+                        const hash = '0x' + Array.from({length:40}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                        return `<span class="output error">🗑️ Unlearning Simulation</span>
+                        <span class="output">  status: ✅ removed</span>
+                        <span class="output">  record_id: 0x${Array.from({length:24}, () => Math.floor(Math.random()*16).toString(16)).join('')}</span>
+                        <span class="output">  previous_root: ${hash}</span>
+                        <span class="output">  new_root: 0x${Array.from({length:40}, () => Math.floor(Math.random()*16).toString(16)).join('')}</span>
+                        <span class="output">  proof: merkle_root_changed</span>
+                        <span class="output">  timestamp: ${new Date().toISOString()}</span>`;
+                    }
+                },
+                benchmark: {
+                    description: 'Run the benchmark suite',
+                    execute: function() {
+                        return `<span class="output highlight">📈 Benchmark Results</span>
+                        <span class="output">  hallucination_detection: 8/8 (100%)</span>
+                        <span class="output">  mathematical_correctness: 5/5 (100%)</span>
+                        <span class="output">  value_alignment: 4/4 (100%)</span>
+                        <span class="output">  planning_quality: 3/3 (100%)</span>
+                        <span class="output">  trust_calibration: 3/3 (100%)</span>
+                        <span class="output">  memory_retention: 4/5 (80%)</span>
+                        <span class="output">  continual_learning: 7/10 (70%)</span>
+                        <span class="output success">  OVERALL: 34/38 (89.5%)</span>`;
+                    }
+                },
+                whoami: {
+                    description: 'Show current user',
+                    execute: function() {
+                        return `<span class="output">👤 Current User: aethelas@neural</span>
+                        <span class="output">  role: system_administrator</span>
+                        <span class="output">  permissions: full</span>`;
+                    }
+                },
+                date: {
+                    description: 'Show current date and time',
+                    execute: function() {
+                        return `<span class="output">📅 ${new Date().toString()}</span>`;
+                    }
+                },
+                clear: {
+                    description: 'Clear the terminal',
+                    execute: function() {
+                        output.innerHTML = '';
+                        return null;
+                    }
+                },
+                echo: {
+                    description: 'Echo a message (usage: echo "text")',
+                    execute: function(args) {
+                        const msg = args.join(' ') || 'Hello, world!';
+                        return `<span class="output">${msg}</span>`;
+                    }
+                },
+                about: {
+                    description: 'Show about Aethelas',
+                    execute: function() {
+                        return `<span class="output cyan">⚡ Aethelas — Verifiable AI Memory</span>
+                        <span class="output">  A trust layer: verified, auditable,</span>
+                        <span class="output">  provably-forgettable memory around any AI.</span>
+                        <span class="output">  Built for trust. Designed for the future.</span>`;
+                    }
+                }
+            };
+
+            // --- Helper: Print to terminal ---
+            function printLine(text, className = '') {
+                if (!text) return;
+                const lines = text.split('\n');
+                for (const line of lines) {
+                    const div = document.createElement('div');
+                    div.className = 'line';
+                    if (className) {
+                        div.innerHTML = `<span class="${className}">${line}</span>`;
+                    } else {
+                        div.innerHTML = line;
+                    }
+                    output.appendChild(div);
+                }
+                output.scrollTop = output.scrollHeight;
+            }
+
+            // --- Helper: Print command line ---
+            function printCommand(cmd) {
+                const div = document.createElement('div');
+                div.className = 'line';
+                div.innerHTML = `<span class="prompt">$</span> <span class="cmd">${cmd}</span>`;
+                output.appendChild(div);
+                output.scrollTop = output.scrollHeight;
+            }
+
+            // --- Process command ---
+            function processCommand(cmd) {
+                const trimmed = cmd.trim();
+                if (!trimmed) return;
+
+                // Add to history
+                history.push(trimmed);
+                historyIndex = history.length;
+
+                // Print command
+                printCommand(trimmed);
+
+                // Parse command
+                const parts = trimmed.split(' ');
+                const commandName = parts[0].toLowerCase();
+                const args = parts.slice(1);
+
+                // Execute
+                if (commands[commandName]) {
+                    const result = commands[commandName].execute(args);
+                    if (result !== null) {
+                        printLine(result);
+                    }
+                } else {
+                    printLine(`<span class="output error">Command not found: ${commandName}. Type 'help' for available commands.</span>`);
+                }
+
+                // Add blank line for readability
+                const blank = document.createElement('div');
+                blank.className = 'line';
+                blank.innerHTML = '&nbsp;';
+                output.appendChild(blank);
+                output.scrollTop = output.scrollHeight;
+
+                // Clear input
+                input.value = '';
+            }
+
+            // --- Welcome Message ---
+            function showWelcome() {
+                const welcome = `
+<span class="output cyan">⚡ Aethelas Terminal v1.0</span>
+<span class="output">Welcome to the Aethelas command interface.</span>
+<span class="output">Type <span class="highlight">help</span> for available commands.</span>
+`;
+                printLine(welcome);
+                const blank = document.createElement('div');
+                blank.className = 'line';
+                blank.innerHTML = '&nbsp;';
+                output.appendChild(blank);
+                output.scrollTop = output.scrollHeight;
+            }
+
+            // --- Event Listeners ---
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const cmd = this.value;
+                    processCommand(cmd);
+                }
+
+                // Arrow Up: Previous command
+                if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        this.value = history[historyIndex] || '';
+                    }
+                }
+
+                // Arrow Down: Next command
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (historyIndex < history.length - 1) {
+                        historyIndex++;
+                        this.value = history[historyIndex] || '';
+                    } else {
+                        historyIndex = history.length;
+                        this.value = '';
+                    }
+                }
+            });
+
+            // Focus input on click
+            document.querySelector('.terminal-window').addEventListener('click', function() {
+                input.focus();
+            });
+
+            // --- Start ---
+            showWelcome();
+            input.focus();
+        })();
+    </script>
+</body>
+</html>
