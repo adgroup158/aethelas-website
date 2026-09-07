@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aethelas — Neural Horizon</title>
+    <title>Aethelas — Verifiable AI Memory</title>
+    <meta name="description" content="Aethelas — Verifiable AI Memory infrastructure. Learn, remember, prove, and unlearn with cryptographic guarantees. Built for trust." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://aethelas.in/" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Aethelas — Verifiable AI Memory" />
+    <meta property="og:description" content="Infrastructure for AI that learns continuously, proves what it knows, and forgets on demand." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aethelas.in/" />
+    <meta property="og:image" content="https://aethelas.in/og-image.jpg" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aethelas — Verifiable AI Memory" />
+    <meta name="twitter:description" content="Infrastructure for AI that learns continuously, proves what it knows, and forgets on demand." />
+    <meta name="twitter:image" content="https://aethelas.in/og-image.jpg" />
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
     <style>
-        /* ===== FULL CSS ===== */
+        /* ===== FULL CSS (same as about.html) ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior:smooth; }
         body { background:#020408; color:#b0c8f0; font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; min-height:100vh; }
@@ -103,41 +127,6 @@
         .metric-card:hover { border-color:rgba(0,212,255,0.15); transform:translateY(-4px); box-shadow:0 12px 50px rgba(0,0,0,0.3); }
         .metric-card .n { font-family:var(--font-display); font-size:2.2rem; font-weight:800; background:linear-gradient(135deg, var(--q-cyan), var(--q-purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; margin-bottom:0.3rem; text-shadow:0 0 50px rgba(0,212,255,0.05); }
         .metric-card .l { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); }
-        .sys-list { display:flex; flex-direction:column; gap:0.7rem; }
-        .sys-item { display:flex; align-items:center; gap:1.2rem; padding:1.1rem 1.6rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:14px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); transition:all 0.4s; position:relative; overflow:hidden; }
-        .sys-item::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,212,255,0.02), transparent, rgba(168,85,247,0.02)); opacity:0; transition:opacity 0.4s; }
-        .sys-item:hover::before { opacity:1; }
-        .sys-item:hover { border-color:rgba(0,212,255,0.12); transform:translateX(6px); }
-        .sys-item .sys-content { flex:1; position:relative; z-index:1; }
-        .sys-item .sys-content h3 { font-family:var(--font-display); font-weight:700; font-size:1rem; color:#fff; margin-bottom:0.1rem; letter-spacing:-0.01em; }
-        .sys-item .sys-content p { font-size:0.75rem; color:var(--text-secondary); font-weight:300; }
-        .sys-item .sys-badge { font-family:var(--font-mono); font-size:0.55rem; color:var(--q-cyan); background:rgba(0,212,255,0.04); padding:0.3rem 1rem; border-radius:100px; border:1px solid rgba(0,212,255,0.06); flex-shrink:0; font-weight:600; letter-spacing:0.08em; }
-        .research-list { max-width:960px; margin:0 auto; }
-        .research-row { display:flex; align-items:center; gap:1.2rem; padding:0.7rem 1.4rem; margin-bottom:0.4rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:10px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:all 0.35s; cursor:pointer; position:relative; }
-        .research-row::after { content:''; position:absolute; inset:0; border-radius:10px; background:linear-gradient(90deg, rgba(0,212,255,0.02), transparent); opacity:0; transition:opacity 0.4s; }
-        .research-row:hover::after { opacity:1; }
-        .research-row:hover { border-color:rgba(0,212,255,0.12); transform:translateX(4px); box-shadow:0 4px 40px rgba(0,0,0,0.15); }
-        .research-row .id { font-family:var(--font-mono); font-size:0.6rem; color:var(--q-cyan); flex-shrink:0; width:48px; opacity:0.4; font-weight:600; }
-        .research-row .title { font-size:0.8rem; color:var(--text-primary); flex:1; font-weight:400; }
-        .research-row .result { font-family:var(--font-mono); font-size:0.6rem; color:var(--q-cyan); flex-shrink:0; background:rgba(0,212,255,0.04); padding:0.2rem 0.7rem; border-radius:100px; font-weight:600; border:1px solid rgba(0,212,255,0.04); }
-        .research-row .result.neg { color:var(--q-pink); background:rgba(244,114,182,0.04); border-color:rgba(244,114,182,0.04); }
-        .research-row .arrow { font-family:var(--font-mono); color:var(--text-muted); flex-shrink:0; transition:all 0.3s; font-size:0.8rem; }
-        .research-row:hover .arrow { transform:translateX(4px); color:var(--q-cyan); }
-        .demo-panels { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1.2rem; }
-        .demo-panel { padding:1.8rem 1.6rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:16px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); transition:all 0.5s; position:relative; overflow:hidden; }
-        .demo-panel::before { content:''; position:absolute; inset:-2px; border-radius:16px; background:conic-gradient(from var(--angle, 0deg), transparent, rgba(0,212,255,0.05), transparent, rgba(168,85,247,0.05), transparent); opacity:0; transition:opacity 0.6s; z-index:0; }
-        .demo-panel:hover::before { opacity:1; }
-        .demo-panel:hover { transform:translateY(-6px); border-color:rgba(0,212,255,0.1); box-shadow:0 16px 60px rgba(0,0,0,0.3); }
-        .demo-panel>* { position:relative; z-index:1; }
-        .demo-panel .demo-num { font-family:var(--font-mono); font-size:0.55rem; color:var(--q-cyan); letter-spacing:0.25em; margin-bottom:0.5rem; opacity:0.3; }
-        .demo-panel h3 { font-family:var(--font-display); font-weight:700; font-size:1.1rem; color:#fff; margin-bottom:0.5rem; letter-spacing:-0.01em; }
-        .demo-panel p { font-size:0.8rem; color:var(--text-secondary); line-height:1.7; font-weight:300; }
-        .honest-section { text-align:center; }
-        .honest-box { max-width:840px; margin:0 auto; padding:2.4rem 3rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:20px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); position:relative; box-shadow:0 8px 80px rgba(0,0,0,0.3); }
-        .honest-box::before { content:'⟡'; position:absolute; top:-8px; left:30px; font-size:3.5rem; color:var(--q-cyan); opacity:0.08; line-height:1; font-family:var(--font-display); }
-        .honest-box::after { content:''; position:absolute; inset:-1px; border-radius:20px; padding:1px; background:linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
-        .honest-box p { font-size:1.05rem; line-height:1.9; color:var(--text-secondary); font-weight:300; }
-        .honest-box .source { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); margin-top:1.2rem; text-transform:uppercase; letter-spacing:0.25em; opacity:0.4; }
         .cta-section { text-align:center; }
         .cta-inner { max-width:720px; margin:0 auto; padding:2.8rem 2.5rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:20px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); position:relative; overflow:hidden; }
         .cta-inner::before { content:''; position:absolute; top:-60%; left:-30%; width:160%; height:200%; background:radial-gradient(circle at 30% 40%, rgba(0,212,255,0.02), transparent 50%); pointer-events:none; }
@@ -179,6 +168,7 @@
             <a href="about.html">About</a>
             <a href="research.html">Research</a>
             <a href="verify.html">Verify</a>
+            <a href="blog.html">Blog</a>
             <a href="terminal.html" class="nav-cta">Launch App</a>
         </div>
     </nav>
@@ -226,127 +216,98 @@
         </section>
 
         <!-- FOOTER -->
-        <footer><div class="co">Aethelas<span>.</span></div><div class="meta">DPIIT-Recognized · Verifiable AI Memory</div><div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="research.html">Research</a><a href="verify.html">Verify</a></div></footer>
+        <footer>
+            <div class="co">Aethelas<span>.</span></div>
+            <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="research.html">Research</a>
+                <a href="verify.html">Verify</a>
+                <a href="blog.html">Blog</a>
+                <a href="terminal.html">Terminal</a>
+                <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
     </div>
 
     <script>
-        // ===== FULL JAVASCRIPT =====
+        // ===== FULL JAVASCRIPT (same as before) =====
         (function() {
             const canvas = document.getElementById('neuro-canvas');
             const ctx = canvas.getContext('2d');
-            let W, H, particles = [],
-                mouse = { x: null, y: null },
-                time = 0;
-
-            function resize() { W = canvas.width = window.innerWidth;
-                H = canvas.height = window.innerHeight; }
-            window.addEventListener('resize', resize);
-            resize();
-
+            let W, H, particles = [], mouse = { x: null, y: null }, time = 0;
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
             class NeuroParticle {
                 constructor() { this.reset(); }
                 reset() {
-                    this.x = Math.random() * W;
-                    this.y = Math.random() * H;
-                    this.z = Math.random() * 100 + 20;
-                    this.vx = (Math.random() - 0.5) * 0.3;
-                    this.vy = (Math.random() - 0.5) * 0.3;
-                    this.size = Math.random() * 1.8 + 0.4;
-                    this.baseSize = this.size;
+                    this.x = Math.random() * W; this.y = Math.random() * H;
+                    this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 1.8 + 0.4; this.baseSize = this.size;
                     const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1', '#3b82f6'];
                     this.color = colors[Math.floor(Math.random() * colors.length)];
-                    this.phase = Math.random() * Math.PI * 2;
-                    this.pulseSpeed = 0.3 + Math.random() * 0.4;
-                    this.orbitRadius = Math.random() * 40 + 10;
-                    this.orbitAngle = Math.random() * Math.PI * 2;
-                    this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+                    this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+                    this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
                     this.type = Math.random() > 0.7 ? 'core' : 'normal';
                 }
                 update() {
-                    this.phase += 0.01;
-                    this.orbitAngle += this.orbitSpeed;
+                    this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
                     this.x += this.vx + Math.sin(this.phase) * 0.02;
                     this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
                     this.x += Math.cos(this.orbitAngle) * 0.04;
                     this.y += Math.sin(this.orbitAngle) * 0.04;
-                    if (this.x < -20) this.x = W + 20;
-                    if (this.x > W + 20) this.x = -20;
-                    if (this.y < -20) this.y = H + 20;
-                    if (this.y > H + 20) this.y = -20;
+                    if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+                    if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
                     this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
                     if (mouse.x !== null) {
-                        const dx = this.x - mouse.x,
-                            dy = this.y - mouse.y,
-                            dist = Math.sqrt(dx * dx + dy * dy);
+                        const dx = this.x - mouse.x, dy = this.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
                         if (dist < 200) { const force = (200 - dist) / 200 * 0.08;
-                            this.x += dx / dist * force * 0.5;
-                            this.y += dy / dist * force * 0.5; }
+                            this.x += dx / dist * force * 0.5; this.y += dy / dist * force * 0.5; }
                     }
                 }
                 draw() {
                     const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = alpha * 0.6;
-                    ctx.fill();
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.6; ctx.fill();
                     if (this.type === 'core') {
                         const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
-                        grad.addColorStop(0, this.color);
-                        grad.addColorStop(1, 'transparent');
-                        ctx.globalAlpha = 0.08;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
-                        ctx.fillStyle = grad;
-                        ctx.fill();
+                        grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+                        ctx.globalAlpha = 0.08; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+                        ctx.fillStyle = grad; ctx.fill();
                     }
                     ctx.globalAlpha = 1;
                 }
             }
             const numParticles = Math.min(280, Math.floor(W * H / 5000));
             for (let i = 0; i < numParticles; i++) particles.push(new NeuroParticle());
-            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX;
-                mouse.y = e.clientY; });
-            document.addEventListener('mouseleave', () => { mouse.x = null;
-                mouse.y = null; });
-
+            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
             function drawConnections() {
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i],
-                            p2 = particles[j],
-                            dx = p1.x - p2.x,
-                            dy = p1.y - p2.y,
-                            dist = Math.sqrt(dx * dx + dy * dy);
+                        const p1 = particles[i], p2 = particles[j], dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx*dx + dy*dy);
                         if (dist < 160) {
                             ctx.globalAlpha = (1 - dist / 160) * 0.12;
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.strokeStyle = p1.color;
-                            ctx.lineWidth = 0.4;
-                            ctx.stroke();
+                            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = p1.color; ctx.lineWidth = 0.4; ctx.stroke();
                         }
                     }
                 }
                 ctx.globalAlpha = 1;
             }
-
             function animate() {
                 time += 0.01;
                 ctx.clearRect(0, 0, W, H);
-                for (const p of particles) { p.update();
-                    p.draw(); }
+                for (const p of particles) { p.update(); p.draw(); }
                 drawConnections();
                 const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.8);
-                grad.addColorStop(0, 'transparent');
-                grad.addColorStop(1, 'rgba(2,4,8,0.4)');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
+                grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(2,4,8,0.4)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
                 requestAnimationFrame(animate);
             }
-            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W;
-                    p.y = Math.random() * H; } });
+            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
             animate();
         })();
 
@@ -371,7 +332,6 @@
                 { type: 'output neuro', text: 'neural_fabric: active' }
             ];
             let idx = 0;
-
             function typeNext() {
                 if (idx >= lines.length) return;
                 const l = lines[idx];
@@ -410,8 +370,7 @@
 
         // SCROLL REVEAL
         (function() {
-            const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList
-                        .add('in'); }); }, { threshold: 0.12 });
+            const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.12 });
             document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
         })();
 
@@ -430,17 +389,14 @@
                         const el = entry.target;
                         const target = parseFloat(el.dataset.count);
                         const suffix = el.dataset.suffix || '';
-                        const dur = 1800,
-                            start = performance.now();
-
+                        const dur = 1800, start = performance.now();
                         function update(now) {
                             const p = Math.min((now - start) / dur, 1);
                             const eased = 1 - Math.pow(1 - p, 3);
                             const cur = target * eased;
                             el.textContent = (target % 1 !== 0) ? cur.toFixed(1) : Math.round(cur);
                             if (p < 1) requestAnimationFrame(update);
-                            else { el.textContent = (target % 1 !== 0) ? target.toFixed(1) : target.toString();
-                                el.textContent += suffix; }
+                            else { el.textContent = (target % 1 !== 0) ? target.toFixed(1) : target.toString(); el.textContent += suffix; }
                         }
                         el.dataset.counted = 'true';
                         requestAnimationFrame(update);
@@ -455,8 +411,7 @@
             document.querySelectorAll('.ops-card, .demo-panel').forEach(el => {
                 el.style.setProperty('--angle', '0deg');
                 let angle = 0;
-                setInterval(() => { angle = (angle + 0.4) % 360;
-                    el.style.setProperty('--angle', angle + 'deg'); }, 40);
+                setInterval(() => { angle = (angle + 0.4) % 360; el.style.setProperty('--angle', angle + 'deg'); }, 40);
             });
         })();
     </script>

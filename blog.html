@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aethelas — About</title>
-    <meta name="description" content="Aethelas — Verifiable AI Memory. About our architecture, systems, and team." />
-    <link rel="canonical" href="https://aethelas.in/about.html" />
+    <title>Aethelas — Blog</title>
+    <meta name="description" content="Aethelas Blog — News, announcements, and technical deep dives." />
+    <link rel="canonical" href="https://aethelas.in/blog.html" />
     
     <!-- Open Graph -->
-    <meta property="og:title" content="Aethelas — About" />
-    <meta property="og:description" content="Verifiable AI Memory infrastructure — learn about our neural architecture." />
+    <meta property="og:title" content="Aethelas — Blog" />
+    <meta property="og:description" content="Latest updates from the Aethelas team." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://aethelas.in/about.html" />
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Aethelas — About" />
+    <meta property="og:url" content="https://aethelas.in/blog.html" />
     
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     
@@ -62,7 +58,7 @@
         .site-nav .nav-cta { color:#020408 !important; background:var(--q-cyan) !important; border:none !important; font-weight:700; box-shadow:0 0 50px rgba(0,212,255,0.2); }
         .site-nav .nav-cta:hover { background:#fff !important; color:#020408 !important; box-shadow:0 0 80px rgba(0,212,255,0.4); transform:scale(1.04); }
         .wrap { position:relative; z-index:2; max-width:1280px; margin:0 auto; }
-        .hero { min-height:60vh; display:flex; align-items:center; justify-content:center; padding:160px 2rem 4rem; text-align:center; position:relative; }
+        .hero { min-height:50vh; display:flex; align-items:center; justify-content:center; padding:160px 2rem 4rem; text-align:center; position:relative; }
         .hero-inner { max-width:860px; position:relative; }
         .hero-eyebrow { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--q-cyan); margin-bottom:1.8rem; opacity:0.5; text-shadow:0 0 40px rgba(0,212,255,0.15); }
         .hero h1 { font-family:var(--font-display); font-weight:900; font-size:clamp(2.5rem,6vw,4rem); line-height:1.0; letter-spacing:-0.03em; color:#fff; text-shadow:0 0 80px rgba(0,212,255,0.08); margin-bottom:1.2rem; }
@@ -74,37 +70,19 @@
         .sec-title { font-family:var(--font-display); font-weight:700; font-size:clamp(1.5rem,3vw,2.4rem); color:#fff; letter-spacing:-0.02em; }
         .sec-title .accent { color:var(--q-cyan); }
         .sec-sub { color:var(--text-muted); font-size:0.7rem; margin-left:auto; text-align:right; max-width:40%; font-family:var(--font-mono); letter-spacing:0.06em; opacity:0.4; }
-        .sys-list { display:flex; flex-direction:column; gap:0.7rem; }
-        .sys-item { display:flex; align-items:center; gap:1.2rem; padding:1.1rem 1.6rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:14px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); transition:all 0.4s; position:relative; overflow:hidden; }
-        .sys-item::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,212,255,0.02), transparent, rgba(168,85,247,0.02)); opacity:0; transition:opacity 0.4s; }
-        .sys-item:hover::before { opacity:1; }
-        .sys-item:hover { border-color:rgba(0,212,255,0.12); transform:translateX(6px); }
-        .sys-item .sys-content { flex:1; position:relative; z-index:1; }
-        .sys-item .sys-content h3 { font-family:var(--font-display); font-weight:700; font-size:1rem; color:#fff; margin-bottom:0.1rem; letter-spacing:-0.01em; }
-        .sys-item .sys-content p { font-size:0.75rem; color:var(--text-secondary); font-weight:300; }
-        .sys-item .sys-badge { font-family:var(--font-mono); font-size:0.55rem; color:var(--q-cyan); background:rgba(0,212,255,0.04); padding:0.3rem 1rem; border-radius:100px; border:1px solid rgba(0,212,255,0.06); flex-shrink:0; font-weight:600; letter-spacing:0.08em; }
 
-        /* ===== CONTACT SECTION ===== */
-        .contact-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1.2rem; margin-top:1rem; }
-        .contact-card { background:var(--bg-card); border:1px solid var(--border-glow); border-radius:14px; padding:1.8rem 1.6rem; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); transition:all 0.4s; text-decoration:none; color:inherit; display:flex; align-items:center; gap:1.2rem; position:relative; overflow:hidden; }
-        .contact-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(0,212,255,0.03), transparent, rgba(168,85,247,0.03)); opacity:0; transition:opacity 0.4s; }
-        .contact-card:hover::before { opacity:1; }
-        .contact-card:hover { transform:translateY(-4px); border-color:rgba(0,212,255,0.2); box-shadow:0 12px 50px rgba(0,0,0,0.3); }
-        .contact-card .icon { font-size:2rem; width:3rem; height:3rem; display:flex; align-items:center; justify-content:center; border-radius:12px; flex-shrink:0; background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.06); }
-        .contact-card .icon.linkedin { color:#0a66c2; background:rgba(10,102,194,0.1); border-color:rgba(10,102,194,0.15); }
-        .contact-card .icon.github { color:#f0f6fc; background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.08); }
-        .contact-card .icon.company { color:var(--q-cyan); background:rgba(0,212,255,0.08); border-color:rgba(0,212,255,0.12); }
-        .contact-card .info h4 { font-family:var(--font-display); font-size:0.9rem; color:#fff; margin-bottom:0.15rem; font-weight:600; letter-spacing:-0.01em; }
-        .contact-card .info p { font-size:0.75rem; color:var(--text-muted); }
-        .contact-card .arrow { color:var(--text-muted); font-size:0.8rem; transition:all 0.3s; margin-left:auto; }
-        .contact-card:hover .arrow { transform:translateX(4px); color:var(--q-cyan); }
-
-        .honest-section { text-align:center; }
-        .honest-box { max-width:840px; margin:0 auto; padding:2.4rem 3rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:20px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); position:relative; box-shadow:0 8px 80px rgba(0,0,0,0.3); }
-        .honest-box::before { content:'⟡'; position:absolute; top:-8px; left:30px; font-size:3.5rem; color:var(--q-cyan); opacity:0.08; line-height:1; font-family:var(--font-display); }
-        .honest-box::after { content:''; position:absolute; inset:-1px; border-radius:20px; padding:1px; background:linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
-        .honest-box p { font-size:1.05rem; line-height:1.9; color:var(--text-secondary); font-weight:300; }
-        .honest-box .source { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); margin-top:1.2rem; text-transform:uppercase; letter-spacing:0.25em; opacity:0.4; }
+        /* ===== BLOG GRID ===== */
+        .blog-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; }
+        .blog-card { background:var(--bg-card); border:1px solid var(--border-glow); border-radius:14px; padding:1.8rem 1.6rem; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); transition:all 0.4s; position:relative; overflow:hidden; }
+        .blog-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(0,212,255,0.02), transparent, rgba(168,85,247,0.02)); opacity:0; transition:opacity 0.4s; }
+        .blog-card:hover::before { opacity:1; }
+        .blog-card:hover { transform:translateY(-6px); border-color:rgba(0,212,255,0.15); box-shadow:0 12px 50px rgba(0,0,0,0.3); }
+        .blog-card .blog-date { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); opacity:0.5; margin-bottom:0.5rem; letter-spacing:0.06em; }
+        .blog-card h3 { font-family:var(--font-display); font-weight:700; font-size:1.2rem; color:#fff; margin-bottom:0.6rem; letter-spacing:-0.01em; line-height:1.3; }
+        .blog-card p { font-size:0.85rem; color:var(--text-secondary); line-height:1.7; margin-bottom:1rem; }
+        .blog-card .read-more { font-family:var(--font-mono); font-size:0.65rem; color:var(--q-cyan); text-decoration:none; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.4rem; }
+        .blog-card .read-more:hover { color:#fff; gap:0.8rem; }
+        .blog-card .blog-tag { display:inline-block; font-family:var(--font-mono); font-size:0.5rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.2rem 0.6rem; border-radius:100px; background:rgba(0,212,255,0.04); border:1px solid rgba(0,212,255,0.06); color:var(--q-cyan); margin-bottom:0.5rem; }
 
         footer { padding:2.5rem 2rem 3rem; text-align:center; background:rgba(2,4,8,0.4); border-top:1px solid rgba(0,212,255,0.03); margin-top:2rem; }
         footer .co { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.2rem; letter-spacing:0.06em; }
@@ -124,13 +102,8 @@
             .site-nav .nav-links a { padding:6px 10px; font-size:8px; letter-spacing:0.08em; }
             .site-nav .nav-brand { font-size:15px; }
             .site-nav .nav-links a:not(.nav-cta):not(.active) { display:none; }
-            .sys-item { flex-direction:column; align-items:flex-start; gap:0.5rem; }
-            .sys-item .sys-badge { align-self:flex-start; }
-            .honest-box { padding:1.8rem 1.2rem; }
-            .honest-box p { font-size:0.9rem; }
+            .blog-grid { grid-template-columns:1fr; }
             section { padding:3rem 1.2rem; }
-            .contact-grid { grid-template-columns:1fr; }
-            .contact-card { padding:1.2rem 1.2rem; }
         }
         @media (max-width:480px) { .hero h1 { font-size:clamp(2rem,10vw,2.8rem); } .hero-tagline { font-size:0.9rem; } }
         @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } .reveal { opacity:1; transform:none; } #aurora-overlay, #quantum-grid, #scanlines { display:none; } .site-nav .nav-brand .brand-glow { animation:none; } }
@@ -148,10 +121,10 @@
         <a href="index.html" class="nav-brand"><span class="brand-glow"></span>Aethelas<span>.</span></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="about.html" class="active">About</a>
+            <a href="about.html">About</a>
             <a href="research.html">Research</a>
             <a href="verify.html">Verify</a>
-            <a href="blog.html">Blog</a>
+            <a href="blog.html" class="active">Blog</a>
             <a href="terminal.html" class="nav-cta">Launch App</a>
         </div>
     </nav>
@@ -160,89 +133,55 @@
         <!-- ===== HERO ===== -->
         <section class="hero">
             <div class="hero-inner">
-                <div class="hero-eyebrow">✦ About Aethelas</div>
-                <h1><span class="neuro-text">Neural</span> Architecture</h1>
-                <p class="hero-tagline">A trust layer: verified, auditable, provably-forgettable memory around any AI.</p>
+                <div class="hero-eyebrow">✦ Aethelas Blog</div>
+                <h1>Latest <span class="neuro-text">Updates</span></h1>
+                <p class="hero-tagline">News, announcements, and deep dives from the Aethelas team.</p>
             </div>
         </section>
 
-        <!-- ===== SYSTEMS ===== -->
-        <section class="systems-section reveal">
+        <!-- ===== BLOG POSTS ===== -->
+        <section class="blog-section reveal">
             <div class="sec-head">
                 <span class="sec-num">01</span>
-                <span class="sec-title">The <span class="accent">neural architecture</span></span>
-                <span class="sec-sub">running today on real infrastructure</span>
+                <span class="sec-title">Recent <span class="accent">Posts</span></span>
+                <span class="sec-sub">subscribe for updates</span>
             </div>
-            <div class="sys-list">
-                <div class="sys-item">
-                    <div class="sys-content">
-                        <h3>Aethelas L1</h3>
-                        <p>chain aethelas-mainnet-1 · iPoS BFT consensus · ~5s blocks · WASM VM · 18/18 red-team attacks blocked</p>
-                    </div>
-                    <div class="sys-badge">20 nodes live</div>
-                </div>
-                <div class="sys-item">
-                    <div class="sys-content">
-                        <h3>aethelas-ai engine</h3>
-                        <p>14 MB Rust binary · 273-weight continual learner · grounded knowledge engine · ZK proofs</p>
-                    </div>
-                    <div class="sys-badge">verified</div>
-                </div>
-                <div class="sys-item">
-                    <div class="sys-content">
-                        <h3>Python platform</h3>
-                        <p>52 modules · memory, reasoning, world models, planning, decentralized storage, autonomous loop</p>
-                    </div>
-                    <div class="sys-badge">92 tests</div>
-                </div>
-            </div>
-        </section>
+            <div class="blog-grid">
+                <!-- Post 1 -->
+                <article class="blog-card">
+                    <div class="blog-tag">Announcement</div>
+                    <div class="blog-date">September 6, 2026</div>
+                    <h3>Aethelas Launches Verifiable AI Memory Platform</h3>
+                    <p>We're proud to announce the launch of Aethelas — a trust layer for verifiable AI memory. Learn, remember, prove, and unlearn with cryptographic guarantees.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
 
-        <!-- ===== CONNECT / CONTACT SECTION ===== -->
-        <section class="contact-section reveal">
-            <div class="sec-head">
-                <span class="sec-num">02</span>
-                <span class="sec-title">Connect <span class="accent">with us</span></span>
-                <span class="sec-sub">reach out — we'd love to connect</span>
-            </div>
-            <div class="contact-grid">
-                <!-- LinkedIn Profile -->
-                <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer" class="contact-card">
-                    <div class="icon linkedin"><i class="fab fa-linkedin-in"></i></div>
-                    <div class="info">
-                        <h4>Akash Deep</h4>
-                        <p>Founder &amp; Lead Researcher</p>
-                    </div>
-                    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
-                </a>
+                <!-- Post 2 -->
+                <article class="blog-card">
+                    <div class="blog-tag">Research</div>
+                    <div class="blog-date">September 1, 2026</div>
+                    <h3>Verifiable Unlearning: New Research Results</h3>
+                    <p>Our latest technical report on provable data deletion. We demonstrate selective unlearning with cryptographic proof of erasure.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
 
-                <!-- Company LinkedIn Page -->
-                <a href="https://www.linkedin.com/company/107599247" target="_blank" rel="noopener noreferrer" class="contact-card">
-                    <div class="icon company"><i class="fas fa-building"></i></div>
-                    <div class="info">
-                        <h4>Aethelas</h4>
-                        <p>Company LinkedIn</p>
-                    </div>
-                    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
-                </a>
+                <!-- Post 3 -->
+                <article class="blog-card">
+                    <div class="blog-tag">Technical</div>
+                    <div class="blog-date">August 25, 2026</div>
+                    <h3>Class-Incremental Learning: Where Naive Replay Fails</h3>
+                    <p>We test the harder, more realistic setting of class-incremental learning and report our findings honestly — including the limitations.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
 
-                <!-- GitHub -->
-                <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="contact-card">
-                    <div class="icon github"><i class="fab fa-github"></i></div>
-                    <div class="info">
-                        <h4>GitHub</h4>
-                        <p>Explore the code</p>
-                    </div>
-                    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
-                </a>
-            </div>
-        </section>
-
-        <!-- ===== HONEST ===== -->
-        <section class="honest-section reveal">
-            <div class="honest-box">
-                <p>Aethelas is a trust layer: verified, auditable, provably-forgettable memory around any AI. It is not a foundation model, not general intelligence, and not a recursively self-improving system. Its benchmark publishes a 70% continual-learning score alongside its strengths, because a system whose value is trust reports its ceilings rather than hiding them.</p>
-                <div class="source">— Aethelas</div>
+                <!-- Post 4 -->
+                <article class="blog-card">
+                    <div class="blog-tag">Community</div>
+                    <div class="blog-date">August 18, 2026</div>
+                    <h3>Building Trust in AI: Our Mission</h3>
+                    <p>Why we believe verifiable memory is the foundation for trustworthy AI systems in regulated industries.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
             </div>
         </section>
 
