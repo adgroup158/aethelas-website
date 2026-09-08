@@ -70,17 +70,85 @@
         .sec-title { font-family:var(--font-display); font-weight:700; font-size:clamp(1.5rem,3vw,2.4rem); color:#fff; letter-spacing:-0.02em; }
         .sec-title .accent { color:var(--q-cyan); }
         .sec-sub { color:var(--text-muted); font-size:0.7rem; margin-left:auto; text-align:right; max-width:40%; font-family:var(--font-mono); letter-spacing:0.06em; opacity:0.4; }
+
+        /* ===== RESEARCH LIST (clickable rows) ===== */
         .research-list { max-width:960px; margin:0 auto; }
-        .research-row { display:flex; align-items:center; gap:1.2rem; padding:0.7rem 1.4rem; margin-bottom:0.4rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:10px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:all 0.35s; cursor:pointer; position:relative; }
-        .research-row::after { content:''; position:absolute; inset:0; border-radius:10px; background:linear-gradient(90deg, rgba(0,212,255,0.02), transparent); opacity:0; transition:opacity 0.4s; }
-        .research-row:hover::after { opacity:1; }
-        .research-row:hover { border-color:rgba(0,212,255,0.12); transform:translateX(4px); box-shadow:0 4px 40px rgba(0,0,0,0.15); }
-        .research-row .id { font-family:var(--font-mono); font-size:0.6rem; color:var(--q-cyan); flex-shrink:0; width:48px; opacity:0.4; font-weight:600; }
-        .research-row .title { font-size:0.8rem; color:var(--text-primary); flex:1; font-weight:400; }
-        .research-row .result { font-family:var(--font-mono); font-size:0.6rem; color:var(--q-cyan); flex-shrink:0; background:rgba(0,212,255,0.04); padding:0.2rem 0.7rem; border-radius:100px; font-weight:600; border:1px solid rgba(0,212,255,0.04); }
-        .research-row .result.neg { color:var(--q-pink); background:rgba(244,114,182,0.04); border-color:rgba(244,114,182,0.04); }
-        .research-row .arrow { font-family:var(--font-mono); color:var(--text-muted); flex-shrink:0; transition:all 0.3s; font-size:0.8rem; }
-        .research-row:hover .arrow { transform:translateX(4px); color:var(--q-cyan); }
+        .research-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 0.7rem 1.4rem;
+            margin-bottom: 0.4rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+        }
+        .research-row::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, rgba(0,212,255,0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .research-row:hover::after {
+            opacity: 1;
+        }
+        .research-row:hover {
+            border-color: rgba(0,212,255,0.12);
+            transform: translateX(4px);
+            box-shadow: 0 4px 40px rgba(0,0,0,0.15);
+        }
+        .research-row .id {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--q-cyan);
+            flex-shrink: 0;
+            width: 48px;
+            opacity: 0.4;
+            font-weight: 600;
+        }
+        .research-row .title {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            flex: 1;
+            font-weight: 400;
+        }
+        .research-row .result {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--q-cyan);
+            flex-shrink: 0;
+            background: rgba(0,212,255,0.04);
+            padding: 0.2rem 0.7rem;
+            border-radius: 100px;
+            font-weight: 600;
+            border: 1px solid rgba(0,212,255,0.04);
+        }
+        .research-row .result.neg {
+            color: var(--q-pink);
+            background: rgba(244,114,182,0.04);
+            border-color: rgba(244,114,182,0.04);
+        }
+        .research-row .arrow {
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            flex-shrink: 0;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+        }
+        .research-row:hover .arrow {
+            transform: translateX(4px);
+            color: var(--q-cyan);
+        }
 
         footer { padding:2.5rem 2rem 3rem; text-align:center; background:rgba(2,4,8,0.4); border-top:1px solid rgba(0,212,255,0.03); margin-top:2rem; }
         footer .co { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.2rem; letter-spacing:0.06em; }
@@ -151,21 +219,92 @@
                 <span class="sec-title">Research <span class="accent">constellation</span></span>
                 <span class="sec-sub">fourteen reports · negatives published</span>
             </div>
+
             <div class="research-list">
-                <div class="research-row"><span class="id">TR-01</span><span class="title">Ledger Replay Study</span><span class="result">90%</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-02</span><span class="title">Image Generalization</span><span class="result">✓</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-03</span><span class="title">Class-Incremental Limits</span><span class="result neg">neg</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-04</span><span class="title">System Architecture</span><span class="result">✓</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-05</span><span class="title">Design-Space Position</span><span class="result">✓</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-06</span><span class="title">Verifiable Unlearning</span><span class="result">96→19</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-07</span><span class="title">Retrieval vs Capacity</span><span class="result">+8.6</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-08</span><span class="title">Verification Fence</span><span class="result">F1.96</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-09</span><span class="title">Corroboration Gate</span><span class="result">✓</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-10</span><span class="title">Provable Unlearning</span><span class="result">✓</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-11</span><span class="title">Benchmark Evaluation</span><span class="result">89.5%</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-12</span><span class="title">Decentralized Storage</span><span class="result">96%</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-13</span><span class="title">Bounded Self-Improvement</span><span class="result">✓</span><span class="arrow">→</span></div>
-                <div class="research-row"><span class="id">TR-14</span><span class="title">Verified Autonomous Agent</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <a href="TR-01.html" class="research-row">
+                    <span class="id">TR-01</span>
+                    <span class="title">Ledger Replay Study</span>
+                    <span class="result">90%</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-02.html" class="research-row">
+                    <span class="id">TR-02</span>
+                    <span class="title">Image Generalization</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-03.html" class="research-row">
+                    <span class="id">TR-03</span>
+                    <span class="title">Class-Incremental Limits</span>
+                    <span class="result neg">neg</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-04.html" class="research-row">
+                    <span class="id">TR-04</span>
+                    <span class="title">System Architecture</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-05.html" class="research-row">
+                    <span class="id">TR-05</span>
+                    <span class="title">Design-Space Position</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-06.html" class="research-row">
+                    <span class="id">TR-06</span>
+                    <span class="title">Verifiable Unlearning</span>
+                    <span class="result">96→19</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-07.html" class="research-row">
+                    <span class="id">TR-07</span>
+                    <span class="title">Retrieval vs Capacity</span>
+                    <span class="result">+8.6</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-08.html" class="research-row">
+                    <span class="id">TR-08</span>
+                    <span class="title">Verification Fence</span>
+                    <span class="result">F1.96</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-09.html" class="research-row">
+                    <span class="id">TR-09</span>
+                    <span class="title">Corroboration Gate</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-10.html" class="research-row">
+                    <span class="id">TR-10</span>
+                    <span class="title">Provable Unlearning</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-11.html" class="research-row">
+                    <span class="id">TR-11</span>
+                    <span class="title">Benchmark Evaluation</span>
+                    <span class="result">89.5%</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-12.html" class="research-row">
+                    <span class="id">TR-12</span>
+                    <span class="title">Decentralized Storage</span>
+                    <span class="result">96%</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-13.html" class="research-row">
+                    <span class="id">TR-13</span>
+                    <span class="title">Bounded Self-Improvement</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="TR-14.html" class="research-row">
+                    <span class="id">TR-14</span>
+                    <span class="title">Verified Autonomous Agent</span>
+                    <span class="result">✓</span>
+                    <span class="arrow">→</span>
+                </a>
             </div>
         </section>
 
