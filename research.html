@@ -4,18 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aethelas — Research</title>
+    <meta name="description" content="Aethelas Research — All technical reports on verifiable AI memory." />
+    <link rel="canonical" href="https://aethelas.in/research.html" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Aethelas — Research" />
+    <meta property="og:description" content="Aethelas Research — 14 technical reports on verifiable AI memory." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aethelas.in/research.html" />
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
     <style>
-        /* ===== FULL CSS (same as before) ===== */
+        /* ===== FULL CSS (same as index.html) ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior:smooth; }
         body { background:#020408; color:#b0c8f0; font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; min-height:100vh; }
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-track { background:#020408; }
         ::-webkit-scrollbar-thumb { background:#00d4ff; border-radius:12px; box-shadow:0 0 30px rgba(0,212,255,0.4); }
-        :root { --q-cyan:#00d4ff; --q-purple:#a855f7; --q-pink:#f472b6; --q-gold:#fbbf24; --q-teal:#2dd4bf; --q-indigo:#6366f1; --q-rose:#fb7185; --q-blue:#3b82f6; --bg-deep:#020408; --bg-card:rgba(4,8,20,0.55); --border-glow:rgba(0,212,255,0.12); --text-primary:#eaf0ff; --text-secondary:#8aa0c8; --text-muted:#3a4a6a; --font-display:'Orbitron',monospace; --font-body:'Inter',sans-serif; --font-mono:'JetBrains Mono',monospace; --neuro-glow:0 0 60px rgba(0,212,255,0.06); }
+        :root {
+            --q-cyan:#00d4ff; --q-purple:#a855f7; --q-pink:#f472b6; --q-gold:#fbbf24;
+            --q-teal:#2dd4bf; --q-indigo:#6366f1; --q-rose:#fb7185; --q-blue:#3b82f6;
+            --bg-deep:#020408; --bg-card:rgba(4,8,20,0.55); --border-glow:rgba(0,212,255,0.12);
+            --text-primary:#eaf0ff; --text-secondary:#8aa0c8; --text-muted:#3a4a6a;
+            --font-display:'Orbitron',monospace; --font-body:'Inter',sans-serif; --font-mono:'JetBrains Mono',monospace;
+            --neuro-glow:0 0 60px rgba(0,212,255,0.06);
+        }
         #neuro-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.95; }
         #aurora-overlay { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.04) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.03) 0%, transparent 50%); filter:blur(60px); animation:auroraDrift 20s ease-in-out infinite alternate; }
         @keyframes auroraDrift { 0% { transform:translate(0,0) scale(1); opacity:0.5; } 100% { transform:translate(60px,-40px) scale(1.2); opacity:0.8; } }
@@ -34,7 +57,7 @@
         .site-nav .nav-links a.active { color:var(--q-cyan); border-color:rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); box-shadow:0 0 40px rgba(0,212,255,0.04); }
         .site-nav .nav-cta { color:#020408 !important; background:var(--q-cyan) !important; border:none !important; font-weight:700; box-shadow:0 0 50px rgba(0,212,255,0.2); }
         .site-nav .nav-cta:hover { background:#fff !important; color:#020408 !important; box-shadow:0 0 80px rgba(0,212,255,0.4); transform:scale(1.04); }
-        .wrap { position:relative; z-index:2; max-width:1200px; margin:0 auto; }
+        .wrap { position:relative; z-index:2; max-width:1280px; margin:0 auto; }
         .hero { min-height:50vh; display:flex; align-items:center; justify-content:center; padding:160px 2rem 4rem; text-align:center; position:relative; }
         .hero-inner { max-width:860px; position:relative; }
         .hero-eyebrow { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--q-cyan); margin-bottom:1.8rem; opacity:0.5; text-shadow:0 0 40px rgba(0,212,255,0.15); }
@@ -47,8 +70,8 @@
         .sec-title { font-family:var(--font-display); font-weight:700; font-size:clamp(1.5rem,3vw,2.4rem); color:#fff; letter-spacing:-0.02em; }
         .sec-title .accent { color:var(--q-cyan); }
         .sec-sub { color:var(--text-muted); font-size:0.7rem; margin-left:auto; text-align:right; max-width:40%; font-family:var(--font-mono); letter-spacing:0.06em; opacity:0.4; }
-        .research-toc { max-width:960px; margin:0 auto 2rem; }
-        .research-row { display:flex; align-items:center; gap:1.2rem; padding:0.7rem 1.4rem; margin-bottom:0.4rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:10px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:all 0.35s; cursor:pointer; position:relative; text-decoration:none; color:inherit; }
+        .research-list { max-width:960px; margin:0 auto; }
+        .research-row { display:flex; align-items:center; gap:1.2rem; padding:0.7rem 1.4rem; margin-bottom:0.4rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:10px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:all 0.35s; cursor:pointer; position:relative; }
         .research-row::after { content:''; position:absolute; inset:0; border-radius:10px; background:linear-gradient(90deg, rgba(0,212,255,0.02), transparent); opacity:0; transition:opacity 0.4s; }
         .research-row:hover::after { opacity:1; }
         .research-row:hover { border-color:rgba(0,212,255,0.12); transform:translateX(4px); box-shadow:0 4px 40px rgba(0,0,0,0.15); }
@@ -58,6 +81,7 @@
         .research-row .result.neg { color:var(--q-pink); background:rgba(244,114,182,0.04); border-color:rgba(244,114,182,0.04); }
         .research-row .arrow { font-family:var(--font-mono); color:var(--text-muted); flex-shrink:0; transition:all 0.3s; font-size:0.8rem; }
         .research-row:hover .arrow { transform:translateX(4px); color:var(--q-cyan); }
+
         footer { padding:2.5rem 2rem 3rem; text-align:center; background:rgba(2,4,8,0.4); border-top:1px solid rgba(0,212,255,0.03); margin-top:2rem; }
         footer .co { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.2rem; letter-spacing:0.06em; }
         footer .co span { color:var(--q-cyan); }
@@ -65,9 +89,24 @@
         footer .footer-links { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
         footer .footer-links a { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.3s; }
         footer .footer-links a:hover { color:var(--q-cyan); }
+
         .reveal { opacity:0; transform:translateY(50px) scale(0.97); transition:opacity 1s cubic-bezier(0.23,1,0.32,1), transform 1s cubic-bezier(0.23,1,0.32,1); }
         .reveal.in { opacity:1; transform:translateY(0) scale(1); }
-        @media (max-width:768px) { .sec-sub { max-width:100%; text-align:left; margin-left:0; width:100%; } .hero { min-height:40vh; padding-top:120px; } .site-nav { padding:10px 16px; } .site-nav .nav-links a { padding:6px 10px; font-size:8px; letter-spacing:0.08em; } .site-nav .nav-brand { font-size:15px; } .site-nav .nav-links a:not(.nav-cta):not(.active) { display:none; } .research-row { padding:0.5rem 1rem; gap:0.5rem; flex-wrap:wrap; } .research-row .title { font-size:0.7rem; min-width:100%; order:2; } .research-row .id { width:auto; } .research-row .result { order:3; } .research-row .arrow { order:4; } section { padding:3rem 1.2rem; } }
+
+        @media (max-width:768px) {
+            .sec-sub { max-width:100%; text-align:left; margin-left:0; width:100%; }
+            .hero { min-height:40vh; padding-top:120px; }
+            .site-nav { padding:10px 16px; }
+            .site-nav .nav-links a { padding:6px 10px; font-size:8px; letter-spacing:0.08em; }
+            .site-nav .nav-brand { font-size:15px; }
+            .site-nav .nav-links a:not(.nav-cta):not(.active) { display:none; }
+            .research-row { padding:0.5rem 1rem; gap:0.5rem; flex-wrap:wrap; }
+            .research-row .title { font-size:0.7rem; min-width:100%; order:2; }
+            .research-row .id { width:auto; }
+            .research-row .result { order:3; }
+            .research-row .arrow { order:4; }
+            section { padding:3rem 1.2rem; }
+        }
         @media (max-width:480px) { .hero h1 { font-size:clamp(2rem,10vw,2.8rem); } .hero-tagline { font-size:0.9rem; } }
         @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } .reveal { opacity:1; transform:none; } #aurora-overlay, #quantum-grid, #scanlines { display:none; } .site-nav .nav-brand .brand-glow { animation:none; } }
     </style>
@@ -82,9 +121,17 @@
         <a href="index.html" class="nav-brand"><span class="brand-glow"></span>Aethelas<span>.</span></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
+            <a href="learn.html">Learn</a>
             <a href="about.html">About</a>
             <a href="research.html" class="active">Research</a>
             <a href="verify.html">Verify</a>
+            <a href="blog.html">Blog</a>
+            <a href="case-studies.html">Case Studies</a>
+            <a href="community.html">Community</a>
+            <a href="security.html">Security</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="careers.html">Careers</a>
+            <a href="feedback.html">Feedback</a>
             <a href="terminal.html" class="nav-cta">Launch App</a>
         </div>
     </nav>
@@ -93,32 +140,32 @@
         <section class="hero">
             <div class="hero-inner">
                 <div class="hero-eyebrow">✦ Research Constellation</div>
-                <h1><span class="neuro-text">All Reports</span> — Full Archive</h1>
-                <p class="hero-tagline">Every result traceable, every ceiling acknowledged. Click any report to read the full paper.</p>
+                <h1><span class="neuro-text">14 Reports</span> — Negatives Published</h1>
+                <p class="hero-tagline">Every result traceable, every ceiling acknowledged.</p>
             </div>
         </section>
 
-        <section class="reveal" style="padding-top:0;">
+        <section class="research-section reveal">
             <div class="sec-head">
-                <span class="sec-num">00</span>
-                <span class="sec-title">Technical Reports <span class="accent">Index</span></span>
-                <span class="sec-sub">14 reports · negatives published</span>
+                <span class="sec-num">01</span>
+                <span class="sec-title">Research <span class="accent">constellation</span></span>
+                <span class="sec-sub">fourteen reports · negatives published</span>
             </div>
-            <div class="research-toc">
-                <a href="TR-01.html" class="research-row"><span class="id">TR-01</span><span class="title">Ledger Replay Study (synthetic tabular)</span><span class="result">90%</span><span class="arrow">→</span></a>
-                <a href="TR-02.html" class="research-row"><span class="id">TR-02</span><span class="title">Generalization of Ledger-Replay Memory to Real Image Data</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-03.html" class="research-row"><span class="id">TR-03</span><span class="title">Where Naive Replay Fails: Class-Incremental Learning</span><span class="result neg">neg</span><span class="arrow">→</span></a>
-                <a href="TR-04.html" class="research-row"><span class="id">TR-04</span><span class="title">Aethelas: An AI-Native Blockchain Architecture</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-05.html" class="research-row"><span class="id">TR-05</span><span class="title">Design Space Position Paper</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-06.html" class="research-row"><span class="id">TR-06</span><span class="title">Toward Verifiable Machine Unlearning via Ledger Rollback</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-07.html" class="research-row"><span class="id">TR-07</span><span class="title">Retrieval Substitutes for Parameters — Until It Doesn't</span><span class="result">+8.6</span><span class="arrow">→</span></a>
-                <a href="TR-08.html" class="research-row"><span class="id">TR-08</span><span class="title">A Verification Fence for LLM Hallucination</span><span class="result">F1.96</span><span class="arrow">→</span></a>
-                <a href="TR-09.html" class="research-row"><span class="id">TR-09</span><span class="title">Corroboration-Gated Knowledge Ingestion</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-10.html" class="research-row"><span class="id">TR-10</span><span class="title">Provable Machine Unlearning: Empirical Results</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-11.html" class="research-row"><span class="id">TR-11</span><span class="title">Benchmarking a Modular AI Memory System</span><span class="result">89.5%</span><span class="arrow">→</span></a>
-                <a href="TR-12.html" class="research-row"><span class="id">TR-12</span><span class="title">Decentralized Storage with Provable Deletion</span><span class="result">96%</span><span class="arrow">→</span></a>
-                <a href="TR-13.html" class="research-row"><span class="id">TR-13</span><span class="title">Bounded Self-Improvement in an Autonomous Agent Loop</span><span class="result">✓</span><span class="arrow">→</span></a>
-                <a href="TR-14.html" class="research-row"><span class="id">TR-14</span><span class="title">A Verified Autonomous Agent Architecture</span><span class="result">✓</span><span class="arrow">→</span></a>
+            <div class="research-list">
+                <div class="research-row"><span class="id">TR-01</span><span class="title">Ledger Replay Study</span><span class="result">90%</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-02</span><span class="title">Image Generalization</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-03</span><span class="title">Class-Incremental Limits</span><span class="result neg">neg</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-04</span><span class="title">System Architecture</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-05</span><span class="title">Design-Space Position</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-06</span><span class="title">Verifiable Unlearning</span><span class="result">96→19</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-07</span><span class="title">Retrieval vs Capacity</span><span class="result">+8.6</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-08</span><span class="title">Verification Fence</span><span class="result">F1.96</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-09</span><span class="title">Corroboration Gate</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-10</span><span class="title">Provable Unlearning</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-11</span><span class="title">Benchmark Evaluation</span><span class="result">89.5%</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-12</span><span class="title">Decentralized Storage</span><span class="result">96%</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-13</span><span class="title">Bounded Self-Improvement</span><span class="result">✓</span><span class="arrow">→</span></div>
+                <div class="research-row"><span class="id">TR-14</span><span class="title">Verified Autonomous Agent</span><span class="result">✓</span><span class="arrow">→</span></div>
             </div>
         </section>
 
@@ -127,9 +174,20 @@
             <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
             <div class="footer-links">
                 <a href="index.html">Home</a>
+                <a href="learn.html">Learn</a>
                 <a href="about.html">About</a>
                 <a href="research.html">Research</a>
                 <a href="verify.html">Verify</a>
+                <a href="blog.html">Blog</a>
+                <a href="case-studies.html">Case Studies</a>
+                <a href="community.html">Community</a>
+                <a href="security.html">Security</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="careers.html">Careers</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="terminal.html">Terminal</a>
+                <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
             </div>
         </footer>
     </div>
@@ -139,122 +197,82 @@
         (function() {
             const canvas = document.getElementById('neuro-canvas');
             const ctx = canvas.getContext('2d');
-            let W, H, particles = [],
-                mouse = { x: null, y: null };
-
-            function resize() { W = canvas.width = window.innerWidth;
-                H = canvas.height = window.innerHeight; }
-            window.addEventListener('resize', resize);
-            resize();
-
+            let W, H, particles = [], mouse = { x: null, y: null };
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
             class NeuroParticle {
                 constructor() { this.reset(); }
                 reset() {
-                    this.x = Math.random() * W;
-                    this.y = Math.random() * H;
-                    this.vx = (Math.random() - 0.5) * 0.3;
-                    this.vy = (Math.random() - 0.5) * 0.3;
-                    this.size = Math.random() * 1.8 + 0.4;
-                    this.baseSize = this.size;
+                    this.x = Math.random() * W; this.y = Math.random() * H;
+                    this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 1.8 + 0.4; this.baseSize = this.size;
                     const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1', '#3b82f6'];
                     this.color = colors[Math.floor(Math.random() * colors.length)];
-                    this.phase = Math.random() * Math.PI * 2;
-                    this.pulseSpeed = 0.3 + Math.random() * 0.4;
-                    this.orbitAngle = Math.random() * Math.PI * 2;
-                    this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+                    this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+                    this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
                     this.type = Math.random() > 0.7 ? 'core' : 'normal';
                 }
                 update() {
-                    this.phase += 0.01;
-                    this.orbitAngle += this.orbitSpeed;
+                    this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
                     this.x += this.vx + Math.sin(this.phase) * 0.02;
                     this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
                     this.x += Math.cos(this.orbitAngle) * 0.04;
                     this.y += Math.sin(this.orbitAngle) * 0.04;
-                    if (this.x < -20) this.x = W + 20;
-                    if (this.x > W + 20) this.x = -20;
-                    if (this.y < -20) this.y = H + 20;
-                    if (this.y > H + 20) this.y = -20;
+                    if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+                    if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
                     this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
                     if (mouse.x !== null) {
-                        const dx = this.x - mouse.x,
-                            dy = this.y - mouse.y,
-                            dist = Math.sqrt(dx * dx + dy * dy);
+                        const dx = this.x - mouse.x, dy = this.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
                         if (dist < 200) { const force = (200 - dist) / 200 * 0.08;
-                            this.x += dx / dist * force * 0.5;
-                            this.y += dy / dist * force * 0.5; }
+                            this.x += dx / dist * force * 0.5; this.y += dy / dist * force * 0.5; }
                     }
                 }
                 draw() {
                     const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = alpha * 0.6;
-                    ctx.fill();
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.6; ctx.fill();
                     if (this.type === 'core') {
                         const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
-                        grad.addColorStop(0, this.color);
-                        grad.addColorStop(1, 'transparent');
-                        ctx.globalAlpha = 0.08;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
-                        ctx.fillStyle = grad;
-                        ctx.fill();
+                        grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+                        ctx.globalAlpha = 0.08; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+                        ctx.fillStyle = grad; ctx.fill();
                     }
                     ctx.globalAlpha = 1;
                 }
             }
             const numParticles = Math.min(280, Math.floor(W * H / 5000));
             for (let i = 0; i < numParticles; i++) particles.push(new NeuroParticle());
-            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX;
-                mouse.y = e.clientY; });
-            document.addEventListener('mouseleave', () => { mouse.x = null;
-                mouse.y = null; });
-
+            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
             function drawConnections() {
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i],
-                            p2 = particles[j],
-                            dx = p1.x - p2.x,
-                            dy = p1.y - p2.y,
-                            dist = Math.sqrt(dx * dx + dy * dy);
+                        const p1 = particles[i], p2 = particles[j], dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx*dx + dy*dy);
                         if (dist < 160) {
                             ctx.globalAlpha = (1 - dist / 160) * 0.12;
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.strokeStyle = p1.color;
-                            ctx.lineWidth = 0.4;
-                            ctx.stroke();
+                            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = p1.color; ctx.lineWidth = 0.4; ctx.stroke();
                         }
                     }
                 }
                 ctx.globalAlpha = 1;
             }
-
             function animate() {
                 ctx.clearRect(0, 0, W, H);
-                for (const p of particles) { p.update();
-                    p.draw(); }
+                for (const p of particles) { p.update(); p.draw(); }
                 drawConnections();
-                const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.8);
-                grad.addColorStop(0, 'transparent');
-                grad.addColorStop(1, 'rgba(2,4,8,0.4)');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, W, H);
+                const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.8);
+                grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(2,4,8,0.4)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
                 requestAnimationFrame(animate);
             }
-            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W;
-                    p.y = Math.random() * H; } });
+            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
             animate();
         })();
 
         // ===== SCROLL REVEAL =====
         (function() {
-            const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList
-                        .add('in'); }); }, { threshold: 0.12 });
+            const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.12 });
             document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
         })();
     </script>
