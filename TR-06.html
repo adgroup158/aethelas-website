@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aethelas — TR-05: Design Space</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { background:#020408; color:#b0c8f0; font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; min-height:100vh; }
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:#020408; }
+        ::-webkit-scrollbar-thumb { background:#00d4ff; border-radius:12px; box-shadow:0 0 30px rgba(0,212,255,0.4); }
+        :root { --q-cyan:#00d4ff; --q-purple:#a855f7; --q-pink:#f472b6; --q-gold:#fbbf24; --q-teal:#2dd4bf; --q-indigo:#6366f1; --q-rose:#fb7185; --q-blue:#3b82f6; --bg-deep:#020408; --bg-card:rgba(4,8,20,0.55); --border-glow:rgba(0,212,255,0.12); --text-primary:#eaf0ff; --text-secondary:#8aa0c8; --text-muted:#3a4a6a; --font-display:'Orbitron',monospace; --font-body:'Inter',sans-serif; --font-mono:'JetBrains Mono',monospace; --font-serif:'Merriweather',serif; --neuro-glow:0 0 60px rgba(0,212,255,0.06); }
+        #neuro-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.95; }
+        #aurora-overlay { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.04) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.03) 0%, transparent 50%); filter:blur(60px); animation:auroraDrift 20s ease-in-out infinite alternate; }
+        @keyframes auroraDrift { 0% { transform:translate(0,0) scale(1); opacity:0.5; } 100% { transform:translate(60px,-40px) scale(1.2); opacity:0.8; } }
+        #quantum-grid { position:fixed; inset:0; z-index:0; pointer-events:none; background-image:linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px); background-size:80px 80px; opacity:0.4; mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%); -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%); }
+        #scanlines { position:fixed; inset:0; z-index:0; pointer-events:none; background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); opacity:0.25; }
+        .site-nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:rgba(2,4,8,0.5); backdrop-filter:blur(30px) saturate(1.6); -webkit-backdrop-filter:blur(30px) saturate(1.6); border-bottom:1px solid rgba(0,212,255,0.06); box-shadow:0 4px 60px rgba(0,0,0,0.6); }
+        .site-nav .nav-brand { font-family:var(--font-display); font-size:20px; font-weight:800; color:#fff; letter-spacing:0.06em; text-decoration:none; display:flex; align-items:center; gap:10px; }
+        .site-nav .nav-brand .brand-glow { display:inline-block; width:8px; height:8px; background:var(--q-cyan); border-radius:50%; box-shadow:0 0 30px var(--q-cyan),0 0 60px rgba(0,212,255,0.2); animation:pulseDot 2.4s ease-in-out infinite; }
+        @keyframes pulseDot { 0%,100% { opacity:0.4; transform:scale(0.7); } 50% { opacity:1; transform:scale(1.3); } }
+        .site-nav .nav-brand span { color:var(--q-cyan); }
+        .site-nav .nav-links { display:flex; gap:4px; align-items:center; }
+        .site-nav .nav-links a { font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; padding:8px 18px; border-radius:100px; transition:all 0.35s cubic-bezier(0.23,1,0.32,1); border:1px solid transparent; position:relative; }
+        .site-nav .nav-links a::before { content:''; position:absolute; inset:-1px; border-radius:100px; padding:1px; background:linear-gradient(135deg, var(--q-cyan), var(--q-purple)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity 0.4s; }
+        .site-nav .nav-links a:hover::before { opacity:1; }
+        .site-nav .nav-links a:hover { color:var(--text-primary); background:rgba(0,212,255,0.04); }
+        .site-nav .nav-links a.active { color:var(--q-cyan); border-color:rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); box-shadow:0 0 40px rgba(0,212,255,0.04); }
+        .site-nav .nav-cta { color:#020408 !important; background:var(--q-cyan) !important; border:none !important; font-weight:700; box-shadow:0 0 50px rgba(0,212,255,0.2); }
+        .site-nav .nav-cta:hover { background:#fff !important; color:#020408 !important; box-shadow:0 0 80px rgba(0,212,255,0.4); transform:scale(1.04); }
+        .wrap { position:relative; z-index:2; max-width:1100px; margin:0 auto; }
+        .paper-container { max-width:1000px; margin:120px auto 4rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:20px; padding:3.5rem 4rem; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 8px 80px rgba(0,0,0,0.3); position:relative; }
+        .paper-container::before { content:''; position:absolute; inset:-1px; border-radius:20px; padding:1px; background:linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+        .paper-container .back-link { display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.08em; transition:color 0.3s; margin-bottom:1.5rem; }
+        .paper-container .back-link:hover { color:var(--q-cyan); }
+        .paper-container .back-link .arrow { transition:transform 0.3s; }
+        .paper-container .back-link:hover .arrow { transform:translateX(-4px); }
+        .paper-container .paper-badge { font-family:var(--font-mono); font-size:0.55rem; color:var(--q-cyan); letter-spacing:0.2em; text-transform:uppercase; opacity:0.3; margin-bottom:0.8rem; }
+        .paper-container .paper-title { font-family:var(--font-serif); font-weight:700; font-size:2rem; line-height:1.2; color:#fff; margin-bottom:0.5rem; letter-spacing:-0.01em; }
+        .paper-container .paper-title .highlight { color:var(--q-cyan); }
+        .paper-container .paper-author { font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); margin-bottom:0.2rem; letter-spacing:0.04em; }
+        .paper-container .paper-meta { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); opacity:0.5; margin-bottom:2rem; letter-spacing:0.06em; }
+        .paper-container .paper-abstract { background:rgba(0,212,255,0.02); border-left:2px solid rgba(0,212,255,0.15); padding:1.2rem 1.8rem; margin-bottom:2rem; border-radius:0 8px 8px 0; }
+        .paper-container .paper-abstract .label { font-family:var(--font-mono); font-size:0.55rem; text-transform:uppercase; letter-spacing:0.2em; color:var(--q-cyan); opacity:0.4; margin-bottom:0.3rem; }
+        .paper-container .paper-abstract p { font-family:var(--font-serif); font-size:0.9rem; line-height:1.8; color:var(--text-secondary); font-weight:300; }
+        .paper-container h2 { font-family:var(--font-serif); font-weight:700; font-size:1.3rem; color:#fff; margin:2rem 0 0.8rem; letter-spacing:-0.01em; }
+        .paper-container h2 .accent { color:var(--q-cyan); }
+        .paper-container h3 { font-family:var(--font-serif); font-weight:700; font-size:1.05rem; color:var(--text-primary); margin:1.5rem 0 0.5rem; }
+        .paper-container p { font-family:var(--font-serif); font-size:0.9rem; line-height:1.8; color:var(--text-secondary); margin-bottom:0.8rem; font-weight:300; }
+        .paper-container p strong { color:var(--text-primary); font-weight:600; }
+        .paper-container ul, .paper-container ol { font-family:var(--font-serif); font-size:0.9rem; line-height:1.8; color:var(--text-secondary); padding-left:1.8rem; margin-bottom:0.8rem; }
+        .paper-container ul li, .paper-container ol li { margin-bottom:0.3rem; }
+        .paper-container .paper-table-wrap { margin:1.5rem 0; overflow-x:auto; background:rgba(0,0,0,0.2); border-radius:12px; padding:0.5rem; }
+        .paper-container table { width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-secondary); }
+        .paper-container table th { background:rgba(0,212,255,0.06); color:var(--q-cyan); padding:0.6rem 1rem; text-align:left; font-weight:600; letter-spacing:0.04em; border-bottom:1px solid rgba(0,212,255,0.08); }
+        .paper-container table td { padding:0.6rem 1rem; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .paper-container table tr:hover td { background:rgba(0,212,255,0.02); }
+        .paper-container table .highlight-cell { color:var(--q-cyan); font-weight:600; }
+        .paper-container .paper-divider { border:none; border-top:1px solid rgba(255,255,255,0.04); margin:2.5rem 0; }
+        .paper-container .paper-conclusion { background:rgba(0,212,255,0.02); border-top:1px solid rgba(0,212,255,0.06); padding-top:1.5rem; margin-top:1.5rem; }
+        .paper-container .paper-note { background:rgba(244,114,182,0.04); border:1px solid rgba(244,114,182,0.08); border-radius:8px; padding:1rem 1.5rem; margin:1rem 0; font-family:var(--font-serif); font-size:0.85rem; color:var(--text-secondary); }
+        .paper-container .paper-note .note-label { font-family:var(--font-mono); font-size:0.55rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--q-pink); opacity:0.6; margin-bottom:0.2rem; }
+        footer { padding:2.5rem 2rem 3rem; text-align:center; background:rgba(2,4,8,0.4); border-top:1px solid rgba(0,212,255,0.03); margin-top:2rem; }
+        footer .co { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.2rem; letter-spacing:0.06em; }
+        footer .co span { color:var(--q-cyan); }
+        footer .meta { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); letter-spacing:0.12em; margin-bottom:0.8rem; opacity:0.5; }
+        footer .footer-links { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+        footer .footer-links a { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.3s; }
+        footer .footer-links a:hover { color:var(--q-cyan); }
+        @media (max-width:768px) { .paper-container { padding:1.8rem 1.2rem; margin:100px 1rem 3rem; } .paper-container .paper-title { font-size:1.4rem; } .paper-container .paper-abstract { padding:0.8rem 1rem; } .paper-container .paper-abstract p { font-size:0.8rem; } .paper-container p { font-size:0.8rem; } .site-nav { padding:10px 16px; } .site-nav .nav-links a { padding:6px 10px; font-size:8px; letter-spacing:0.08em; } .site-nav .nav-brand { font-size:15px; } .site-nav .nav-links a:not(.nav-cta):not(.active) { display:none; } }
+        @media (max-width:480px) { .paper-container .paper-title { font-size:1.1rem; } .paper-container { padding:1.2rem 0.8rem; } }
+        @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } #aurora-overlay, #quantum-grid, #scanlines { display:none; } .site-nav .nav-brand .brand-glow { animation:none; } }
+    </style>
+</head>
+<body>
+    <canvas id="neuro-canvas"></canvas>
+    <div id="aurora-overlay"></div>
+    <div id="quantum-grid"></div>
+    <div id="scanlines"></div>
+
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand"><span class="brand-glow"></span>Aethelas<span>.</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="research.html" class="active">Research</a>
+            <a href="verify.html">Verify</a>
+            <a href="terminal.html" class="nav-cta">Launch App</a>
+        </div>
+    </nav>
+
+    <div class="wrap">
+        <div class="paper-container">
+            <a href="research.html" class="back-link"><span class="arrow">←</span> Back to Research</a>
+            <div class="paper-badge">Technical Report 5 of 6 — preliminary, not peer reviewed</div>
+            <h1 class="paper-title">Provable Memory for Continual AI: <span class="highlight">A Design Space</span> for Ledger-Based Machine Learning Memory</h1>
+            <div class="paper-author">Akash Deep · Aethelas Private Limited, Patna, India</div>
+            <div class="paper-meta">Position paper · organizing four operations on one shared substrate</div>
+
+            <div class="paper-abstract">
+                <div class="label">Abstract</div>
+                <p>This is a position paper, not an empirical report. We propose organizing a family of related capabilities — continual learning, resistance to catastrophic forgetting, verifiable model history, and machine unlearning — as four operations on a single shared substrate: an immutable, append-only training ledger. We argue this framing clarifies what such a substrate must provide, situate it relative to existing work on blockchain-based AI audit trails, and identify the specific technical gap — using ledger history as active replay memory during training, rather than solely as a post-hoc audit log — that we believe is comparatively underexplored and is the subject of our empirical reports (Technical Reports 1-3).</p>
+            </div>
+
+            <h2>1. <span class="accent">The proposal</span></h2>
+            <p>We propose treating a model's training history as a single memory substrate with four properties, rather than as four separate engineering problems:</p>
+            <ul>
+                <li><strong>Learn</strong> — new training examples are appended to the ledger as they are encountered (write).</li>
+                <li><strong>Remember</strong> — past examples are replayed from the ledger during ongoing training to resist catastrophic forgetting (read, applied to training).</li>
+                <li><strong>Prove</strong> — the model's parameter state at any past point can be verified against a cryptographic commitment recorded at that point (read, applied to verification).</li>
+                <li><strong>Unlearn</strong> — a specific example's influence can be removed by rolling back to the state before it was learned and replaying the remaining history, excluding it (rewrite, with proof of exclusion).</li>
+            </ul>
+            <p>Under this framing, forgetting-resistance and unlearning are not separate mechanisms requiring separate infrastructure — they are the same replay operation run forward (include everything) or with an exclusion set (omit specific examples).</p>
+
+            <h2>2. <span class="accent">Relationship to existing work</span></h2>
+            <p>Recording AI decisions and model provenance on a blockchain or other immutable ledger is an active area of applied and academic work; recent proposals describe permissioned-ledger architectures for training provenance, deployment integrity verification, and post-deployment behavior auditing, and industry commentary has described a broader 2026 shift toward what is termed "auditable" or verifiable intelligence, with decentralized, blockchain-governed AI models already deployed in some regulated sectors. We do not claim the general idea of ledger-based AI audit trails as novel; that space is genuinely active.</p>
+
+            <h2>3. <span class="accent">Open questions this framing raises</span></h2>
+            <p>What we believe is comparatively underexplored is the specific use of the ledger as <strong>active replay memory</strong> that shapes future training — as distinct from a passive record consulted only after a decision has already been made. Most audit-trail proposals we are aware of log a decision after the model produces it; our empirical reports test using the same log to change what the model learns next. This is a narrower and more specific claim than "blockchain records AI decisions," and we present it as such.</p>
+            <ul>
+                <li><strong>Sampling strategy</strong> — Technical Reports 1 and 3 suggest that how replay examples are sampled from the ledger (uniformly at random versus balanced across tasks or time) materially affects the plasticity-stability trade-off and the viability of class-incremental settings. This is unresolved.</li>
+                <li><strong>Storage growth</strong> — an unbounded ledger grows linearly with training volume. At what scale does this become impractical, and what pruning or compaction strategies preserve the unlearning/provenance guarantees while bounding storage?</li>
+                <li><strong>Proof granularity</strong> — our current implementation snapshots full model weights; for larger models this is likely infeasible, and a more compact proof (e.g. a Merkle commitment over weight deltas) may be necessary.</li>
+                <li><strong>Formal unlearning guarantees</strong> — rollback-and-replay removes an example's direct training signal, but whether it removes the example's full statistical influence on the final weights (in the sense studied in the machine unlearning literature) is a distinct and stronger claim that this framing does not yet address or test.</li>
+            </ul>
+
+            <h2>4. <span class="accent">Why this matters for regulated applications</span></h2>
+            <p>Financial and other regulated AI applications increasingly require both explainability (why did the model decide this) and, separately, the ability to remove a specific individual's data on request. Treating these as two operations on one substrate, rather than two separate systems bolted onto a model, is the practical motivation for this design space — not an abstract architectural preference.</p>
+
+            <div class="paper-conclusion">
+                <h2>5. <span class="accent">Conclusion</span></h2>
+                <p>We do not claim to have solved continual learning, verifiable AI, or machine unlearning. We propose a way of organizing these problems around a shared substrate, identify the specific sub-question (ledger-as-active-replay-memory) we believe is underexplored relative to existing ledger-as-audit-log work, and report preliminary empirical tests of that sub-question in Technical Reports 1 through 3, including a negative result that bounds our own claims.</p>
+            </div>
+        </div>
+
+        <footer>
+            <div class="co">Aethelas<span>.</span></div>
+            <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="research.html">Research</a>
+                <a href="verify.html">Verify</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('neuro-canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H, particles = [], mouse = { x: null, y: null };
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            class NeuroParticle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * W; this.y = Math.random() * H;
+                    this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 1.8 + 0.4; this.baseSize = this.size;
+                    const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1', '#3b82f6'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+                    this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+                    this.type = Math.random() > 0.7 ? 'core' : 'normal';
+                }
+                update() {
+                    this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
+                    this.x += this.vx + Math.sin(this.phase) * 0.02;
+                    this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
+                    this.x += Math.cos(this.orbitAngle) * 0.04;
+                    this.y += Math.sin(this.orbitAngle) * 0.04;
+                    if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+                    if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
+                    this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+                    if (mouse.x !== null) {
+                        const dx = this.x - mouse.x, dy = this.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 200) { const force = (200 - dist) / 200 * 0.08;
+                            this.x += dx / dist * force * 0.5; this.y += dy / dist * force * 0.5; }
+                    }
+                }
+                draw() {
+                    const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.6; ctx.fill();
+                    if (this.type === 'core') {
+                        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+                        grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+                        ctx.globalAlpha = 0.08; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+                        ctx.fillStyle = grad; ctx.fill();
+                    }
+                    ctx.globalAlpha = 1;
+                }
+            }
+            const numParticles = Math.min(280, Math.floor(W * H / 5000));
+            for (let i = 0; i < numParticles; i++) particles.push(new NeuroParticle());
+            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+            function drawConnections() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p1 = particles[i], p2 = particles[j], dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 160) {
+                            ctx.globalAlpha = (1 - dist / 160) * 0.12;
+                            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = p1.color; ctx.lineWidth = 0.4; ctx.stroke();
+                        }
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+            function animate() {
+                ctx.clearRect(0, 0, W, H);
+                for (const p of particles) { p.update(); p.draw(); }
+                drawConnections();
+                const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.8);
+                grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(2,4,8,0.4)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+                requestAnimationFrame(animate);
+            }
+            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
+            animate();
+        })();
+    </script>
+</body>
+</html>
