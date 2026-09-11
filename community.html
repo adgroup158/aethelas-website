@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aethelas — Community</title>
+  <meta name="description" content="Join the Aethelas community — connect, contribute, translate, and help build the future of verifiable AI memory." />
+  <link rel="canonical" href="https://aethelas.in/community.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ============================================================
+       GLOBAL RESET & VARIABLES
+       ============================================================ */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --cyan: #00d4ff;
+      --purple: #a855f7;
+      --pink: #f472b6;
+      --gold: #fbbf24;
+      --teal: #2dd4bf;
+      --bg: #05080f;
+      --bg-card: rgba(8,14,30,0.6);
+      --border: rgba(0,212,255,0.08);
+      --text: #d0dce8;
+      --text-secondary: #7a8aa0;
+      --text-muted: #3a4a6a;
+      --font-display: 'Orbitron', monospace;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-serif: 'Merriweather', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; box-shadow: 0 0 30px rgba(0,212,255,0.3); }
+
+    /* ============================================================
+       BACKGROUND — Neural Universe
+       ============================================================ */
+    #neuro-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    #aurora {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.02) 0%, transparent 50%);
+      filter: blur(60px);
+      animation: auroraDrift 25s ease-in-out infinite alternate;
+    }
+    @keyframes auroraDrift {
+      0% { transform: translate(0,0) scale(1); opacity:0.6; }
+      100% { transform: translate(80px,-60px) scale(1.3); opacity:0.9; }
+    }
+    #grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.3;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    #scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+          transparent, transparent 2px,
+          rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+      opacity: 0.2;
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 36px;
+      background: rgba(5,8,15,0.55);
+      backdrop-filter: blur(28px) saturate(1.5);
+      -webkit-backdrop-filter: blur(28px) saturate(1.5);
+      border-bottom: 1px solid rgba(0,212,255,0.05);
+      box-shadow: 0 4px 50px rgba(0,0,0,0.4);
+      min-height: 64px;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-brand .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,212,255,0.15);
+      animation: pulseDot 2.8s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { opacity:0.4; transform:scale(0.7); }
+      50% { opacity:1; transform:scale(1.3); }
+    }
+    .nav-brand span { color: var(--cyan); }
+    .nav-links {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 100px;
+      transition: all 0.3s;
+      border: 1px solid transparent;
+      position: relative;
+    }
+    .nav-links a:hover { color: var(--text); background:rgba(0,212,255,0.03); }
+    .nav-links a.active {
+      color: var(--cyan);
+      border-color: rgba(0,212,255,0.12);
+      background: rgba(0,212,255,0.04);
+    }
+    .nav-cta {
+      color: #05080f !important;
+      background: var(--cyan) !important;
+      border: none !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 40px rgba(0,212,255,0.15);
+      padding: 6px 20px !important;
+    }
+    .nav-cta:hover {
+      background: #fff !important;
+      color: #05080f !important;
+      box-shadow: 0 0 70px rgba(0,212,255,0.3);
+      transform: scale(1.04);
+    }
+    .nav-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ============================================================
+       MAIN WRAP
+       ============================================================ */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 2rem 4rem;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .comm-hero {
+      text-align: center;
+      padding: 2rem 2rem 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .comm-hero .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.2rem;
+      opacity: 0.5;
+    }
+    .comm-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .comm-hero h1 .gradient {
+      background: linear-gradient(135deg, var(--cyan), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .comm-hero p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.75;
+    }
+    .comm-hero .hero-buttons {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary {
+      color: #05080f;
+      background: var(--cyan);
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 40px rgba(0,212,255,0.1);
+    }
+    .btn-primary:hover {
+      background: #fff;
+      border-color: #fff;
+      box-shadow: 0 0 60px rgba(0,212,255,0.2);
+      transform: scale(1.02);
+    }
+    .btn-outline {
+      color: var(--cyan);
+      border: 1px solid rgba(0,212,255,0.1);
+      background: rgba(0,212,255,0.02);
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      background: rgba(0,212,255,0.04);
+    }
+
+    /* ============================================================
+       SECTION
+       ============================================================ */
+    .section {
+      padding: 3rem 0;
+      scroll-margin-top: 80px;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(0,212,255,0.04);
+      padding-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      opacity: 0.3;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .section-title .accent { color: var(--cyan); }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      margin-left: auto;
+      text-align: right;
+      max-width: 40%;
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+      opacity: 0.4;
+    }
+
+    /* ============================================================
+       STATS BAR
+       ============================================================ */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 0 auto 2rem;
+      max-width: 900px;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      border-color: rgba(0,212,255,0.08);
+      transform: translateY(-3px);
+    }
+    .stat-card .n {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .stat-card .l {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CONNECT GRID
+       ============================================================ */
+    .connect-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .connect-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.4s;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .connect-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      padding: 1px;
+      background: conic-gradient(from var(--angle,0deg), transparent, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06), transparent);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+    }
+    .connect-card:hover::before { opacity: 1; }
+    .connect-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,212,255,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .connect-card .icon {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 0 20px rgba(0,212,255,0.15));
+    }
+    .connect-card .icon.github { color: #f0f6fc; }
+    .connect-card .icon.linkedin { color: #0a66c2; }
+    .connect-card .icon.discord { color: #5865F2; }
+    .connect-card .icon.twitter { color: #1DA1F2; }
+    .connect-card .icon.telegram { color: #26A5E4; }
+    .connect-card .icon.youtube { color: #FF0000; }
+    .connect-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 0.2rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .connect-card p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .connect-card .status {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      display: inline-block;
+    }
+    .connect-card .status.active {
+      color: var(--teal);
+      background: rgba(45,212,191,0.06);
+      border: 1px solid rgba(45,212,191,0.08);
+    }
+    .connect-card .status.soon {
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* ============================================================
+       CONTRIBUTE GRID
+       ============================================================ */
+    .contribute-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+    .contribute-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem 1.6rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .contribute-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 14px;
+      background: conic-gradient(from var(--angle,0deg), transparent, rgba(0,212,255,0.04), transparent, rgba(168,85,247,0.04), transparent);
+      opacity: 0;
+      transition: opacity 0.6s;
+      z-index: 0;
+    }
+    .contribute-card:hover::before { opacity: 1; }
+    .contribute-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,212,255,0.08);
+    }
+    .contribute-card > * { position: relative; z-index: 1; }
+    .contribute-card .icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .contribute-card .contribute-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.45rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      background: rgba(0,212,255,0.04);
+      border: 1px solid rgba(0,212,255,0.06);
+      color: var(--cyan);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .contribute-card .contribute-tag.docs { color: var(--purple); background: rgba(168,85,247,0.04); border-color: rgba(168,85,247,0.06); }
+    .contribute-card .contribute-tag.test { color: var(--gold); background: rgba(251,191,36,0.04); border-color: rgba(251,191,36,0.06); }
+    .contribute-card .contribute-tag.translate { color: var(--teal); background: rgba(45,212,191,0.04); border-color: rgba(45,212,191,0.06); }
+    .contribute-card .contribute-tag.design { color: var(--pink); background: rgba(244,114,182,0.04); border-color: rgba(244,114,182,0.06); }
+    .contribute-card .contribute-tag.spread { color: var(--cyan); background: rgba(0,212,255,0.04); border-color: rgba(0,212,255,0.06); }
+    .contribute-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+    .contribute-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+    .contribute-card .btn-small {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.3s;
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(0,212,255,0.1);
+      border-radius: 6px;
+      background: rgba(0,212,255,0.02);
+    }
+    .contribute-card .btn-small:hover {
+      gap: 0.6rem;
+      border-color: var(--cyan);
+      background: rgba(0,212,255,0.04);
+    }
+
+    /* ============================================================
+       ABOUT SITE / CONTRIBUTING / TRANSLATION / COLLECTIBLES / BRAND
+       ============================================================ */
+    .info-card {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 3rem;
+      backdrop-filter: blur(12px);
+      position: relative;
+      scroll-margin-top: 100px;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .info-card .detail-tag {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 0.5rem;
+    }
+    .info-card h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      color: #fff;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+    .info-card p {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+    .info-card ul {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding-left: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .info-card ul li { margin-bottom: 0.3rem; }
+    .info-card a {
+      color: var(--cyan);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,212,255,0.2);
+      transition: border-color 0.3s;
+    }
+    .info-card a:hover { border-bottom-color: var(--cyan); }
+
+    .info-card .info-actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .info-card .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .info-card .lang-item {
+      padding: 0.8rem 1rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+    }
+    .info-card .lang-item .flag { font-size: 1.2rem; }
+    .info-card .lang-item .lang-name { color: var(--text); flex: 1; }
+    .info-card .lang-item .lang-status {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .info-card .lang-item .lang-status.done { color: var(--teal); background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.08); }
+    .info-card .lang-item .lang-status.progress { color: var(--gold); background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.08); }
+    .info-card .lang-item .lang-status.planned { color: var(--text-muted); background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+    .brand-item {
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: all 0.3s;
+    }
+    .brand-item:hover {
+      border-color: rgba(0,212,255,0.1);
+      transform: translateY(-3px);
+    }
+    .brand-item .brand-logo {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #00d4ff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .brand-item .brand-colors {
+      display: flex;
+      gap: 0.3rem;
+      justify-content: center;
+      margin-bottom: 0.4rem;
+    }
+    .brand-item .brand-colors span {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+    .brand-item .brand-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    .brand-item .brand-label {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+    .brand-item a {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    /* ============================================================
+       CTA SECTION
+       ============================================================ */
+    .cta-section {
+      max-width: 800px;
+      margin: 3rem auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), transparent, rgba(168,85,247,0.08));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: #fff;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+    .cta-section h2 .accent { color: var(--cyan); }
+    .cta-section p {
+      color: var(--text-secondary);
+      margin-bottom: 1.8rem;
+      font-size: 0.95rem;
+      font-weight: 300;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-section .cta-buttons {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      padding: 2.5rem 2rem 3rem;
+      text-align: center;
+      background: rgba(5,8,15,0.3);
+      border-top: 1px solid rgba(0,212,255,0.02);
+      margin-top: 4rem;
+    }
+    .footer .co {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.1rem;
+      letter-spacing: 0.06em;
+    }
+    .footer .co span { color: var(--cyan); }
+    .footer .meta {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+      opacity: 0.5;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 0.6rem;
+    }
+    .footer-social a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    .footer-social a:hover { color: var(--cyan); }
+
+    /* ============================================================
+       MOBILE RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .nav { padding: 10px 16px; }
+      .nav-mobile-toggle { display: block; }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.5rem 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 9px; padding: 4px 12px; }
+
+      .wrap { padding: 100px 1.2rem 3rem; }
+      .connect-grid { grid-template-columns: 1fr 1fr; }
+      .contribute-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .section-sub { max-width: 100%; text-align: left; margin-left: 0; width: 100%; }
+      .info-card { padding: 1.8rem 1.2rem; }
+      .cta-section { padding: 2rem 1.5rem; }
+      .brand-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .connect-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .brand-grid { grid-template-columns: 1fr 1fr; }
+      .info-card .lang-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      #aurora, #grid, #scanlines { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BACKGROUND ===== -->
+  <canvas id="neuro-canvas"></canvas>
+  <div id="aurora"></div>
+  <div id="grid"></div>
+  <div id="scanlines"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="main-nav">
+    <a href="index.html" class="nav-brand">
+      <span class="dot"></span>Aethelas<span>.</span>
+    </a>
+    <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="verify.html">Verify</a>
+      <a href="blog.html">Blog</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="community.html" class="active">Community</a>
+      <a href="security.html">Security</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="careers.html">Careers</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="terminal.html" class="nav-cta">Terminal</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- ===== HERO ===== -->
+    <section class="comm-hero">
+      <div class="hero-eyebrow">✦ Aethelas Community Hub</div>
+      <h1>Join the <span class="gradient">Community</span></h1>
+      <p>Connect, contribute, translate, and help build the future of verifiable AI memory.</p>
+      <div class="hero-buttons">
+        <a href="#connect" class="btn btn-primary">Connect →</a>
+        <a href="#contribute" class="btn btn-outline">Get Involved</a>
+      </div>
+    </section>
+
+    <!-- ===== STATS BAR ===== -->
+    <section class="reveal" style="padding: 0 0 2rem;">
+      <div class="stats-bar">
+        <div class="stat-card"><div class="n" data-count="1247">0</div><div class="l">Community Members</div></div>
+        <div class="stat-card"><div class="n" data-count="83">0</div><div class="l">Contributors</div></div>
+        <div class="stat-card"><div class="n" data-count="49">0</div><div class="l">Open Source Modules</div></div>
+        <div class="stat-card"><div class="n" data-count="14">0</div><div class="l">Research Papers</div></div>
+      </div>
+    </section>
+
+    <!-- ===== CONNECT ===== -->
+    <section id="connect" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <span class="section-title">Connect <span class="accent">with Us</span></span>
+        <span class="section-sub">find your community</span>
+      </div>
+      <div class="connect-grid">
+
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="connect-card">
+          <span class="icon github"><i class="fab fa-github"></i></span>
+          <h4>GitHub</h4>
+          <p>Code, issues, and contributions</p>
+          <span class="status active">✓ Active</span>
+        </a>
+
+        <a href="https://www.linkedin.com/company/107599247" target="_blank" rel="noopener noreferrer" class="connect-card">
+          <span class="icon linkedin"><i class="fab fa-linkedin-in"></i></span>
+          <h4>LinkedIn</h4>
+          <p>Company updates and network</p>
+          <span class="status active">✓ Active</span>
+        </a>
+
+        <a href="#" class="connect-card" style="opacity: 0.55; cursor: default;">
+          <span class="icon discord"><i class="fab fa-discord"></i></span>
+          <h4>Discord</h4>
+          <p>Community chat</p>
+          <span class="status soon">Coming Soon</span>
+        </a>
+
+        <a href="#" class="connect-card" style="opacity: 0.55; cursor: default;">
+          <span class="icon twitter"><i class="fab fa-twitter"></i></span>
+          <h4>X (Twitter)</h4>
+          <p>Follow for updates</p>
+          <span class="status soon">Coming Soon</span>
+        </a>
+
+        <a href="#" class="connect-card" style="opacity: 0.55; cursor: default;">
+          <span class="icon youtube"><i class="fab fa-youtube"></i></span>
+          <h4>YouTube</h4>
+          <p>Tutorials and demos</p>
+          <span class="status soon">Coming Soon</span>
+        </a>
+
+        <a href="#" class="connect-card" style="opacity: 0.55; cursor: default;">
+          <span class="icon telegram"><i class="fab fa-telegram-plane"></i></span>
+          <h4>Telegram</h4>
+          <p>Community chat</p>
+          <span class="status soon">Coming Soon</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ===== CONTRIBUTE ===== -->
+    <section id="contribute" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <span class="section-title">Get <span class="accent">Involved</span></span>
+        <span class="section-sub">contribute to the ecosystem</span>
+      </div>
+      <div class="contribute-grid">
+
+        <div class="contribute-card">
+          <span class="icon">💻</span>
+          <span class="contribute-tag">Code</span>
+          <h3>Contribute Code</h3>
+          <p>Help build Aethelas — contribute to the core platform, SDKs, or the website itself. Every PR makes a difference.</p>
+          <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn-small">View on GitHub <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="contribute-card">
+          <span class="icon">📖</span>
+          <span class="contribute-tag docs">Documentation</span>
+          <h3>Write Documentation</h3>
+          <p>Help make Aethelas more accessible. Improve documentation, write tutorials, and create guides for new users.</p>
+          <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn-small">Contribute <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="contribute-card">
+          <span class="icon">🧪</span>
+          <span class="contribute-tag test">Testing</span>
+          <h3>Test &amp; Report</h3>
+          <p>Use Aethelas, find bugs, and report issues. Help us build a more robust and reliable system.</p>
+          <a href="terminal.html" class="btn-small">Try the Terminal <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="contribute-card">
+          <span class="icon">🌍</span>
+          <span class="contribute-tag translate">Translation</span>
+          <h3>Translate the Website</h3>
+          <p>Help bring Aethelas to the world. Translate the website and educational content into your language.</p>
+          <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn-small">Get Started <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="contribute-card">
+          <span class="icon">🎨</span>
+          <span class="contribute-tag design">Design</span>
+          <h3>Design &amp; Brand</h3>
+          <p>Help shape the visual identity of Aethelas. Contribute to the design system, illustrations, and brand assets.</p>
+          <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn-small">Get Involved <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="contribute-card">
+          <span class="icon">📣</span>
+          <span class="contribute-tag spread">Community</span>
+          <h3>Spread the Word</h3>
+          <p>Help grow the community. Share Aethelas with your network, write blog posts, and create content.</p>
+          <a href="https://www.linkedin.com/company/107599247" target="_blank" rel="noopener noreferrer" class="btn-small">Follow on LinkedIn <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== ABOUT AETHELAS.IN ===== -->
+    <section id="about-site" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <span class="section-title">About <span class="accent">aethelas.in</span></span>
+        <span class="section-sub">a public, open-source project</span>
+      </div>
+      <div class="info-card">
+        <div class="detail-tag">✦ About This Website</div>
+        <h2>Aethelas.in — The Community Website</h2>
+        <p>This website is a public, open-source project built by and for the Aethelas community. It serves as the central hub for learning about Aethelas, exploring the technology, and connecting with the community.</p>
+        <p>The site is hosted on <strong style="color: var(--text);">GitHub Pages</strong> and maintained by the Aethelas team with contributions from the community. Every page is open-source and welcomes contributions.</p>
+        <div class="info-actions">
+          <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><i class="fab fa-github"></i> View on GitHub</a>
+          <a href="https://github.com/adgroup158/aethelas-website/issues" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fas fa-bug"></i> Report Issue</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTRIBUTING GUIDE ===== -->
+    <section id="contributing" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <span class="section-title">Contributing to <span class="accent">aethelas.in</span></span>
+        <span class="section-sub">how to help</span>
+      </div>
+      <div class="info-card">
+        <div class="detail-tag">📖 Contributing Guide</div>
+        <h2>How to Contribute</h2>
+        <p>If you want to help improve this website, here's how:</p>
+        <ul>
+          <li><strong>Fork the repository</strong> — <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer">github.com/adgroup158/aethelas-website</a></li>
+          <li><strong>Make your changes</strong> — improve content, fix bugs, or add new features</li>
+          <li><strong>Submit a pull request</strong> — describe your changes and why they matter</li>
+          <li><strong>Get reviewed</strong> — the team will review and merge your contribution</li>
+        </ul>
+        <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,212,255,0.02); border-radius: 8px; border-left: 2px solid var(--cyan);">
+          <p style="font-size: 0.85rem; margin-bottom: 0; color: var(--text-muted);"><strong style="color: var(--text);">💡 Tip:</strong> Start with small contributions — fix a typo, improve a sentence, or update a link. Every contribution counts!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRANSLATION PROGRAM ===== -->
+    <section id="translation" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <span class="section-title">Translation <span class="accent">Program</span></span>
+        <span class="section-sub">bring aethelas.in to the world</span>
+      </div>
+      <div class="info-card">
+        <div class="detail-tag">🌍 Translation Program</div>
+        <h2>Translate Aethelas.in</h2>
+        <p>The community effort that will bring Aethelas.in to dozens of languages. We're looking for translators to help make Aethelas accessible to everyone.</p>
+        <h3 style="font-family: var(--font-display); font-size: 1rem; color: #fff; margin: 1.2rem 0 0.6rem;">Current Languages</h3>
+        <div class="lang-grid">
+          <div class="lang-item"><span class="flag">🇬🇧</span><span class="lang-name">English</span><span class="lang-status done">Original</span></div>
+          <div class="lang-item"><span class="flag">🇮🇳</span><span class="lang-name">Hindi</span><span class="lang-status progress">In Progress</span></div>
+          <div class="lang-item"><span class="flag">🇫🇷</span><span class="lang-name">French</span><span class="lang-status progress">In Progress</span></div>
+          <div class="lang-item"><span class="flag">🇪🇸</span><span class="lang-name">Spanish</span><span class="lang-status planned">Planned</span></div>
+          <div class="lang-item"><span class="flag">🇩🇪</span><span class="lang-name">German</span><span class="lang-status planned">Planned</span></div>
+          <div class="lang-item"><span class="flag">🇨🇳</span><span class="lang-name">Chinese</span><span class="lang-status planned">Planned</span></div>
+        </div>
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 0.5rem;">Join the Translation Effort →</a>
+      </div>
+    </section>
+
+    <!-- ===== CONTRIBUTOR COLLECTIBLES ===== -->
+    <section id="collectibles" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <span class="section-title">Contributor <span class="accent">Recognition</span></span>
+        <span class="section-sub">celebrating our community</span>
+      </div>
+      <div class="info-card">
+        <div class="detail-tag">🏆 Contributor Recognition</div>
+        <h2>Community Contributors</h2>
+        <p>We believe in recognizing every contribution. Here are the ways we celebrate our community:</p>
+        <ul>
+          <li><strong>Contributor Badges</strong> — Earn badges for contributions to code, documentation, or community</li>
+          <li><strong>Featured Contributors</strong> — Top contributors are featured on the website</li>
+          <li><strong>Community Spotlight</strong> — Regular shout-outs in community updates</li>
+          <li><strong>Open-Source Credit</strong> — All contributors are credited in the repository</li>
+        </ul>
+        <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,212,255,0.02); border-radius: 8px; border: 1px solid rgba(0,212,255,0.04);">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;"><strong style="color: var(--text);">🌟 Ready to contribute?</strong> Start with the contributing guide above.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BRAND ASSETS ===== -->
+    <section id="brand-assets" class="section reveal">
+      <div class="section-head">
+        <span class="section-num">07</span>
+        <span class="section-title">Brand <span class="accent">Assets</span></span>
+        <span class="section-sub">logos and brand resources</span>
+      </div>
+      <div class="info-card">
+        <div class="detail-tag">🎨 Brand Resources</div>
+        <h2>Aethelas Brand Assets</h2>
+        <p>Download official Aethelas logos, colors, and brand resources for your projects.</p>
+        <div class="brand-grid">
+          <div class="brand-item">
+            <div class="brand-logo">A</div>
+            <div class="brand-name">Aethelas</div>
+            <div class="brand-label">Logo</div>
+            <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer">Download →</a>
+          </div>
+          <div class="brand-item">
+            <div class="brand-colors">
+              <span style="background: #00d4ff;"></span>
+              <span style="background: #a855f7;"></span>
+              <span style="background: #f472b6;"></span>
+            </div>
+            <div class="brand-label" style="margin-top: 0.5rem;">Color Palette</div>
+            <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer">Download →</a>
+          </div>
+          <div class="brand-item">
+            <div class="brand-logo" style="font-size: 1.2rem; letter-spacing: 0.06em;">Aethelas</div>
+            <div class="brand-label">Wordmark</div>
+            <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer">Download →</a>
+          </div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">📄 All brand assets are available on <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section reveal">
+      <h2>Join the <span class="accent">Community</span></h2>
+      <p>Help build the future of verifiable AI memory. Every contribution matters.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Join on GitHub →</a>
+        <a href="https://www.linkedin.com/company/107599247" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Follow on LinkedIn</a>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="co">Aethelas<span>.</span></div>
+      <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="verify.html">Verify</a>
+        <a href="blog.html">Blog</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="community.html">Community</a>
+        <a href="security.html">Security</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="careers.html">Careers</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="terminal.html">Terminal</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+  <script>
+    // ============================================================
+    // 1. NEURAL CANVAS
+    // ============================================================
+    (function() {
+      const canvas = document.getElementById('neuro-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [], mouse = { x: null, y: null };
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * W;
+          this.y = Math.random() * H;
+          this.vx = (Math.random() - 0.5) * 0.2;
+          this.vy = (Math.random() - 0.5) * 0.2;
+          this.size = Math.random() * 1.8 + 0.3;
+          this.baseSize = this.size;
+          const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.phase = Math.random() * Math.PI * 2;
+          this.pulseSpeed = 0.3 + Math.random() * 0.4;
+          this.orbitAngle = Math.random() * Math.PI * 2;
+          this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+          this.type = Math.random() > 0.7 ? 'core' : 'normal';
+        }
+        update() {
+          this.phase += 0.01;
+          this.orbitAngle += this.orbitSpeed;
+          this.x += this.vx + Math.sin(this.phase) * 0.015;
+          this.y += this.vy + Math.cos(this.phase * 0.7) * 0.015;
+          this.x += Math.cos(this.orbitAngle) * 0.03;
+          this.y += Math.sin(this.orbitAngle) * 0.03;
+          if (this.x < -20) this.x = W + 20;
+          if (this.x > W + 20) this.x = -20;
+          if (this.y < -20) this.y = H + 20;
+          if (this.y > H + 20) this.y = -20;
+          this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+          if (mouse.x !== null) {
+            const dx = this.x - mouse.x, dy = this.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 200) {
+              const force = (200 - dist) / 200 * 0.06;
+              this.x += dx / dist * force;
+              this.y += dy / dist * force;
+            }
+          }
+        }
+        draw() {
+          const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha * 0.5;
+          ctx.fill();
+          if (this.type === 'core') {
+            const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+            grad.addColorStop(0, this.color);
+            grad.addColorStop(1, 'transparent');
+            ctx.globalAlpha = 0.06;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      const numParticles = Math.min(240, Math.floor(W * H / 5500));
+      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+      document.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      document.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      function drawConnections() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i], p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.1;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = p1.color;
+              ctx.lineWidth = 0.3;
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) { p.update(); p.draw(); }
+        drawConnections();
+        const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.7);
+        grad.addColorStop(0, 'transparent');
+        grad.addColorStop(1, 'rgba(5,8,15,0.4)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+        requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', () => {
+        resize();
+        for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; }
+      });
+      animate();
+    })();
+
+    // ============================================================
+    // 2. ANIMATED COUNTERS
+    // ============================================================
+    (function() {
+      const els = document.querySelectorAll('[data-count]');
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.counted) {
+            const el = entry.target;
+            const target = parseFloat(el.dataset.count);
+            const suffix = el.dataset.suffix || '';
+            const dur = 1800, start = performance.now();
+
+            function update(now) {
+              const p = Math.min((now - start) / dur, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const cur = target * eased;
+              el.textContent = (target % 1 !== 0) ? cur.toFixed(1) : Math.round(cur);
+              if (p < 1) requestAnimationFrame(update);
+              else {
+                el.textContent = (target % 1 !== 0) ? target.toFixed(1) : target.toString();
+                el.textContent += suffix;
+              }
+            }
+            el.dataset.counted = 'true';
+            requestAnimationFrame(update);
+          }
+        });
+      }, { threshold: 0.3 });
+      els.forEach(el => obs.observe(el));
+    })();
+
+    // ============================================================
+    // 3. SCROLL REVEAL
+    // ============================================================
+    (function() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    })();
+
+    // ============================================================
+    // 4. CONIC ANGLE (cards)
+    // ============================================================
+    document.querySelectorAll('.connect-card, .contribute-card').forEach(el => {
+      el.style.setProperty('--angle', '0deg');
+      let angle = 0;
+      setInterval(() => {
+        angle = (angle + 0.3) % 360;
+        el.style.setProperty('--angle', angle + 'deg');
+      }, 40);
+    });
+
+    // ============================================================
+    // 5. MOBILE NAV TOGGLE
+    // ============================================================
+    document.getElementById('nav-toggle')?.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
