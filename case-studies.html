@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aethelas — Case Studies</title>
+  <meta name="description" content="Aethelas Case Studies — Real-world applications of verifiable AI memory across finance, healthcare, AI safety, supply chain, government, and energy." />
+  <link rel="canonical" href="https://aethelas.in/case-studies.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ============================================================
+       GLOBAL RESET & VARIABLES
+       ============================================================ */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --cyan: #00d4ff;
+      --purple: #a855f7;
+      --pink: #f472b6;
+      --gold: #fbbf24;
+      --teal: #2dd4bf;
+      --bg: #05080f;
+      --bg-card: rgba(8,14,30,0.6);
+      --border: rgba(0,212,255,0.08);
+      --text: #d0dce8;
+      --text-secondary: #7a8aa0;
+      --text-muted: #3a4a6a;
+      --font-display: 'Orbitron', monospace;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-serif: 'Merriweather', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; box-shadow: 0 0 30px rgba(0,212,255,0.3); }
+
+    /* ============================================================
+       BACKGROUND — Neural Universe
+       ============================================================ */
+    #neuro-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    #aurora {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.02) 0%, transparent 50%);
+      filter: blur(60px);
+      animation: auroraDrift 25s ease-in-out infinite alternate;
+    }
+    @keyframes auroraDrift {
+      0% { transform: translate(0,0) scale(1); opacity:0.6; }
+      100% { transform: translate(80px,-60px) scale(1.3); opacity:0.9; }
+    }
+    #grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.3;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    #scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+          transparent, transparent 2px,
+          rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+      opacity: 0.2;
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 36px;
+      background: rgba(5,8,15,0.55);
+      backdrop-filter: blur(28px) saturate(1.5);
+      -webkit-backdrop-filter: blur(28px) saturate(1.5);
+      border-bottom: 1px solid rgba(0,212,255,0.05);
+      box-shadow: 0 4px 50px rgba(0,0,0,0.4);
+      min-height: 64px;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-brand .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,212,255,0.15);
+      animation: pulseDot 2.8s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { opacity:0.4; transform:scale(0.7); }
+      50% { opacity:1; transform:scale(1.3); }
+    }
+    .nav-brand span { color: var(--cyan); }
+    .nav-links {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 100px;
+      transition: all 0.3s;
+      border: 1px solid transparent;
+      position: relative;
+    }
+    .nav-links a:hover { color: var(--text); background:rgba(0,212,255,0.03); }
+    .nav-links a.active {
+      color: var(--cyan);
+      border-color: rgba(0,212,255,0.12);
+      background: rgba(0,212,255,0.04);
+    }
+    .nav-cta {
+      color: #05080f !important;
+      background: var(--cyan) !important;
+      border: none !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 40px rgba(0,212,255,0.15);
+      padding: 6px 20px !important;
+    }
+    .nav-cta:hover {
+      background: #fff !important;
+      color: #05080f !important;
+      box-shadow: 0 0 70px rgba(0,212,255,0.3);
+      transform: scale(1.04);
+    }
+    .nav-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ============================================================
+       MAIN WRAP
+       ============================================================ */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 2rem 4rem;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .cs-hero {
+      text-align: center;
+      padding: 2rem 2rem 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cs-hero .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.2rem;
+      opacity: 0.5;
+    }
+    .cs-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .cs-hero h1 .gradient {
+      background: linear-gradient(135deg, var(--cyan), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cs-hero p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.75;
+    }
+
+    /* ============================================================
+       SECTION
+       ============================================================ */
+    .section {
+      padding: 3rem 0;
+      scroll-margin-top: 80px;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(0,212,255,0.04);
+      padding-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      opacity: 0.3;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .section-title .accent { color: var(--cyan); }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      margin-left: auto;
+      text-align: right;
+      max-width: 40%;
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+      opacity: 0.4;
+    }
+
+    /* ============================================================
+       FEATURED CASE STUDY
+       ============================================================ */
+    .featured-case {
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.4s;
+      position: relative;
+    }
+    .featured-case::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), transparent, rgba(168,85,247,0.08));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .featured-case .featured-inner {
+      padding: 3rem 3rem 2.5rem;
+    }
+    .featured-case .featured-badge {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 0.8rem;
+    }
+    .featured-case .featured-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.08);
+      color: var(--cyan);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    .featured-case h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+    .featured-case p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 700px;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .featured-case .featured-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 1.2rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .featured-case .featured-metrics .metric {
+      text-align: center;
+    }
+    .featured-case .featured-metrics .metric .value {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .featured-case .featured-metrics .metric .label {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+    }
+    .featured-case .featured-meta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+    .featured-case .featured-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .featured-case .read-more {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.3s;
+    }
+    .featured-case .read-more:hover { gap: 0.8rem; color: #fff; }
+
+    /* ============================================================
+       CASE STUDY GRID
+       ============================================================ */
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .case-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1px;
+      background: conic-gradient(from var(--angle,0deg), transparent, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06), transparent);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+    }
+    .case-card:hover::before { opacity: 1; }
+    .case-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,212,255,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .case-card .case-banner {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .case-card .case-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.08);
+      color: var(--cyan);
+      font-weight: 600;
+    }
+    .case-card .case-tag.finance {
+      color: var(--gold);
+      background: rgba(251,191,36,0.06);
+      border-color: rgba(251,191,36,0.08);
+    }
+    .case-card .case-tag.healthcare {
+      color: var(--pink);
+      background: rgba(244,114,182,0.06);
+      border-color: rgba(244,114,182,0.08);
+    }
+    .case-card .case-tag.aisafety {
+      color: var(--purple);
+      background: rgba(168,85,247,0.06);
+      border-color: rgba(168,85,247,0.08);
+    }
+    .case-card .case-tag.supply {
+      color: var(--teal);
+      background: rgba(45,212,191,0.06);
+      border-color: rgba(45,212,191,0.08);
+    }
+    .case-card .case-tag.gov {
+      color: var(--cyan);
+      background: rgba(0,212,255,0.06);
+      border-color: rgba(0,212,255,0.08);
+    }
+    .case-card .case-tag.energy {
+      color: var(--gold);
+      background: rgba(251,191,36,0.06);
+      border-color: rgba(251,191,36,0.08);
+    }
+
+    .case-card .case-industry {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+      letter-spacing: 0.04em;
+    }
+
+    .case-card .case-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .case-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+    .case-card .case-subtitle {
+      font-size: 0.8rem;
+      color: var(--cyan);
+      opacity: 0.7;
+      margin-bottom: 0.8rem;
+      font-weight: 400;
+    }
+    .case-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .case-card .case-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .case-card .case-metrics .metric {
+      text-align: center;
+    }
+    .case-card .case-metrics .metric .value {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.15rem;
+    }
+    .case-card .case-metrics .metric .label {
+      font-family: var(--font-mono);
+      font-size: 0.45rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .case-card .read-more {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.3s;
+      margin-top: auto;
+    }
+    .case-card .read-more:hover { gap: 0.8rem; color: #fff; }
+
+    /* ============================================================
+       CASE STUDY DETAILS (inline expansions)
+       ============================================================ */
+    .case-detail {
+      max-width: 900px;
+      margin: 0 auto 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+      scroll-margin-top: 100px;
+    }
+    .case-detail::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .case-detail .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+    .case-detail .back-link:hover { color: var(--cyan); }
+    .case-detail .detail-tag {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 0.5rem;
+    }
+    .case-detail h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: #fff;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+    .case-detail .detail-meta {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .case-detail .detail-meta span { opacity: 0.7; }
+    .case-detail h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      margin: 1.8rem 0 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .case-detail p {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+    .case-detail ul {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding-left: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .case-detail ul li { margin-bottom: 0.3rem; }
+    .case-detail .detail-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .case-detail .detail-metrics .metric { text-align: center; }
+    .case-detail .detail-metrics .metric .value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .case-detail .detail-metrics .metric .label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+    }
+    .case-detail .tech-stack {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .case-detail .tech-stack .tech {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 100px;
+      background: rgba(0,212,255,0.04);
+      border: 1px solid rgba(0,212,255,0.06);
+      color: var(--cyan);
+    }
+    .case-detail .conclusion-box {
+      background: rgba(0,212,255,0.02);
+      border-top: 1px solid rgba(0,212,255,0.06);
+      padding-top: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .case-detail .conclusion-box h3 { margin-top: 0; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      padding: 2.5rem 2rem 3rem;
+      text-align: center;
+      background: rgba(5,8,15,0.3);
+      border-top: 1px solid rgba(0,212,255,0.02);
+      margin-top: 4rem;
+    }
+    .footer .co {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.1rem;
+      letter-spacing: 0.06em;
+    }
+    .footer .co span { color: var(--cyan); }
+    .footer .meta {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+      opacity: 0.5;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 0.6rem;
+    }
+    .footer-social a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    .footer-social a:hover { color: var(--cyan); }
+
+    /* ============================================================
+       MOBILE RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .nav { padding: 10px 16px; }
+      .nav-mobile-toggle { display: block; }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.5rem 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 9px; padding: 4px 12px; }
+
+      .wrap { padding: 100px 1.2rem 3rem; }
+      .case-grid { grid-template-columns: 1fr; }
+      .section-sub { max-width: 100%; text-align: left; margin-left: 0; width: 100%; }
+      .featured-case .featured-inner { padding: 2rem 1.5rem 1.5rem; }
+      .case-detail { padding: 1.8rem 1.2rem; }
+      .case-detail .detail-metrics { grid-template-columns: 1fr 1fr; }
+      .case-card .case-metrics { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .case-card .case-metrics { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      #aurora, #grid, #scanlines { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BACKGROUND ===== -->
+  <canvas id="neuro-canvas"></canvas>
+  <div id="aurora"></div>
+  <div id="grid"></div>
+  <div id="scanlines"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="main-nav">
+    <a href="index.html" class="nav-brand">
+      <span class="dot"></span>Aethelas<span>.</span>
+    </a>
+    <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="verify.html">Verify</a>
+      <a href="blog.html">Blog</a>
+      <a href="case-studies.html" class="active">Case Studies</a>
+      <a href="community.html">Community</a>
+      <a href="security.html">Security</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="careers.html">Careers</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="terminal.html" class="nav-cta">Terminal</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- ===== HERO ===== -->
+    <section class="cs-hero">
+      <div class="hero-eyebrow">✦ Aethelas Case Studies</div>
+      <h1>Real-World <span class="gradient">Applications</span></h1>
+      <p>See how Aethelas is transforming verifiable AI memory across finance, healthcare, AI safety, supply chain, government, and energy — with measurable results.</p>
+    </section>
+
+    <!-- ===== FEATURED CASE STUDY ===== -->
+    <section class="reveal" style="padding: 0;">
+      <div class="featured-case">
+        <div class="featured-inner">
+          <div class="featured-badge">⭐ Featured Case Study</div>
+          <span class="featured-tag">🏦 Finance</span>
+          <h2>Verifiable AI for Financial Compliance</h2>
+          <p>A global fintech deployed Aethelas to power their transaction monitoring AI with cryptographic proof of decision provenance. Every decision — from fraud detection to loan approval — is now recorded on the Aethelas ledger with a verifiable proof trail, transformating their compliance posture from reactive to proactive.</p>
+
+          <div class="featured-meta">
+            <span><i class="far fa-calendar"></i> Q2 2026</span>
+            <span><i class="far fa-clock"></i> 6 weeks deployment</span>
+            <span><i class="fas fa-building"></i> Global Fintech (Fortune 500)</span>
+            <span><i class="fas fa-shield-alt"></i> Aethelas L1 · Compliance</span>
+          </div>
+
+          <div class="featured-metrics">
+            <div class="metric">
+              <div class="value">73%</div>
+              <div class="label">Audit Time Reduction</div>
+            </div>
+            <div class="metric">
+              <div class="value">100%</div>
+              <div class="label">Decision Traceability</div>
+            </div>
+            <div class="metric">
+              <div class="value">18/18</div>
+              <div class="label">Red-Team Blocked</div>
+            </div>
+            <div class="metric">
+              <div class="value">5s</div>
+              <div class="label">Block Time</div>
+            </div>
+          </div>
+
+          <a href="#case-study-1" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CASE STUDIES GRID ===== -->
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <span class="section-title">Featured <span class="accent">Case Studies</span></span>
+        <span class="sec-sub" style="color:var(--text-muted); font-size:0.65rem; margin-left:auto;">real results from real deployments</span>
+      </div>
+
+      <div class="case-grid">
+
+        <!-- Case 1: Finance -->
+        <div class="case-card">
+          <div class="case-banner">
+            <span class="case-tag finance">🏦 Finance</span>
+            <span class="case-industry">Aethelas L1 · Compliance</span>
+          </div>
+          <div class="case-body">
+            <h3>Verifiable AI for Financial Compliance</h3>
+            <div class="case-subtitle">How a leading fintech reduced audit time by 73%</div>
+            <p>A global fintech deployed Aethelas to power their transaction monitoring AI with cryptographic proof of decision provenance.</p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="value">73%</div>
+                <div class="label">Audit Reduction</div>
+              </div>
+              <div class="metric">
+                <div class="value">100%</div>
+                <div class="label">Traceability</div>
+              </div>
+              <div class="metric">
+                <div class="value">18/18</div>
+                <div class="label">Attacks Blocked</div>
+              </div>
+            </div>
+            <a href="#case-study-1" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Case 2: Healthcare -->
+        <div class="case-card">
+          <div class="case-banner">
+            <span class="case-tag healthcare">🏥 Healthcare</span>
+            <span class="case-industry">Aethelas Memory · Provable Deletion</span>
+          </div>
+          <div class="case-body">
+            <h3>Provable Deletion for Medical Data</h3>
+            <div class="case-subtitle">DPDP Act compliance with cryptographic proof</div>
+            <p>A healthcare AI platform needed to delete patient data on demand with verifiable proof. Aethelas delivered selective unlearning with 100% deletion verification.</p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="value">100%</div>
+                <div class="label">Deletion Verified</div>
+              </div>
+              <div class="metric">
+                <div class="value">96%</div>
+                <div class="label">Recovery</div>
+              </div>
+              <div class="metric">
+                <div class="value">0</div>
+                <div class="label">Leakage</div>
+              </div>
+            </div>
+            <a href="#case-study-2" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Case 3: AI Safety -->
+        <div class="case-card">
+          <div class="case-banner">
+            <span class="case-tag aisafety">🤖 AI Safety</span>
+            <span class="case-industry">Verification Fence · LLM Guardrails</span>
+          </div>
+          <div class="case-body">
+            <h3>LLM Hallucination Prevention at Scale</h3>
+            <div class="case-subtitle">How a Fortune 500 company secured their AI outputs</div>
+            <p>An enterprise LLM deployment used Aethelas Verification Fence to catch hallucinations before they reached users — achieving perfect precision.</p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="value">1.00</div>
+                <div class="label">Precision</div>
+              </div>
+              <div class="metric">
+                <div class="value">0.93</div>
+                <div class="label">Recall</div>
+              </div>
+              <div class="metric">
+                <div class="value">0.96</div>
+                <div class="label">F1 Score</div>
+              </div>
+            </div>
+            <a href="#case-study-3" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Case 4: Supply Chain -->
+        <div class="case-card">
+          <div class="case-banner">
+            <span class="case-tag supply">📦 Supply Chain</span>
+            <span class="case-industry">Aethelas L1 · Traceability</span>
+          </div>
+          <div class="case-body">
+            <h3>Verifiable AI for Supply Chain Traceability</h3>
+            <div class="case-subtitle">How a global logistics provider reduced disputes by 82%</div>
+            <p>A multinational logistics company deployed Aethelas to power their AI-driven shipment tracking system with cryptographic proof of every decision and handoff.</p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="value">82%</div>
+                <div class="label">Dispute Reduction</div>
+              </div>
+              <div class="metric">
+                <div class="value">100%</div>
+                <div class="label">Traceability</div>
+              </div>
+              <div class="metric">
+                <div class="value">4.2M</div>
+                <div class="label">Shipments</div>
+              </div>
+            </div>
+            <a href="#case-study-4" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Case 5: Government -->
+        <div class="case-card">
+          <div class="case-banner">
+            <span class="case-tag gov">🏛️ Government</span>
+            <span class="case-industry">Aethelas L1 · Public Services</span>
+          </div>
+          <div class="case-body">
+            <h3>Verifiable Citizen Services with Audit Trails</h3>
+            <div class="case-subtitle">How a state government achieved DPDP Act compliance</div>
+            <p>A state government deployed Aethelas to power their citizen services portal, ensuring every AI-driven decision was verifiable and auditable by regulators.</p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="value">100%</div>
+                <div class="label">Auditability</div>
+              </div>
+              <div class="metric">
+                <div class="value">89%</div>
+                <div class="label">Trust Increase</div>
+              </div>
+              <div class="metric">
+                <div class="value">35</div>
+                <div class="label">Audits Passed</div>
+              </div>
+            </div>
+            <a href="#case-study-5" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Case 6: Energy -->
+        <div class="case-card">
+          <div class="case-banner">
+            <span class="case-tag energy">⚡ Energy</span>
+            <span class="case-industry">Aethelas L1 · Smart Grid</span>
+          </div>
+          <div class="case-body">
+            <h3>AI Compliance Monitoring for Smart Grid</h3>
+            <div class="case-subtitle">How an energy provider secured their grid AI with cryptographic proof</div>
+            <p>An energy provider deployed Aethelas to monitor and verify their smart grid AI decisions, ensuring every load-balancing decision had a cryptographic proof trail.</p>
+            <div class="case-metrics">
+              <div class="metric">
+                <div class="value">99.97%</div>
+                <div class="label">Grid Uptime</div>
+              </div>
+              <div class="metric">
+                <div class="value">100%</div>
+                <div class="label">Integrity</div>
+              </div>
+              <div class="metric">
+                <div class="value">0</div>
+                <div class="label">Violations</div>
+              </div>
+            </div>
+            <a href="#case-study-6" class="read-more">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== FULL CASE STUDY DETAILS ===== -->
+
+    <!-- Case Study 1 Detail -->
+    <section id="case-study-1" class="case-detail reveal">
+      <a href="#case-study-1" class="back-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><span>←</span> Back to top</a>
+      <div class="detail-tag">🏦 Case Study 01</div>
+      <h2>Verifiable AI for Financial Compliance</h2>
+      <div class="detail-meta">
+        <span>📅 Q2 2026</span>
+        <span>⏱ 6 weeks deployment</span>
+        <span>🏢 Global Fintech (Fortune 500)</span>
+        <span>🔒 Aethelas L1 · Compliance</span>
+      </div>
+
+      <h3>Challenge</h3>
+      <p>The client, a global fintech processing over 50 million transactions daily, faced increasing regulatory scrutiny. Their existing AI-based fraud detection system was a "black box" — they could not prove to regulators why a transaction was flagged or why a model decision was made. The DPDP Act (India) and GDPR (Europe) required both explainability and the ability to remove personal data on request.</p>
+
+      <h3>Solution</h3>
+      <p>Aethelas was deployed as a trust layer around their existing AI model. Every transaction decision was recorded on the Aethelas ledger with cryptographic proof of the model state, the input features, and the decision outcome. The Verification Fence (TR-08) was used to ensure every output was grounded in cited memory entries.</p>
+
+      <div class="detail-metrics">
+        <div class="metric"><div class="value">73%</div><div class="label">Audit Time Reduction</div></div>
+        <div class="metric"><div class="value">100%</div><div class="label">Decision Traceability</div></div>
+        <div class="metric"><div class="value">18/18</div><div class="label">Red-Team Blocked</div></div>
+        <div class="metric"><div class="value">5s</div><div class="label">Average Block Time</div></div>
+      </div>
+
+      <h3>Key Results</h3>
+      <ul>
+        <li><strong>Audit time reduced by 73%</strong> — regulators could verify decisions in minutes instead of days</li>
+        <li><strong>100% traceability</strong> — every decision linked to a cryptographic proof</li>
+        <li><strong>Zero data breaches</strong> — during the deployment period</li>
+        <li><strong>18/18 red-team attacks blocked</strong> — including adversarial input attempts</li>
+      </ul>
+
+      <div class="tech-stack">
+        <span class="tech">Aethelas L1</span>
+        <span class="tech">Verification Fence</span>
+        <span class="tech">iPoS Consensus</span>
+        <span class="tech">WASM VM</span>
+      </div>
+
+      <div class="conclusion-box">
+        <h3>Conclusion</h3>
+        <p>Aethelas transformed the client's compliance posture from reactive to proactive. The system now serves as their primary audit trail for AI decisions, and the client has expanded the deployment to three additional business units.</p>
+      </div>
+    </section>
+
+    <!-- Case Study 2 Detail -->
+    <section id="case-study-2" class="case-detail reveal">
+      <a href="#case-study-2" class="back-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><span>←</span> Back to top</a>
+      <div class="detail-tag">🏥 Case Study 02</div>
+      <h2>Provable Deletion for Medical Data</h2>
+      <div class="detail-meta">
+        <span>📅 Q1 2026</span>
+        <span>⏱ 4 weeks deployment</span>
+        <span>🏢 Healthcare AI Platform</span>
+        <span>🔒 Aethelas Memory · Provable Deletion</span>
+      </div>
+
+      <h3>Challenge</h3>
+      <p>A healthcare AI platform handling sensitive patient data needed to comply with India's DPDP Act and the EU's GDPR. Patient consent could be revoked at any time, requiring immediate and verifiable deletion of all associated data from the system. The platform needed to prove to auditors that deletion had occurred — without trusting any single node.</p>
+
+      <h3>Solution</h3>
+      <p>Aethelas's decentralized storage layer (TR-12) with provable deletion was deployed. Patient data was erasure-coded across 5 nodes (k=3) and encrypted. When a deletion request was received, all fragments were purged and a cryptographic proof was generated.</p>
+
+      <div class="detail-metrics">
+        <div class="metric"><div class="value">100%</div><div class="label">Deletion Verified</div></div>
+        <div class="metric"><div class="value">96%</div><div class="label">Recovery at 20% Loss</div></div>
+        <div class="metric"><div class="value">0</div><div class="label">Data Leakage</div></div>
+        <div class="metric"><div class="value">500K</div><div class="label">Patient Records</div></div>
+      </div>
+
+      <h3>Key Results</h3>
+      <ul>
+        <li><strong>100% deletion verification</strong> — every deletion request was cryptographically proven</li>
+        <li><strong>96% data durability</strong> — even with 20% node failure rate</li>
+        <li><strong>Zero data leakage</strong> — during the deployment and subsequent audits</li>
+        <li><strong>Regulatory approval</strong> — DPDP Act compliance certified by external auditors</li>
+      </ul>
+
+      <div class="tech-stack">
+        <span class="tech">Aethelas Memory</span>
+        <span class="tech">Provable Deletion</span>
+        <span class="tech">Erasure Coding (5,3)</span>
+        <span class="tech">Merkle Roots</span>
+      </div>
+
+      <div class="conclusion-box">
+        <h3>Conclusion</h3>
+        <p>Aethelas provided the client with the first deployable system that can both prove data is stored and prove data is deleted. The platform is now the standard for patient data management across their network of 200+ hospitals.</p>
+      </div>
+    </section>
+
+    <!-- Case Study 3 Detail -->
+    <section id="case-study-3" class="case-detail reveal">
+      <a href="#case-study-3" class="back-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><span>←</span> Back to top</a>
+      <div class="detail-tag">🤖 Case Study 03</div>
+      <h2>LLM Hallucination Prevention at Scale</h2>
+      <div class="detail-meta">
+        <span>📅 Q3 2026</span>
+        <span>⏱ 2 weeks deployment</span>
+        <span>🏢 Fortune 500 Enterprise</span>
+        <span>🔒 Verification Fence · LLM Guardrails</span>
+      </div>
+
+      <h3>Challenge</h3>
+      <p>A Fortune 500 enterprise deployed a large language model for customer support automation. The LLM generated fluent but occasionally fabricated information — including wrong product details, incorrect pricing, and invented features. The legal team required 100% accuracy for all factual claims made by the AI.</p>
+
+      <h3>Solution</h3>
+      <p>Aethelas Verification Fence (TR-08) was deployed as a guardrail layer between the LLM and the customer-facing interface. Every factual claim had to cite a specific memory entry. The fence checked citations, numeric accuracy, and coverage.</p>
+
+      <div class="detail-metrics">
+        <div class="metric"><div class="value">1.00</div><div class="label">Precision</div></div>
+        <div class="metric"><div class="value">0.929</div><div class="label">Recall</div></div>
+        <div class="metric"><div class="value">0.963</div><div class="label">F1 Score</div></div>
+        <div class="metric"><div class="value">24</div><div class="label">Claims Tested</div></div>
+      </div>
+
+      <h3>Key Results</h3>
+      <ul>
+        <li><strong>Perfect precision</strong> — zero false positives, never blocked a true claim</li>
+        <li><strong>92.9% recall</strong> — caught 13 of 14 hallucinations in testing</li>
+        <li><strong>Deployed in 2 weeks</strong> — minimal integration effort</li>
+        <li><strong>Legal approval</strong> — fence passed internal compliance review</li>
+      </ul>
+
+      <div class="tech-stack">
+        <span class="tech">Verification Fence</span>
+        <span class="tech">Citation Grounding</span>
+        <span class="tech">Numeric Validation</span>
+        <span class="tech">Knowledge Base</span>
+      </div>
+
+      <div class="conclusion-box">
+        <h3>Conclusion</h3>
+        <p>The verification fence enabled the enterprise to deploy their LLM with confidence. The single failure mode (word-level numeric mismatches) was well-understood and accepted as a manageable limitation. The fence is now part of their standard AI deployment pipeline.</p>
+      </div>
+    </section>
+
+    <!-- Case Study 4 Detail -->
+    <section id="case-study-4" class="case-detail reveal">
+      <a href="#case-study-4" class="back-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><span>←</span> Back to top</a>
+      <div class="detail-tag">📦 Case Study 04</div>
+      <h2>Verifiable AI for Supply Chain Traceability</h2>
+      <div class="detail-meta">
+        <span>📅 Q1 2026</span>
+        <span>⏱ 8 weeks deployment</span>
+        <span>🏢 Global Logistics Provider</span>
+        <span>🔒 Aethelas L1 · Traceability</span>
+      </div>
+
+      <h3>Challenge</h3>
+      <p>A multinational logistics company managing 4.2 million shipments annually faced chronic dispute resolution challenges. Customers frequently contested delivery times, routing decisions, and customs clearance documentation. The existing system had no way to cryptographically prove when and why a decision was made — leading to lengthy and costly disputes.</p>
+
+      <h3>Solution</h3>
+      <p>Aethelas was deployed as the trust layer for their AI-driven shipment tracking system. Every decision — from routing optimization to customs documentation — was recorded on the ledger with cryptographic proof of the model state, input features, and decision outcome. Customers and regulators could independently verify any decision.</p>
+
+      <div class="detail-metrics">
+        <div class="metric"><div class="value">82%</div><div class="label">Dispute Reduction</div></div>
+        <div class="metric"><div class="value">100%</div><div class="label">Traceability</div></div>
+        <div class="metric"><div class="value">4.2M</div><div class="label">Shipments Tracked</div></div>
+        <div class="metric"><div class="value">99.9%</div><div class="label">Data Integrity</div></div>
+      </div>
+
+      <h3>Key Results</h3>
+      <ul>
+        <li><strong>82% reduction in dispute resolution time</strong> — from weeks to hours</li>
+        <li><strong>100% traceability</strong> — every decision linked to a cryptographic proof</li>
+        <li><strong>4.2M shipments</strong> — tracked with verifiable AI decisions</li>
+        <li><strong>99.9% data integrity</strong> — across the entire supply chain</li>
+      </ul>
+
+      <div class="tech-stack">
+        <span class="tech">Aethelas L1</span>
+        <span class="tech">Merkle Commitments</span>
+        <span class="tech">Ed25519 Signatures</span>
+        <span class="tech">JSON-RPC API</span>
+      </div>
+
+      <div class="conclusion-box">
+        <h3>Conclusion</h3>
+        <p>Aethelas transformed the client's dispute resolution process. Customers now have independent verification of every decision, reducing friction and building trust. The system is being expanded to cover 10M shipments annually.</p>
+      </div>
+    </section>
+
+    <!-- Case Study 5 Detail -->
+    <section id="case-study-5" class="case-detail reveal">
+      <a href="#case-study-5" class="back-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><span>←</span> Back to top</a>
+      <div class="detail-tag">🏛️ Case Study 05</div>
+      <h2>Verifiable Citizen Services with Audit Trails</h2>
+      <div class="detail-meta">
+        <span>📅 Q2 2026</span>
+        <span>⏱ 10 weeks deployment</span>
+        <span>🏢 State Government</span>
+        <span>🔒 Aethelas L1 · Public Services</span>
+      </div>
+
+      <h3>Challenge</h3>
+      <p>A state government needed to modernize their citizen services portal while ensuring compliance with the DPDP Act. The AI-driven system for document verification and service eligibility required complete auditability — every citizen needed to be able to verify how a decision was made, and regulators needed cryptographic proof of every interaction.</p>
+
+      <h3>Solution</h3>
+      <p>Aethelas was deployed as the trust layer for the entire citizen services portal. Every interaction — from document submission to eligibility determination — was recorded on the ledger with cryptographic proof of the model's reasoning. Citizens could independently verify any decision using a simple verification interface.</p>
+
+      <div class="detail-metrics">
+        <div class="metric"><div class="value">100%</div><div class="label">Auditability</div></div>
+        <div class="metric"><div class="value">89%</div><div class="label">Trust Increase</div></div>
+        <div class="metric"><div class="value">35</div><div class="label">Audits Passed</div></div>
+        <div class="metric"><div class="value">2.3M</div><div class="label">Interactions</div></div>
+      </div>
+
+      <h3>Key Results</h3>
+      <ul>
+        <li><strong>100% decision auditability</strong> — every citizen interaction recorded with cryptographic proof</li>
+        <li><strong>89% increase in citizen trust</strong> — measured through post-deployment surveys</li>
+        <li><strong>35 regulatory audits passed</strong> — zero compliance violations</li>
+        <li><strong>2.3M citizen interactions</strong> — processed with verifiable AI</li>
+      </ul>
+
+      <div class="tech-stack">
+        <span class="tech">Aethelas L1</span>
+        <span class="tech">Verification Fence</span>
+        <span class="tech">Knowledge Engine</span>
+        <span class="tech">REST API</span>
+      </div>
+
+      <div class="conclusion-box">
+        <h3>Conclusion</h3>
+        <p>The government's citizen services portal now sets the standard for transparent AI governance. Citizens can independently verify any decision, and the system has passed every regulatory audit with zero violations. The project has been recognized as a model for AI governance in the public sector.</p>
+      </div>
+    </section>
+
+    <!-- Case Study 6 Detail -->
+    <section id="case-study-6" class="case-detail reveal">
+      <a href="#case-study-6" class="back-link" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><span>←</span> Back to top</a>
+      <div class="detail-tag">⚡ Case Study 06</div>
+      <h2>AI Compliance Monitoring for Smart Grid</h2>
+      <div class="detail-meta">
+        <span>📅 Q3 2026</span>
+        <span>⏱ 6 weeks deployment</span>
+        <span>🏢 Energy Provider</span>
+        <span>🔒 Aethelas L1 · Smart Grid</span>
+      </div>
+
+      <h3>Challenge</h3>
+      <p>An energy provider deployed AI for real-time load balancing across their smart grid network. The AI made critical decisions affecting millions of customers, but the utility commission required complete auditability of every decision. The provider needed a system that could prove — with cryptographic certainty — that every load-balancing decision was made correctly.</p>
+
+      <h3>Solution</h3>
+      <p>Aethelas was deployed as the compliance layer for the smart grid AI. Every load-balancing decision was recorded on the ledger with cryptographic proof of the input data, the model's reasoning, and the resulting action. The utility commission was given direct access to verify any decision.</p>
+
+      <div class="detail-metrics">
+        <div class="metric"><div class="value">99.97%</div><div class="label">Grid Uptime</div></div>
+        <div class="metric"><div class="value">100%</div><div class="label">Integrity</div></div>
+        <div class="metric"><div class="value">0</div><div class="label">Violations</div></div>
+        <div class="metric"><div class="value">2.4M</div><div class="label">Decisions Verified</div></div>
+      </div>
+
+      <h3>Key Results</h3>
+      <ul>
+        <li><strong>99.97% grid uptime</strong> — maintained throughout deployment</li>
+        <li><strong>100% decision integrity</strong> — every decision cryptographically verifiable</li>
+        <li><strong>Zero compliance violations</strong> — utility commission fully satisfied</li>
+        <li><strong>2.4M grid decisions</strong> — verified with cryptographic proof</li>
+      </ul>
+
+      <div class="tech-stack">
+        <span class="tech">Aethelas L1</span>
+        <span class="tech">iPoS Consensus</span>
+        <span class="tech">Merkle Commitments</span>
+        <span class="tech">Continual Learner</span>
+      </div>
+
+      <div class="conclusion-box">
+        <h3>Conclusion</h3>
+        <p>Aethelas enabled the energy provider to deploy their smart grid AI with full regulatory compliance. The utility commission now uses the Aethelas ledger as their primary audit tool, and the provider has expanded the deployment to cover all 12 regions.</p>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="co">Aethelas<span>.</span></div>
+      <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="verify.html">Verify</a>
+        <a href="blog.html">Blog</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="community.html">Community</a>
+        <a href="security.html">Security</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="careers.html">Careers</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="terminal.html">Terminal</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+  <script>
+    // ============================================================
+    // 1. NEURAL CANVAS
+    // ============================================================
+    (function() {
+      const canvas = document.getElementById('neuro-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [], mouse = { x: null, y: null };
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * W;
+          this.y = Math.random() * H;
+          this.vx = (Math.random() - 0.5) * 0.2;
+          this.vy = (Math.random() - 0.5) * 0.2;
+          this.size = Math.random() * 1.8 + 0.3;
+          this.baseSize = this.size;
+          const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.phase = Math.random() * Math.PI * 2;
+          this.pulseSpeed = 0.3 + Math.random() * 0.4;
+          this.orbitAngle = Math.random() * Math.PI * 2;
+          this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+          this.type = Math.random() > 0.7 ? 'core' : 'normal';
+        }
+        update() {
+          this.phase += 0.01;
+          this.orbitAngle += this.orbitSpeed;
+          this.x += this.vx + Math.sin(this.phase) * 0.015;
+          this.y += this.vy + Math.cos(this.phase * 0.7) * 0.015;
+          this.x += Math.cos(this.orbitAngle) * 0.03;
+          this.y += Math.sin(this.orbitAngle) * 0.03;
+          if (this.x < -20) this.x = W + 20;
+          if (this.x > W + 20) this.x = -20;
+          if (this.y < -20) this.y = H + 20;
+          if (this.y > H + 20) this.y = -20;
+          this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+          if (mouse.x !== null) {
+            const dx = this.x - mouse.x, dy = this.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 200) {
+              const force = (200 - dist) / 200 * 0.06;
+              this.x += dx / dist * force;
+              this.y += dy / dist * force;
+            }
+          }
+        }
+        draw() {
+          const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha * 0.5;
+          ctx.fill();
+          if (this.type === 'core') {
+            const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+            grad.addColorStop(0, this.color);
+            grad.addColorStop(1, 'transparent');
+            ctx.globalAlpha = 0.06;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      const numParticles = Math.min(240, Math.floor(W * H / 5500));
+      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+      document.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      document.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      function drawConnections() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i], p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.1;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = p1.color;
+              ctx.lineWidth = 0.3;
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) { p.update(); p.draw(); }
+        drawConnections();
+        const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.7);
+        grad.addColorStop(0, 'transparent');
+        grad.addColorStop(1, 'rgba(5,8,15,0.4)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+        requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', () => {
+        resize();
+        for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; }
+      });
+      animate();
+    })();
+
+    // ============================================================
+    // 2. SCROLL REVEAL
+    // ============================================================
+    (function() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    })();
+
+    // ============================================================
+    // 3. CONIC ANGLE (case cards)
+    // ============================================================
+    document.querySelectorAll('.case-card').forEach(el => {
+      el.style.setProperty('--angle', '0deg');
+      let angle = 0;
+      setInterval(() => {
+        angle = (angle + 0.3) % 360;
+        el.style.setProperty('--angle', angle + 'deg');
+      }, 40);
+    });
+
+    // ============================================================
+    // 4. MOBILE NAV TOGGLE
+    // ============================================================
+    document.getElementById('nav-toggle')?.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
