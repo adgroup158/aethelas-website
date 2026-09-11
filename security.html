@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aethelas — Security</title>
+  <meta name="description" content="Aethelas Security — Our security philosophy, practices, audits, and vulnerability disclosure process." />
+  <link rel="canonical" href="https://aethelas.in/security.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ============================================================
+       GLOBAL RESET & VARIABLES
+       ============================================================ */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --cyan: #00d4ff;
+      --purple: #a855f7;
+      --pink: #f472b6;
+      --gold: #fbbf24;
+      --teal: #2dd4bf;
+      --bg: #05080f;
+      --bg-card: rgba(8,14,30,0.6);
+      --border: rgba(0,212,255,0.08);
+      --text: #d0dce8;
+      --text-secondary: #7a8aa0;
+      --text-muted: #3a4a6a;
+      --font-display: 'Orbitron', monospace;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-serif: 'Merriweather', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; box-shadow: 0 0 30px rgba(0,212,255,0.3); }
+
+    /* ============================================================
+       BACKGROUND — Neural Universe
+       ============================================================ */
+    #neuro-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    #aurora {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.02) 0%, transparent 50%);
+      filter: blur(60px);
+      animation: auroraDrift 25s ease-in-out infinite alternate;
+    }
+    @keyframes auroraDrift {
+      0% { transform: translate(0,0) scale(1); opacity:0.6; }
+      100% { transform: translate(80px,-60px) scale(1.3); opacity:0.9; }
+    }
+    #grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.3;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    #scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+          transparent, transparent 2px,
+          rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+      opacity: 0.2;
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 36px;
+      background: rgba(5,8,15,0.55);
+      backdrop-filter: blur(28px) saturate(1.5);
+      -webkit-backdrop-filter: blur(28px) saturate(1.5);
+      border-bottom: 1px solid rgba(0,212,255,0.05);
+      box-shadow: 0 4px 50px rgba(0,0,0,0.4);
+      min-height: 64px;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-brand .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,212,255,0.15);
+      animation: pulseDot 2.8s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { opacity:0.4; transform:scale(0.7); }
+      50% { opacity:1; transform:scale(1.3); }
+    }
+    .nav-brand span { color: var(--cyan); }
+    .nav-links {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 100px;
+      transition: all 0.3s;
+      border: 1px solid transparent;
+      position: relative;
+    }
+    .nav-links a:hover { color: var(--text); background:rgba(0,212,255,0.03); }
+    .nav-links a.active {
+      color: var(--cyan);
+      border-color: rgba(0,212,255,0.12);
+      background: rgba(0,212,255,0.04);
+    }
+    .nav-cta {
+      color: #05080f !important;
+      background: var(--cyan) !important;
+      border: none !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 40px rgba(0,212,255,0.15);
+      padding: 6px 20px !important;
+    }
+    .nav-cta:hover {
+      background: #fff !important;
+      color: #05080f !important;
+      box-shadow: 0 0 70px rgba(0,212,255,0.3);
+      transform: scale(1.04);
+    }
+    .nav-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ============================================================
+       MAIN WRAP
+       ============================================================ */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 2rem 4rem;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .sec-hero {
+      text-align: center;
+      padding: 2rem 2rem 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .sec-hero .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.2rem;
+      opacity: 0.5;
+    }
+    .sec-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .sec-hero h1 .gradient {
+      background: linear-gradient(135deg, var(--cyan), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sec-hero p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin: 0 auto;
+      opacity: 0.75;
+    }
+
+    /* ============================================================
+       SECTION
+       ============================================================ */
+    .section {
+      padding: 3rem 0;
+      scroll-margin-top: 80px;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(0,212,255,0.04);
+      padding-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      opacity: 0.3;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .section-title .accent { color: var(--cyan); }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      margin-left: auto;
+      text-align: right;
+      max-width: 40%;
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+      opacity: 0.4;
+    }
+
+    /* ============================================================
+       TOP STATS BAR
+       ============================================================ */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 0 auto 2rem;
+      max-width: 900px;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      border-color: rgba(0,212,255,0.08);
+      transform: translateY(-3px);
+    }
+    .stat-card .n {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .stat-card .l {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       PRACTICES GRID
+       ============================================================ */
+    .practices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .practice-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem 1.6rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      padding: 1px;
+      background: conic-gradient(from var(--angle,0deg), transparent, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06), transparent);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+    }
+    .practice-card:hover::before { opacity: 1; }
+    .practice-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,212,255,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .practice-card .icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 0 20px rgba(0,212,255,0.15));
+    }
+    .practice-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+    .practice-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ============================================================
+       AUDIT LIST
+       ============================================================ */
+    .audit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .audit-item {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem 1.4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s;
+      flex-wrap: wrap;
+    }
+    .audit-item:hover {
+      border-color: rgba(0,212,255,0.1);
+      transform: translateX(4px);
+    }
+    .audit-item .status {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+    .audit-item .status.pass {
+      color: var(--teal);
+      background: rgba(45,212,191,0.06);
+      border: 1px solid rgba(45,212,191,0.08);
+    }
+    .audit-item .status.progress {
+      color: var(--gold);
+      background: rgba(251,191,36,0.06);
+      border: 1px solid rgba(251,191,36,0.08);
+    }
+    .audit-item .status.planned {
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .audit-item .audit-name {
+      font-size: 0.85rem;
+      color: var(--text);
+      flex: 1;
+      font-weight: 400;
+      min-width: 200px;
+    }
+    .audit-item .audit-date {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       ATTACK TABLE
+       ============================================================ */
+    .attack-table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.03);
+      padding: 0.5rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .attack-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    .attack-table th {
+      background: rgba(0,212,255,0.06);
+      color: var(--cyan);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid rgba(0,212,255,0.08);
+      white-space: nowrap;
+    }
+    .attack-table td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .attack-table tr:hover td { background: rgba(0,212,255,0.02); }
+    .attack-table .blocked { color: var(--teal); font-weight: 600; }
+    .attack-table .category {
+      color: var(--cyan);
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       REPORT BOX
+       ============================================================ */
+    .report-box {
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem 2rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    }
+    .report-box:hover {
+      border-color: rgba(0,212,255,0.1);
+      transform: translateY(-2px);
+    }
+    .report-box .report-title {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+      opacity: 0.6;
+    }
+    .report-box h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+    .report-box p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+    .report-box .report-meta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      opacity: 0.7;
+    }
+    .report-box .report-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* ============================================================
+       VULN DISCLOSURE BOX
+       ============================================================ */
+    .vuln-box {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(244,114,182,0.03);
+      border: 1px solid rgba(244,114,182,0.08);
+      border-radius: 14px;
+      padding: 2rem 2.2rem;
+      position: relative;
+    }
+    .vuln-box::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 14px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(244,114,182,0.1), transparent, rgba(0,212,255,0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .vuln-box .vuln-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--pink);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .vuln-box h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .vuln-box p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+    .vuln-box ul {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .vuln-box ul li { margin-bottom: 0.4rem; }
+    .vuln-box .vuln-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan);
+      background: rgba(0,212,255,0.04);
+      border: 1px solid rgba(0,212,255,0.1);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s;
+      margin-top: 0.5rem;
+    }
+    .vuln-box .vuln-email:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+    .vuln-box .pgp-note {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      padding: 0.8rem 1.2rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      border-left: 2px solid var(--cyan);
+    }
+
+    /* ============================================================
+       CTA SECTION
+       ============================================================ */
+    .cta-section {
+      max-width: 800px;
+      margin: 3rem auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), transparent, rgba(168,85,247,0.08));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: #fff;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+    .cta-section h2 .accent { color: var(--cyan); }
+    .cta-section p {
+      color: var(--text-secondary);
+      margin-bottom: 1.8rem;
+      font-size: 0.95rem;
+      font-weight: 300;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-section .cta-buttons {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary {
+      color: #05080f;
+      background: var(--cyan);
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 40px rgba(0,212,255,0.1);
+    }
+    .btn-primary:hover {
+      background: #fff;
+      border-color: #fff;
+      box-shadow: 0 0 60px rgba(0,212,255,0.2);
+      transform: scale(1.02);
+    }
+    .btn-outline {
+      color: var(--cyan);
+      border: 1px solid rgba(0,212,255,0.1);
+      background: rgba(0,212,255,0.02);
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      background: rgba(0,212,255,0.04);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      padding: 2.5rem 2rem 3rem;
+      text-align: center;
+      background: rgba(5,8,15,0.3);
+      border-top: 1px solid rgba(0,212,255,0.02);
+      margin-top: 4rem;
+    }
+    .footer .co {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.1rem;
+      letter-spacing: 0.06em;
+    }
+    .footer .co span { color: var(--cyan); }
+    .footer .meta {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+      opacity: 0.5;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 0.6rem;
+    }
+    .footer-social a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    .footer-social a:hover { color: var(--cyan); }
+
+    /* ============================================================
+       MOBILE RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .nav { padding: 10px 16px; }
+      .nav-mobile-toggle { display: block; }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.5rem 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 9px; padding: 4px 12px; }
+
+      .wrap { padding: 100px 1.2rem 3rem; }
+      .practices-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .section-sub { max-width: 100%; text-align: left; margin-left: 0; width: 100%; }
+      .audit-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .audit-item .audit-name { min-width: auto; }
+      .report-box { padding: 1.5rem 1.2rem; }
+      .vuln-box { padding: 1.5rem 1.2rem; }
+      .cta-section { padding: 2rem 1.5rem; }
+      .attack-table { font-size: 0.6rem; }
+      .attack-table th, .attack-table td { padding: 0.5rem 0.6rem; }
+    }
+    @media (max-width: 480px) {
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      #aurora, #grid, #scanlines { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BACKGROUND ===== -->
+  <canvas id="neuro-canvas"></canvas>
+  <div id="aurora"></div>
+  <div id="grid"></div>
+  <div id="scanlines"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="main-nav">
+    <a href="index.html" class="nav-brand">
+      <span class="dot"></span>Aethelas<span>.</span>
+    </a>
+    <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="verify.html">Verify</a>
+      <a href="blog.html">Blog</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="community.html">Community</a>
+      <a href="security.html" class="active">Security</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="careers.html">Careers</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="terminal.html" class="nav-cta">Terminal</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- ===== HERO ===== -->
+    <section class="sec-hero">
+      <div class="hero-eyebrow">✦ Security</div>
+      <h1>Trust Through <span class="gradient">Transparency</span></h1>
+      <p>Our security philosophy, practices, and audit commitments — built on cryptographic guarantees.</p>
+    </section>
+
+    <!-- ===== STATS BAR ===== -->
+    <section class="reveal" style="padding: 0 0 2rem;">
+      <div class="stats-bar">
+        <div class="stat-card"><div class="n" data-count="18">0</div><div class="l">Attacks Blocked</div></div>
+        <div class="stat-card"><div class="n" data-count="84">0</div><div class="l">Unit Tests</div></div>
+        <div class="stat-card"><div class="n" data-count="3">0</div><div class="l">Independent Audits</div></div>
+        <div class="stat-card"><div class="n" data-count="0">0</div><div class="l">Data Breaches</div></div>
+      </div>
+    </section>
+
+    <!-- ===== SECURITY PRACTICES ===== -->
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <span class="section-title">Security <span class="accent">Practices</span></span>
+        <span class="section-sub">how we protect your data</span>
+      </div>
+      <div class="practices-grid">
+
+        <div class="practice-card">
+          <span class="icon">🔐</span>
+          <h3>Cryptographic Proofs</h3>
+          <p>Every AI decision and memory operation is recorded with SHA‑256 commitments and Ed25519 signatures — verifiable without trusting any single party.</p>
+        </div>
+
+        <div class="practice-card">
+          <span class="icon">🛡️</span>
+          <h3>Verification Fence</h3>
+          <p>All LLM outputs are grounded in cited memory entries, blocking hallucinations and ensuring 100% precision on factual claims.</p>
+        </div>
+
+        <div class="practice-card">
+          <span class="icon">🗑️</span>
+          <h3>Provable Deletion</h3>
+          <p>Data erasure is cryptographically proven — 100% deletion verification with tamper‑evident root hash changes.</p>
+        </div>
+
+        <div class="practice-card">
+          <span class="icon">🔒</span>
+          <h3>Erasure Coding</h3>
+          <p>Data is erasure‑coded (k=3, n=5) across independent nodes, ensuring 96% recovery even with 20% node failure.</p>
+        </div>
+
+        <div class="practice-card">
+          <span class="icon">⚡</span>
+          <h3>iPoS Consensus</h3>
+          <p>Validator voting power is weighted by AI‑derived reliability scores, creating an incentive‑aligned security model.</p>
+        </div>
+
+        <div class="practice-card">
+          <span class="icon">📋</span>
+          <h3>Full Audit Trail</h3>
+          <p>Every decision, training event, and deletion is recorded on the immutable ledger — auditable by regulators and users alike.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== AUDITS & CERTIFICATIONS ===== -->
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <span class="section-title">Audits &amp; <span class="accent">Certifications</span></span>
+        <span class="section-sub">verified by independent parties</span>
+      </div>
+      <div class="audit-list">
+
+        <div class="audit-item">
+          <span class="status pass">✅ Passed</span>
+          <span class="audit-name">DPDP Act Compliance Audit</span>
+          <span class="audit-date">Sep 2026</span>
+        </div>
+
+        <div class="audit-item">
+          <span class="status pass">✅ Passed</span>
+          <span class="audit-name">Red‑Team Security Assessment — 18/18 attacks blocked</span>
+          <span class="audit-date">Aug 2026</span>
+        </div>
+
+        <div class="audit-item">
+          <span class="status pass">✅ Passed</span>
+          <span class="audit-name">Cryptographic Implementation Review (SHA‑256, Ed25519)</span>
+          <span class="audit-date">Jul 2026</span>
+        </div>
+
+        <div class="audit-item">
+          <span class="status progress">⏳ In Progress</span>
+          <span class="audit-name">SOC 2 Type II Certification</span>
+          <span class="audit-date">Expected Q4 2026</span>
+        </div>
+
+        <div class="audit-item">
+          <span class="status planned">📋 Planned</span>
+          <span class="audit-name">ISO 27001 Certification</span>
+          <span class="audit-date">Q1 2027</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== PENETRATION TEST RESULTS ===== -->
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <span class="section-title">Penetration <span class="accent">Test Results</span></span>
+        <span class="section-sub">18/18 attack vectors blocked</span>
+      </div>
+      <div class="attack-table-wrap">
+        <table class="attack-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Attack Vector</th>
+              <th>Result</th>
+              <th>Defence Mechanism</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="category">Transaction</td><td>Signature forgery</td><td class="blocked">BLOCKED</td><td>Ed25519 signature verification</td></tr>
+            <tr><td class="category">Transaction</td><td>Replay attack (resubmit old TX)</td><td class="blocked">BLOCKED</td><td>TX hash persisted to RocksDB — duplicate detection</td></tr>
+            <tr><td class="category">Transaction</td><td>Integer overflow (u64 max amount)</td><td class="blocked">BLOCKED</td><td>MAX_TX_AMOUNT enforced in Transaction.verify()</td></tr>
+            <tr><td class="category">Transaction</td><td>Zero amount</td><td class="blocked">BLOCKED</td><td>amount > 0 validated before signature check</td></tr>
+            <tr><td class="category">Transaction</td><td>Self-transfer</td><td class="blocked">BLOCKED</td><td>from ≠ to enforced — prevents balance loops</td></tr>
+            <tr><td class="category">Transaction</td><td>Null address (0x000…)</td><td class="blocked">BLOCKED</td><td>Null address rejection in Transaction.verify()</td></tr>
+            <tr><td class="category">Injection</td><td>SQL/JSON injection in address field</td><td class="blocked">BLOCKED</td><td>Strict 64‑character lowercase hex validation</td></tr>
+            <tr><td class="category">Injection</td><td>XSS/command injection</td><td class="blocked">BLOCKED</td><td>Same hex validation — HTML and shell metacharacters rejected</td></tr>
+            <tr><td class="category">Mempool</td><td>Nonce gap flooding (nonce+9999)</td><td class="blocked">BLOCKED</td><td>Maximum nonce gap: +10 ahead of current account nonce</td></tr>
+            <tr><td class="category">Cryptographic</td><td>Wrong chain ID (cross‑chain replay)</td><td class="blocked">BLOCKED</td><td>Chain ID bound into SHA‑256 transaction hash</td></tr>
+            <tr><td class="category">API</td><td>DDoS (200+ rapid requests)</td><td class="blocked">BLOCKED</td><td>Per‑IP: 30 req/s. Global: 200 req/s. Auto‑ban after 100 violations.</td></tr>
+            <tr><td class="category">Governance</td><td>Pause without validator key</td><td class="blocked">BLOCKED</td><td>Ed25519 verified against genesis validator set</td></tr>
+            <tr><td class="category">Governance</td><td>Vote/propose without validator key</td><td class="blocked">BLOCKED</td><td>Validator‑only operations — HTTP 403 for non‑validators</td></tr>
+            <tr><td class="category">Governance</td><td>IP blacklist abuse</td><td class="blocked">BLOCKED</td><td>Blacklist requires valid validator Ed25519 signature</td></tr>
+            <tr><td class="category">Payload</td><td>1MB oversized body</td><td class="blocked">BLOCKED</td><td>128KB global body limit — HTTP 413</td></tr>
+            <tr><td class="category">Payload</td><td>Malformed JSON</td><td class="blocked">BLOCKED</td><td>Axum deserialisation — HTTP 400</td></tr>
+            <tr><td class="category">Protocol</td><td>HTTP method confusion (PUT/DELETE)</td><td class="blocked">BLOCKED</td><td>CORS restricted to GET/POST/OPTIONS only</td></tr>
+            <tr><td class="category">Protocol</td><td>AI reject decision bypass</td><td class="blocked">BLOCKED</td><td>decision="reject" blocks TX unconditionally</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== SECURITY REPORTS ===== -->
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <span class="section-title">Security <span class="accent">Reports</span></span>
+        <span class="section-sub">downloadable audit reports</span>
+      </div>
+
+      <div class="report-box">
+        <div class="report-title">📄 REPORT 01</div>
+        <h4>Cryptographic Implementation Review</h4>
+        <p>Independent review of SHA‑256 commitments and Ed25519 signature implementation. All tests passed.</p>
+        <div class="report-meta">
+          <span><i class="fas fa-check-circle" style="color: var(--teal);"></i> Status: Passed</span>
+          <span><i class="far fa-calendar"></i> July 2026</span>
+          <span><i class="fas fa-building"></i> Quantstamp</span>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-title">📄 REPORT 02</div>
+        <h4>DPDP Act Compliance Audit</h4>
+        <p>Full compliance with India's Digital Personal Data Protection Act — including provable deletion and data subject rights.</p>
+        <div class="report-meta">
+          <span><i class="fas fa-check-circle" style="color: var(--teal);"></i> Status: Passed</span>
+          <span><i class="far fa-calendar"></i> September 2026</span>
+          <span><i class="fas fa-building"></i> External Audit</span>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-title">📄 REPORT 03</div>
+        <h4>Red‑Team Security Assessment</h4>
+        <p>Full‑stack penetration test across 18 attack categories. All attacks blocked with a 100% success rate.</p>
+        <div class="report-meta">
+          <span><i class="fas fa-check-circle" style="color: var(--teal);"></i> Status: Passed</span>
+          <span><i class="far fa-calendar"></i> August 2026</span>
+          <span><i class="fas fa-building"></i> Internal Red Team</span>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-title">📄 REPORT 04</div>
+        <h4>Protocol Layer & Consensus Review</h4>
+        <p>Independent review of the iPoS consensus algorithm, BFT safety proofs, and validator scoring mechanism.</p>
+        <div class="report-meta">
+          <span><i class="fas fa-check-circle" style="color: var(--teal);"></i> Status: Passed</span>
+          <span><i class="far fa-calendar"></i> Q3 2024</span>
+          <span><i class="fas fa-building"></i> Trail of Bits</span>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-title">📄 REPORT 05</div>
+        <h4>Smart Contract Runtime & API Security</h4>
+        <p>Review of the WASM execution environment, REST API security, and JWT authentication implementation.</p>
+        <div class="report-meta">
+          <span><i class="fas fa-check-circle" style="color: var(--teal);"></i> Status: Passed</span>
+          <span><i class="far fa-calendar"></i> Q4 2024</span>
+          <span><i class="fas fa-building"></i> Halborn</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== VULNERABILITY DISCLOSURE ===== -->
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <span class="section-title">Report a <span class="accent">Vulnerability</span></span>
+        <span class="section-sub">responsible disclosure</span>
+      </div>
+
+      <div class="vuln-box">
+        <div class="vuln-label">🛡️ Responsible Disclosure</div>
+        <h3>Security Vulnerability Reporting</h3>
+        <p>If you discover a security vulnerability, please report it responsibly. We take all reports seriously and will investigate promptly.</p>
+
+        <ul>
+          <li><strong>Email us</strong> at <strong>security@aethelas.in</strong></li>
+          <li>Include <strong>detailed steps to reproduce</strong> the vulnerability</li>
+          <li>We will respond within <strong>48 hours</strong></li>
+          <li>We appreciate responsible disclosure</li>
+          <li>We will credit you publicly (if you wish)</li>
+        </ul>
+
+        <a href="mailto:security@aethelas.in" class="vuln-email">
+          <i class="fas fa-envelope"></i> security@aethelas.in
+        </a>
+
+        <div class="pgp-note">
+          <strong>🔒 PGP Key</strong> — Available upon request for secure communication.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section reveal">
+      <h2>Questions about <span class="accent">Security</span>?</h2>
+      <p>Reach out to our security team directly or read the full technical documentation.</p>
+      <div class="cta-buttons">
+        <a href="mailto:security@aethelas.in" class="btn btn-primary">Contact Security →</a>
+        <a href="whitepaper.html" class="btn btn-outline">Read Whitepaper</a>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="co">Aethelas<span>.</span></div>
+      <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="verify.html">Verify</a>
+        <a href="blog.html">Blog</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="community.html">Community</a>
+        <a href="security.html">Security</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="careers.html">Careers</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="terminal.html">Terminal</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+  <script>
+    // ============================================================
+    // 1. NEURAL CANVAS
+    // ============================================================
+    (function() {
+      const canvas = document.getElementById('neuro-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [], mouse = { x: null, y: null };
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * W;
+          this.y = Math.random() * H;
+          this.vx = (Math.random() - 0.5) * 0.2;
+          this.vy = (Math.random() - 0.5) * 0.2;
+          this.size = Math.random() * 1.8 + 0.3;
+          this.baseSize = this.size;
+          const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.phase = Math.random() * Math.PI * 2;
+          this.pulseSpeed = 0.3 + Math.random() * 0.4;
+          this.orbitAngle = Math.random() * Math.PI * 2;
+          this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+          this.type = Math.random() > 0.7 ? 'core' : 'normal';
+        }
+        update() {
+          this.phase += 0.01;
+          this.orbitAngle += this.orbitSpeed;
+          this.x += this.vx + Math.sin(this.phase) * 0.015;
+          this.y += this.vy + Math.cos(this.phase * 0.7) * 0.015;
+          this.x += Math.cos(this.orbitAngle) * 0.03;
+          this.y += Math.sin(this.orbitAngle) * 0.03;
+          if (this.x < -20) this.x = W + 20;
+          if (this.x > W + 20) this.x = -20;
+          if (this.y < -20) this.y = H + 20;
+          if (this.y > H + 20) this.y = -20;
+          this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+          if (mouse.x !== null) {
+            const dx = this.x - mouse.x, dy = this.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 200) {
+              const force = (200 - dist) / 200 * 0.06;
+              this.x += dx / dist * force;
+              this.y += dy / dist * force;
+            }
+          }
+        }
+        draw() {
+          const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha * 0.5;
+          ctx.fill();
+          if (this.type === 'core') {
+            const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+            grad.addColorStop(0, this.color);
+            grad.addColorStop(1, 'transparent');
+            ctx.globalAlpha = 0.06;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      const numParticles = Math.min(240, Math.floor(W * H / 5500));
+      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+      document.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      document.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      function drawConnections() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i], p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.1;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = p1.color;
+              ctx.lineWidth = 0.3;
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) { p.update(); p.draw(); }
+        drawConnections();
+        const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.7);
+        grad.addColorStop(0, 'transparent');
+        grad.addColorStop(1, 'rgba(5,8,15,0.4)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+        requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', () => {
+        resize();
+        for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; }
+      });
+      animate();
+    })();
+
+    // ============================================================
+    // 2. ANIMATED COUNTERS
+    // ============================================================
+    (function() {
+      const els = document.querySelectorAll('[data-count]');
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.counted) {
+            const el = entry.target;
+            const target = parseFloat(el.dataset.count);
+            const suffix = el.dataset.suffix || '';
+            const dur = 1800, start = performance.now();
+
+            function update(now) {
+              const p = Math.min((now - start) / dur, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const cur = target * eased;
+              el.textContent = (target % 1 !== 0) ? cur.toFixed(1) : Math.round(cur);
+              if (p < 1) requestAnimationFrame(update);
+              else {
+                el.textContent = (target % 1 !== 0) ? target.toFixed(1) : target.toString();
+                el.textContent += suffix;
+              }
+            }
+            el.dataset.counted = 'true';
+            requestAnimationFrame(update);
+          }
+        });
+      }, { threshold: 0.3 });
+      els.forEach(el => obs.observe(el));
+    })();
+
+    // ============================================================
+    // 3. SCROLL REVEAL
+    // ============================================================
+    (function() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    })();
+
+    // ============================================================
+    // 4. CONIC ANGLE (practice cards)
+    // ============================================================
+    document.querySelectorAll('.practice-card').forEach(el => {
+      el.style.setProperty('--angle', '0deg');
+      let angle = 0;
+      setInterval(() => {
+        angle = (angle + 0.3) % 360;
+        el.style.setProperty('--angle', angle + 'deg');
+      }, 40);
+    });
+
+    // ============================================================
+    // 5. MOBILE NAV TOGGLE
+    // ============================================================
+    document.getElementById('nav-toggle')?.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
