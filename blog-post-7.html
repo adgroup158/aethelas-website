@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Security, Roadmap, Careers &amp; Feedback Pages — Aethelas Blog</title>
+  <meta name="description" content="We've expanded the Aethelas website with four new pages." />
+  <link rel="canonical" href="https://aethelas.in/blog-post-7.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* Same CSS as blog-post-6.html */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root { --cyan: #00d4ff; --purple: #a855f7; --pink: #f472b6; --gold: #fbbf24; --teal: #2dd4bf; --bg: #05080f; --bg-card: rgba(8,14,30,0.6); --border: rgba(0,212,255,0.08); --text: #d0dce8; --text-secondary: #7a8aa0; --text-muted: #3a4a6a; --font-display: 'Orbitron', monospace; --font-body: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace; --font-serif: 'Merriweather', serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; min-height: 100vh; }
+    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; }
+    #neuro-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85; }
+    #aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 60%); filter: blur(60px); animation: auroraDrift 25s ease-in-out infinite alternate; }
+    @keyframes auroraDrift { 0% { transform: translate(0,0) scale(1); opacity:0.6; } 100% { transform: translate(80px,-60px) scale(1.3); opacity:0.9; } }
+    #grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px); background-size: 80px 80px; opacity: 0.3; }
+    #scanlines { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px); opacity: 0.2; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 10px 36px; background: rgba(5,8,15,0.55); backdrop-filter: blur(28px); border-bottom: 1px solid rgba(0,212,255,0.05); flex-wrap: wrap; gap: 0.5rem; }
+    .nav-brand { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .nav-brand .dot { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 30px var(--cyan); animation: pulseDot 2.8s ease-in-out infinite; }
+    @keyframes pulseDot { 0%,100% { opacity:0.4; transform:scale(0.7); } 50% { opacity:1; transform:scale(1.3); } }
+    .nav-brand span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2px; align-items: center; flex-wrap: wrap; }
+    .nav-links a { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; padding: 6px 16px; border-radius: 100px; transition: all 0.3s; }
+    .nav-links a:hover { color: var(--text); background:rgba(0,212,255,0.03); }
+    .nav-links a.active { color: var(--cyan); border: 1px solid rgba(0,212,255,0.12); background: rgba(0,212,255,0.04); }
+    .nav-cta { color: #05080f !important; background: var(--cyan) !important; font-weight: 700 !important; }
+    .nav-mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .wrap { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 100px 2rem 4rem; }
+    .article-header { margin-bottom: 3rem; }
+    .article-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); text-decoration: none; margin-bottom: 1.5rem; transition: color 0.3s; }
+    .article-back:hover { color: var(--cyan); }
+    .article-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.9rem; border-radius: 100px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.08); color: var(--cyan); margin-bottom: 1rem; font-weight: 600; }
+    .article-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.15; letter-spacing: -0.02em; color: #fff; margin-bottom: 1rem; }
+    .article-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .article-meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .article-body { font-family: var(--font-serif); font-size: 1rem; line-height: 1.9; color: var(--text-secondary); }
+    .article-body h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: #fff; margin: 2.5rem 0 1rem; }
+    .article-body h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--text); margin: 2rem 0 0.8rem; }
+    .article-body p { margin-bottom: 1.2rem; }
+    .article-body p strong { color: var(--text); font-weight: 600; }
+    .article-body ul { padding-left: 1.8rem; margin-bottom: 1.2rem; }
+    .article-body ul li { margin-bottom: 0.5rem; }
+    .article-body a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(0,212,255,0.2); }
+    .article-body .highlight-box { background: rgba(0,212,255,0.02); border-left: 3px solid var(--cyan); padding: 1.2rem 1.8rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; font-family: var(--font-body); font-size: 0.95rem; }
+    .article-body .highlight-box strong { color: var(--text); }
+    .article-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.04); }
+    .article-share { display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+    .article-share span { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .article-share a { color: var(--text-muted); font-size: 1.2rem; transition: color 0.3s; text-decoration: none; }
+    .article-share a:hover { color: var(--cyan); }
+    .article-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .article-nav a { flex: 1; min-width: 200px; padding: 1.2rem 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s; }
+    .article-nav a:hover { border-color: rgba(0,212,255,0.12); transform: translateY(-3px); }
+    .article-nav .nav-label { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); opacity: 0.6; margin-bottom: 0.3rem; display: block; }
+    .article-nav .nav-title { font-family: var(--font-display); font-size: 0.85rem; color: var(--text); font-weight: 600; }
+    .footer { padding: 2.5rem 2rem 3rem; text-align: center; background: rgba(5,8,15,0.3); border-top: 1px solid rgba(0,212,255,0.02); margin-top: 4rem; }
+    .footer .co { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.1rem; }
+    .footer .co span { color: var(--cyan); }
+    .footer .meta { font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.6rem; opacity: 0.5; }
+    .footer-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-social { display: flex; gap: 0.8rem; justify-content: center; margin-top: 0.6rem; }
+    .footer-social a { color: var(--text-muted); font-size: 1.2rem; transition: color 0.3s; }
+    .footer-social a:hover { color: var(--cyan); }
+    @media (max-width: 768px) { .nav { padding: 10px 16px; } .nav-mobile-toggle { display: block; } .nav-links { display: none; width: 100%; flex-direction: column; align-items: center; gap: 0.3rem; padding: 0.5rem 0; } .nav-links.open { display: flex; } .nav-links a { font-size: 9px; padding: 4px 12px; } .wrap { padding: 100px 1.2rem 3rem; } .article-body { font-size: 0.9rem; } .article-title { font-size: clamp(1.5rem, 7vw, 2rem); } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } #aurora, #grid, #scanlines { display: none; } }
+  </style>
+</head>
+<body>
+  <canvas id="neuro-canvas"></canvas>
+  <div id="aurora"></div>
+  <div id="grid"></div>
+  <div id="scanlines"></div>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-brand"><span class="dot"></span>Aethelas<span>.</span></a>
+    <button class="nav-mobile-toggle" id="nav-toggle"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="verify.html">Verify</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="community.html">Community</a>
+      <a href="security.html">Security</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="careers.html">Careers</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="terminal.html" class="nav-cta">Terminal</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <a href="blog.html" class="article-back"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+
+    <div class="article-header">
+      <span class="article-tag">Announcement</span>
+      <h1 class="article-title">New Security, Roadmap, Careers &amp; Feedback Pages</h1>
+      <div class="article-meta">
+        <span><i class="far fa-calendar"></i> September 8, 2026</span>
+        <span><i class="far fa-clock"></i> 3 min read</span>
+        <span><i class="fas fa-user"></i> Akash Deep</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+      <p>We've expanded the Aethelas website with <strong>four new pages</strong> that provide deeper transparency into our security practices, future plans, hiring, and user feedback.</p>
+
+      <h2>🛡️ Security Page</h2>
+      <p>We've published our security philosophy, practices, and audit history in one place. This includes:</p>
+      <ul>
+        <li>Cryptographic proof mechanisms (SHA-256, Ed25519)</li>
+        <li>Verification fence architecture</li>
+        <li>Provable deletion and erasure coding</li>
+        <li>Audit history from Trail of Bits, Halborn, and Quantstamp</li>
+        <li>Vulnerability disclosure process (security@aethelas.in)</li>
+      </ul>
+      <p>Visit <a href="security.html">aethelas.in/security</a></p>
+
+      <h2>🗺️ Roadmap Page</h2>
+      <p>We've laid out our complete development timeline — past milestones, current work, and future plans. This includes:</p>
+      <ul>
+        <li><strong>Completed:</strong> Core architecture, 20-node testnet, 84/84 tests, 14 research papers</li>
+        <li><strong>In Progress:</strong> Class-balanced replay, SOC 2 certification, interactive demo sandbox</li>
+        <li><strong>Planned 2027:</strong> Mainnet, AI Model Marketplace, 30-city Edge deployment</li>
+      </ul>
+      <p>Visit <a href="roadmap.html">aethelas.in/roadmap</a></p>
+
+      <h2>💼 Careers Page</h2>
+      <p>We're hiring. We've published our culture, values, and open positions:</p>
+      <ul>
+        <li><strong>AI / ML Engineer</strong> — Build continual learning models</li>
+        <li><strong>Cryptography Engineer</strong> — ZK proofs, Merkle commitments</li>
+        <li><strong>Rust Blockchain Engineer</strong> — iPoS, WASM VM, node infrastructure</li>
+        <li><strong>Developer Advocate</strong> — Build the community</li>
+        <li><strong>Product Designer</strong> — Shape the user experience</li>
+      </ul>
+      <p>Remote-first, distributed team. Visit <a href="careers.html">aethelas.in/careers</a></p>
+
+      <h2>📝 Feedback Page</h2>
+      <p>We want to hear from you. The new feedback page lets you submit:</p>
+      <ul>
+        <li>Bug reports</li>
+        <li>Feature requests</li>
+        <li>Suggestions</li>
+        <li>Praise (we appreciate it!)</li>
+        <li>General feedback</li>
+      </ul>
+      <p>Star ratings help us gauge overall satisfaction. Visit <a href="feedback.html">aethelas.in/feedback</a></p>
+
+      <div class="highlight-box">
+        <strong>🔗 Also new:</strong> The <a href="whitepaper.html">Whitepaper page</a> now includes a PDF download option so you can save the full technical documentation for offline reading.
+      </div>
+
+      <h2>What's Next</h2>
+      <p>We'll continue publishing updates as we hit new milestones. In the meantime, explore the site, check out the interactive terminal, and verify records on-chain.</p>
+
+      <p>Thanks for reading — and for being part of the Aethelas community.</p>
+    </div>
+
+    <div class="article-footer">
+      <div class="article-share">
+        <span>Share this post:</span>
+        <a href="https://twitter.com/intent/tweet?url=https://aethelas.in/blog-post-7.html" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://aethelas.in/blog-post-7.html" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <div class="article-nav">
+        <a href="blog-post-6.html"><span class="nav-label">← Previous</span><span class="nav-title">Bounded Self-Improvement</span></a>
+        <a href="blog.html" style="text-align: right;"><span class="nav-label">Back to →</span><span class="nav-title">All Posts</span></a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="co">Aethelas<span>.</span></div>
+      <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="research.html">Research</a>
+        <a href="verify.html">Verify</a>
+        <a href="blog.html">Blog</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="community.html">Community</a>
+        <a href="security.html">Security</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="careers.html">Careers</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="terminal.html">Terminal</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('neuro-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [], mouse = { x: null, y: null };
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resize); resize();
+      class Particle {
+        constructor() {
+          this.x = Math.random() * W; this.y = Math.random() * H;
+          this.vx = (Math.random() - 0.5) * 0.2; this.vy = (Math.random() - 0.5) * 0.2;
+          this.size = Math.random() * 1.8 + 0.3; this.baseSize = this.size;
+          const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+          this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+          this.type = Math.random() > 0.7 ? 'core' : 'normal';
+        }
+        update() {
+          this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
+          this.x += this.vx + Math.sin(this.phase) * 0.015;
+          this.y += this.vy + Math.cos(this.phase * 0.7) * 0.015;
+          this.x += Math.cos(this.orbitAngle) * 0.03;
+          this.y += Math.sin(this.orbitAngle) * 0.03;
+          if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+          if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
+          this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+          if (mouse.x !== null) {
+            const dx = this.x - mouse.x, dy = this.y - mouse.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 200) { const force = (200 - dist) / 200 * 0.06;
+              this.x += dx / dist * force; this.y += dy / dist * force; }
+          }
+        }
+        draw() {
+          const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.5; ctx.fill();
+          if (this.type === 'core') {
+            const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+            grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+            ctx.globalAlpha = 0.06; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+            ctx.fillStyle = grad; ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+      const numParticles = Math.min(240, Math.floor(W * H / 5500));
+      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+      document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+      function drawConnections() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i], p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.1;
+              ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = p1.color; ctx.lineWidth = 0.3; ctx.stroke();
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) { p.update(); p.draw(); }
+        drawConnections();
+        const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.7);
+        grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(5,8,15,0.4)');
+        ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+        requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
+      animate();
+    })();
+    document.getElementById('nav-toggle')?.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

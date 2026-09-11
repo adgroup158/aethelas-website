@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aethelas — Whitepaper</title>
+    <meta name="description" content="Aethelas Whitepaper — AI-Native Layer-1 Blockchain. From India to the World." />
+    <link rel="canonical" href="https://aethelas.in/whitepaper.html" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Aethelas — Whitepaper" />
+    <meta property="og:description" content="Aethelas Whitepaper — Engineering the Intelligent, Decentralised Infrastructure for the Future Economy." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aethelas.in/whitepaper.html" />
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== FULL CSS ===== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { background:#020408; color:#b0c8f0; font-family:'Inter',sans-serif; font-weight:300; line-height:1.7; overflow-x:hidden; min-height:100vh; }
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:#020408; }
+        ::-webkit-scrollbar-thumb { background:#00d4ff; border-radius:12px; box-shadow:0 0 30px rgba(0,212,255,0.4); }
+        :root {
+            --q-cyan:#00d4ff; --q-purple:#a855f7; --q-pink:#f472b6; --q-gold:#fbbf24;
+            --q-teal:#2dd4bf; --q-indigo:#6366f1; --q-rose:#fb7185; --q-blue:#3b82f6;
+            --bg-deep:#020408; --bg-card:rgba(4,8,20,0.55); --border-glow:rgba(0,212,255,0.12);
+            --text-primary:#eaf0ff; --text-secondary:#8aa0c8; --text-muted:#3a4a6a;
+            --font-display:'Orbitron',monospace; --font-body:'Inter',sans-serif; --font-mono:'JetBrains Mono',monospace;
+            --font-serif:'Merriweather',serif;
+            --neuro-glow:0 0 60px rgba(0,212,255,0.06);
+        }
+        #neuro-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.95; }
+        #aurora-overlay { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.04) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.03) 0%, transparent 50%); filter:blur(60px); animation:auroraDrift 20s ease-in-out infinite alternate; }
+        @keyframes auroraDrift { 0% { transform:translate(0,0) scale(1); opacity:0.5; } 100% { transform:translate(60px,-40px) scale(1.2); opacity:0.8; } }
+        #quantum-grid { position:fixed; inset:0; z-index:0; pointer-events:none; background-image:linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px); background-size:80px 80px; opacity:0.4; mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%); -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%); }
+        #scanlines { position:fixed; inset:0; z-index:0; pointer-events:none; background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); opacity:0.25; }
+        .site-nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:rgba(2,4,8,0.5); backdrop-filter:blur(30px) saturate(1.6); -webkit-backdrop-filter:blur(30px) saturate(1.6); border-bottom:1px solid rgba(0,212,255,0.06); box-shadow:0 4px 60px rgba(0,0,0,0.6); }
+        .site-nav .nav-brand { font-family:var(--font-display); font-size:20px; font-weight:800; color:#fff; letter-spacing:0.06em; text-decoration:none; display:flex; align-items:center; gap:10px; }
+        .site-nav .nav-brand .brand-glow { display:inline-block; width:8px; height:8px; background:var(--q-cyan); border-radius:50%; box-shadow:0 0 30px var(--q-cyan),0 0 60px rgba(0,212,255,0.2); animation:pulseDot 2.4s ease-in-out infinite; }
+        @keyframes pulseDot { 0%,100% { opacity:0.4; transform:scale(0.7); } 50% { opacity:1; transform:scale(1.3); } }
+        .site-nav .nav-brand span { color:var(--q-cyan); }
+        .site-nav .nav-links { display:flex; gap:4px; align-items:center; }
+        .site-nav .nav-links a { font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; padding:8px 18px; border-radius:100px; transition:all 0.35s cubic-bezier(0.23,1,0.32,1); border:1px solid transparent; position:relative; }
+        .site-nav .nav-links a::before { content:''; position:absolute; inset:-1px; border-radius:100px; padding:1px; background:linear-gradient(135deg, var(--q-cyan), var(--q-purple)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity 0.4s; }
+        .site-nav .nav-links a:hover::before { opacity:1; }
+        .site-nav .nav-links a:hover { color:var(--text-primary); background:rgba(0,212,255,0.04); }
+        .site-nav .nav-links a.active { color:var(--q-cyan); border-color:rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); box-shadow:0 0 40px rgba(0,212,255,0.04); }
+        .site-nav .nav-cta { color:#020408 !important; background:var(--q-cyan) !important; border:none !important; font-weight:700; box-shadow:0 0 50px rgba(0,212,255,0.2); }
+        .site-nav .nav-cta:hover { background:#fff !important; color:#020408 !important; box-shadow:0 0 80px rgba(0,212,255,0.4); transform:scale(1.04); }
+        .wrap { position:relative; z-index:2; max-width:1100px; margin:0 auto; }
+        .paper-container { max-width:1000px; margin:120px auto 4rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:20px; padding:3rem 3.5rem; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 8px 80px rgba(0,0,0,0.3); position:relative; }
+        .paper-container::before { content:''; position:absolute; inset:-1px; border-radius:20px; padding:1px; background:linear-gradient(135deg, rgba(0,212,255,0.06), transparent, rgba(168,85,247,0.06)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+        .paper-container .back-link { display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.08em; transition:color 0.3s; margin-bottom:1.5rem; }
+        .paper-container .back-link:hover { color:var(--q-cyan); }
+        .paper-container .back-link .arrow { transition:transform 0.3s; }
+        .paper-container .back-link:hover .arrow { transform:translateX(-4px); }
+        .paper-container .paper-badge { font-family:var(--font-mono); font-size:0.55rem; color:var(--q-cyan); letter-spacing:0.2em; text-transform:uppercase; opacity:0.3; margin-bottom:0.8rem; }
+        .paper-container .paper-title { font-family:var(--font-serif); font-weight:700; font-size:2rem; line-height:1.2; color:#fff; margin-bottom:0.5rem; letter-spacing:-0.01em; }
+        .paper-container .paper-title .highlight { color:var(--q-cyan); }
+        .paper-container .paper-subtitle { font-family:var(--font-serif); font-size:1.1rem; color:var(--text-secondary); font-style:italic; margin-bottom:0.5rem; opacity:0.7; }
+        .paper-container .paper-author { font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); margin-bottom:0.2rem; letter-spacing:0.04em; }
+        .paper-container .paper-meta { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); opacity:0.5; margin-bottom:2rem; letter-spacing:0.06em; }
+        .paper-container .paper-abstract { background:rgba(0,212,255,0.02); border-left:2px solid rgba(0,212,255,0.15); padding:1.2rem 1.8rem; margin-bottom:2rem; border-radius:0 8px 8px 0; }
+        .paper-container .paper-abstract .label { font-family:var(--font-mono); font-size:0.55rem; text-transform:uppercase; letter-spacing:0.2em; color:var(--q-cyan); opacity:0.4; margin-bottom:0.3rem; }
+        .paper-container .paper-abstract p { font-family:var(--font-serif); font-size:0.9rem; line-height:1.8; color:var(--text-secondary); font-weight:300; }
+        .paper-container h1 { font-family:var(--font-display); font-weight:700; font-size:1.8rem; color:#fff; margin:2rem 0 0.8rem; letter-spacing:-0.01em; }
+        .paper-container h1 .accent { color:var(--q-cyan); }
+        .paper-container h2 { font-family:var(--font-serif); font-weight:700; font-size:1.3rem; color:#fff; margin:2rem 0 0.8rem; letter-spacing:-0.01em; }
+        .paper-container h2 .accent { color:var(--q-cyan); }
+        .paper-container h3 { font-family:var(--font-serif); font-weight:700; font-size:1.05rem; color:var(--text-primary); margin:1.5rem 0 0.5rem; }
+        .paper-container h4 { font-family:var(--font-mono); font-weight:600; font-size:0.9rem; color:var(--q-cyan); margin:1rem 0 0.3rem; }
+        .paper-container p { font-family:var(--font-serif); font-size:0.9rem; line-height:1.8; color:var(--text-secondary); margin-bottom:0.8rem; font-weight:300; }
+        .paper-container p strong { color:var(--text-primary); font-weight:600; }
+        .paper-container ul, .paper-container ol { font-family:var(--font-serif); font-size:0.9rem; line-height:1.8; color:var(--text-secondary); padding-left:1.8rem; margin-bottom:0.8rem; }
+        .paper-container ul li, .paper-container ol li { margin-bottom:0.3rem; }
+        .paper-container .paper-table-wrap { margin:1.5rem 0; overflow-x:auto; background:rgba(0,0,0,0.2); border-radius:12px; padding:0.5rem; border:1px solid rgba(255,255,255,0.03); }
+        .paper-container table { width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:0.65rem; color:var(--text-secondary); }
+        .paper-container table th { background:rgba(0,212,255,0.06); color:var(--q-cyan); padding:0.6rem 0.8rem; text-align:left; font-weight:600; letter-spacing:0.04em; border-bottom:1px solid rgba(0,212,255,0.08); }
+        .paper-container table td { padding:0.6rem 0.8rem; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .paper-container table tr:hover td { background:rgba(0,212,255,0.02); }
+        .paper-container table .highlight-cell { color:var(--q-cyan); font-weight:600; }
+        .paper-container .paper-divider { border:none; border-top:1px solid rgba(255,255,255,0.04); margin:2.5rem 0; }
+        .paper-container .paper-conclusion { background:rgba(0,212,255,0.02); border-top:1px solid rgba(0,212,255,0.06); padding-top:1.5rem; margin-top:1.5rem; }
+        .paper-container .paper-note { background:rgba(244,114,182,0.04); border:1px solid rgba(244,114,182,0.08); border-radius:8px; padding:1rem 1.5rem; margin:1rem 0; }
+        .paper-container .paper-note .note-label { font-family:var(--font-mono); font-size:0.55rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--q-pink); opacity:0.6; margin-bottom:0.2rem; }
+        .paper-container .paper-note p { font-size:0.85rem; color:var(--text-secondary); margin-bottom:0; }
+        .paper-container .download-btn { display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--font-mono); font-size:0.6rem; color:var(--q-cyan); text-decoration:none; padding:0.5rem 1.2rem; border:1px solid rgba(0,212,255,0.12); border-radius:8px; transition:all 0.3s; margin-top:0.5rem; }
+        .paper-container .download-btn:hover { background:rgba(0,212,255,0.04); border-color:rgba(0,212,255,0.2); gap:0.8rem; }
+        .paper-container .disclaimer { background:rgba(251,191,36,0.04); border:1px solid rgba(251,191,36,0.08); border-radius:8px; padding:1rem 1.5rem; margin-top:1.5rem; }
+        .paper-container .disclaimer p { font-size:0.75rem; color:var(--text-muted); margin-bottom:0; font-style:italic; }
+        footer { padding:2.5rem 2rem 3rem; text-align:center; background:rgba(2,4,8,0.4); border-top:1px solid rgba(0,212,255,0.03); margin-top:2rem; }
+        footer .co { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.2rem; letter-spacing:0.06em; }
+        footer .co span { color:var(--q-cyan); }
+        footer .meta { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); letter-spacing:0.12em; margin-bottom:0.8rem; opacity:0.5; }
+        footer .footer-links { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+        footer .footer-links a { font-family:var(--font-mono); font-size:0.55rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.3s; }
+        footer .footer-links a:hover { color:var(--q-cyan); }
+
+        @media (max-width:768px) {
+            .paper-container { padding:1.5rem 1.2rem; margin:100px 1rem 3rem; }
+            .paper-container .paper-title { font-size:1.4rem; }
+            .paper-container .paper-abstract { padding:0.8rem 1rem; }
+            .paper-container .paper-abstract p { font-size:0.8rem; }
+            .paper-container p { font-size:0.8rem; }
+            .paper-container h1 { font-size:1.4rem; }
+            .paper-container h2 { font-size:1.1rem; }
+            .site-nav { padding:10px 16px; }
+            .site-nav .nav-links a { padding:6px 10px; font-size:8px; letter-spacing:0.08em; }
+            .site-nav .nav-brand { font-size:15px; }
+            .site-nav .nav-links a:not(.nav-cta):not(.active) { display:none; }
+            .paper-container table { font-size:0.55rem; }
+            .paper-container table th, .paper-container table td { padding:0.4rem 0.5rem; }
+        }
+        @media (max-width:480px) {
+            .paper-container .paper-title { font-size:1.1rem; }
+            .paper-container { padding:1rem 0.8rem; }
+            .paper-container table { font-size:0.5rem; }
+            .paper-container table th, .paper-container table td { padding:0.3rem 0.3rem; }
+        }
+        @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } #aurora-overlay, #quantum-grid, #scanlines { display:none; } .site-nav .nav-brand .brand-glow { animation:none; } }
+    </style>
+</head>
+<body>
+    <canvas id="neuro-canvas"></canvas>
+    <div id="aurora-overlay"></div>
+    <div id="quantum-grid"></div>
+    <div id="scanlines"></div>
+
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand"><span class="brand-glow"></span>Aethelas<span>.</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="learn.html">Learn</a>
+            <a href="about.html">About</a>
+            <a href="research.html">Research</a>
+            <a href="verify.html">Verify</a>
+            <a href="blog.html">Blog</a>
+            <a href="case-studies.html">Case Studies</a>
+            <a href="community.html">Community</a>
+            <a href="security.html">Security</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="careers.html">Careers</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="whitepaper.html" class="active">Whitepaper</a>
+            <a href="terminal.html" class="nav-cta">Launch App</a>
+        </div>
+    </nav>
+
+    <div class="wrap">
+        <div class="paper-container">
+            <a href="research.html" class="back-link"><span class="arrow">←</span> Back to Research</a>
+            
+            <div class="paper-badge">✦ Whitepaper v3.0</div>
+            <h1 class="paper-title">Aethelas Chain: <span class="highlight">AI-Native Layer-1</span></h1>
+            <div class="paper-subtitle">"From India to the World — Engineering the Intelligent, Decentralised Infrastructure for the Future Economy"</div>
+            <div class="paper-author">Akash Deep · Aethelas Private Limited, Patna, India</div>
+            <div class="paper-meta">Confidential &amp; Proprietary · Version 3.0 · May 2026</div>
+
+            <a href="#" class="download-btn"><i class="fas fa-file-pdf"></i> Download PDF Version</a>
+
+            <!-- Abstract -->
+            <div class="paper-abstract">
+                <div class="label">Abstract</div>
+                <p>Blockchain technology has solved the problem of decentralised trust. Artificial Intelligence has solved the problem of adaptive intelligence. Aethelas Chain is the first production-grade protocol to unify both — creating infrastructure that is simultaneously immutable and intelligent, decentralised and self-optimising.</p>
+                <p style="margin-top:0.5rem;">Aethelas Chain is a next-generation Layer-1 blockchain engineered in Rust — the language of choice for systems demanding memory safety, performance, and cryptographic correctness. By embedding Artificial Intelligence natively at four protocol layers — consensus (iPoS), execution (AIVM), security (Distributed AI Security Mesh), and governance (AI Governance Advisor) — Aethelas transcends the structural limitations of every prior blockchain generation.</p>
+                <p style="margin-top:0.5rem;">Every parameter in this document is derived from the deployed production codebase, verified against 84 unit tests and 18 penetration test scenarios with a <strong>100% block rate</strong>. The technical claims are not aspirational — they are executable.</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:1rem; margin:1.5rem 0; padding:1rem; background:rgba(0,0,0,0.2); border-radius:12px; border:1px solid rgba(255,255,255,0.03);">
+                <div style="text-align:center;"><div style="font-family:var(--font-display); font-size:1.5rem; color:var(--q-cyan);">84/84</div><div style="font-size:0.6rem; color:var(--text-muted);">Unit Tests Passing</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--font-display); font-size:1.5rem; color:var(--q-teal);">18/18</div><div style="font-size:0.6rem; color:var(--text-muted);">Pentest Attacks Blocked</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--font-display); font-size:1.5rem; color:var(--q-gold);">20/20</div><div style="font-size:0.6rem; color:var(--text-muted);">Testnet Nodes Synced</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--font-display); font-size:1.5rem; color:var(--q-pink);">5</div><div style="font-size:0.6rem; color:var(--text-muted);">Production Services</div></div>
+            </div>
+
+            <!-- Section 1 -->
+            <h1>01. <span class="accent">The Evolution of Blockchain Infrastructure</span></h1>
+
+            <h2>1.1 <span class="accent">Generation 1.0</span> — Bitcoin and the Immutability Primitive (2008)</h2>
+            <p>Satoshi Nakamoto's October 2008 white paper introduced the world's first trustless digital ledger: a cryptographic chain of proof-of-work blocks where computational expenditure replaces institutional authority as the basis for consensus. Bitcoin proved that decentralised consensus is achievable — but at profound cost: 7 transactions per second, 10-minute probabilistic finality, no programmability, and energy consumption exceeding that of mid-sized nation states.</p>
+
+            <h2>1.2 <span class="accent">Generation 2.0</span> — Ethereum and Programmable Trust (2013)</h2>
+            <p>Vitalik Buterin's 2013 proposal introduced Turing-complete programmability to distributed ledgers, enabling smart contracts: self-executing agreements whose terms are encoded in immutable bytecode and enforced without intermediaries. The result was an explosion of decentralised finance, NFT markets, and autonomous organisations reaching a $600 billion ecosystem. Yet success exposed catastrophic fragility: 15 TPS at peak, gas fees of $200 per transaction, and no native intelligence — smart contracts are, by design, static and blind.</p>
+
+            <h2>1.3 <span class="accent">Generation 3.0</span> — The Multi-Chain Era (2019-Present)</h2>
+            <p>The scalability crisis catalysed competing architectures. Solana achieved 65,000 TPS via Proof of History. Cosmos and Polkadot addressed interoperability through relay architectures. Avalanche delivered sub-second probabilistic finality. Yet a fundamental limitation persists across every generation: blockchain networks are structurally passive. They record, validate, and execute — but they do not reason, adapt, or learn. Aethelas Chain resolves this definitively.</p>
+
+            <!-- Section 2 -->
+            <h1>02. <span class="accent">The Blockchain Trilemma — Resolved</span></h1>
+            <p>Vitalik Buterin's Trilemma posits that a distributed system can optimise at most two of three properties: Decentralisation, Security, and Scalability. Aethelas Chain's iPoS consensus — built on Byzantine Fault Tolerant Tendermint and accelerated by AI-weighted validator scoring — resolves all three simultaneously.</p>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Feature</th><th>Bitcoin</th><th>Ethereum</th><th>Solana</th><th style="color:var(--q-cyan);">Aethelas Chain</th></tr></thead>
+                    <tbody>
+                        <tr><td>Throughput</td><td>7 TPS</td><td>15-30 TPS</td><td>65,000 TPS</td><td class="highlight-cell">100,000+ TPS (target)</td></tr>
+                        <tr><td>Finality</td><td>~60 minutes</td><td>~12 seconds</td><td>~0.4 seconds</td><td class="highlight-cell">&lt; 400ms deterministic</td></tr>
+                        <tr><td>Consensus</td><td>Proof of Work</td><td>Proof of Stake</td><td>Proof of History</td><td class="highlight-cell">iPoS (AI-augmented BFT)</td></tr>
+                        <tr><td>Smart Contract VM</td><td>None</td><td>EVM (Solidity)</td><td>BPF (Rust)</td><td class="highlight-cell">AIVM (WASM + AI inference)</td></tr>
+                        <tr><td>Native AI</td><td>None</td><td>None</td><td>None</td><td class="highlight-cell">Full 5-feature AI stack</td></tr>
+                        <tr><td>Security Test Coverage</td><td>N/A</td><td>N/A</td><td>N/A</td><td class="highlight-cell">18/18 attacks blocked (100%)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 3 -->
+            <h1>03. <span class="accent">Development History and Current Status</span></h1>
+
+            <h2>3.1 <span class="accent">Phase Zero</span> — Research and Foundation (Q3 2023 - Q1 2024)</h2>
+            <p>Aethelas Chain was conceived by distributed systems engineers and AI researchers who identified the AI-blockchain convergence as the defining infrastructure challenge of the decade. Six months of foundational research produced the core iPoS consensus model, the AIVM architecture, and technology stack selection: Rust for memory safety, Tokio for async I/O, Wasmtime 18.x for WASM execution, and RocksDB for persistence.</p>
+
+            <h2>3.2 <span class="accent">Testnet Alpha</span> (Q2-Q4 2024)</h2>
+            <p>The Testnet Alpha validated iPoS under adversarial conditions and delivered the first operational AIVM. Three independent security audits were commissioned: Trail of Bits (protocol layer), Halborn (smart contract runtime and API), and Quantstamp (cryptographic primitives). All critical findings were remediated before mainnet preparation.</p>
+
+            <h2>3.3 <span class="accent">Current Status: Q2 2026</span> — Production Testnet</h2>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Metric</th><th>Value</th><th>Verification Method</th></tr></thead>
+                    <tbody>
+                        <tr><td>Unit Tests</td><td class="highlight-cell">84 / 84 passing</td><td><code>cargo test mainnet --test-threads=1</code></td></tr>
+                        <tr><td>Penetration Tests</td><td class="highlight-cell">18 / 18 attacks blocked</td><td>Full custom pentest suite</td></tr>
+                        <tr><td>Local Testnet</td><td>20 nodes — all 20/20 synced</td><td>block/latest API verified across all ports</td></tr>
+                        <tr><td>Block Time</td><td class="highlight-cell">~5 seconds</td><td>Measured across 2,000+ finalized blocks</td></tr>
+                        <tr><td>Consensus Finality</td><td class="highlight-cell">1 block (deterministic BFT)</td><td>No reversals in sustained operation</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 4 -->
+            <h1>04. <span class="accent">The AI-Blockchain Convergence</span></h1>
+            <p>The convergence of AI and blockchain is not a superficial overlay of machine learning models onto existing protocols. It is a fundamental architectural reimagining — embedding adaptive intelligence into every layer of the distributed system, from the consensus algorithm to the smart contract VM to the governance framework.</p>
+
+            <h2>4.1 <span class="accent">AI at the Consensus Layer</span> — iPoS</h2>
+            <p>Traditional consensus mechanisms are static: they treat all validators identically regardless of performance history. Aethelas Chain's iPoS consensus embeds a continuous AI scoring layer that dynamically models each validator's behaviour, weighting block proposal probability according to demonstrated performance.</p>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Parameter</th><th>Value</th><th>Behavioural Effect</th></tr></thead>
+                    <tbody>
+                        <tr><td>SCORE_MIN</td><td>0.5</td><td>Validator deprioritized but never expelled — liveness preserved</td></tr>
+                        <tr><td>SCORE_MAX</td><td>3.0</td><td>High-performing validator receives 3x selection weight</td></tr>
+                        <tr><td>Score on successful block</td><td>+0.10 (capped at 3.0)</td><td>Continuous reward for reliable participation</td></tr>
+                        <tr><td>Score on missed round</td><td>× 0.90 (floor 0.5)</td><td>Exponential decay penalises sustained downtime</td></tr>
+                        <tr><td>Initial score (genesis)</td><td>1.0</td><td>All validators start equal — no incumbent advantage</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>4.2 <span class="accent">AI at the Execution Layer</span> — The AIVM</h2>
+            <p>Every transaction optionally carries a cryptographically-signed AIDecision object verifying that a trained inference model has evaluated the transaction. If the decision is 'reject', the transaction is blocked at the mempool boundary regardless of valid signature — a pre-emptive security mechanism unique to Aethelas.</p>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>AI Decision Field</th><th>Type</th><th>Purpose</th></tr></thead>
+                    <tbody>
+                        <tr><td>output_score</td><td>f64 in [0.0, 1.0]</td><td>AI confidence score for this specific transaction</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>4.3 <span class="accent">AI at the Security Layer</span> — 5 Threat Detectors</h2>
+            <ul>
+                <li><strong>Spam Detection</strong> — Rate-window analysis: threshold 100 TX per block per address</li>
+                <li><strong>Eclipse Attack</strong> — Peer diversity monitoring: &gt;80% same ID prefix triggers High threat</li>
+                <li><strong>Sybil Detection</strong> — Structural similarity: &gt;85% address overlap with existing peer triggers Medium threat</li>
+                <li><strong>Sandwich Attack</strong> — Mempool pattern: same sender at block start and end triggers High threat</li>
+                <li><strong>MEV Detection</strong> — Gas price distribution: statistically anomalous front-running flagged</li>
+            </ul>
+
+            <!-- Section 5 -->
+            <h1>05. <span class="accent">Consensus Mechanism Deep Dive</span> — iPoS</h1>
+
+            <h2>5.1 <span class="accent">Three-Phase BFT Protocol</span></h2>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Phase</th><th>Mechanism</th><th>Quorum</th></tr></thead>
+                    <tbody>
+                        <tr><td>1. Proposal</td><td>Proposer broadcasts block signed with Ed25519</td><td>N/A — single proposer per round</td></tr>
+                        <tr><td>2. Prevote</td><td>All validators verify proposal and broadcast Prevote</td><td>Greater than 2/3 of total stake</td></tr>
+                        <tr><td>3. Precommit</td><td>After prevote quorum, validators broadcast Precommit</td><td>Greater than 2/3 of total stake</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>5.2 <span class="accent">Pure Round-Robin Proposer Selection</span></h2>
+            <p>Aethelas implements deterministic round-robin proposer selection ensuring equal block production across all validators:</p>
+            <div style="background:rgba(0,0,0,0.3); padding:0.8rem 1.2rem; border-radius:8px; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-secondary); margin:0.5rem 0 1rem; border:1px solid rgba(255,255,255,0.03);">
+                slot = (block_height + round) % n_validators<br />
+                order = validators.sort_by(address) // deterministic<br />
+                proposer = sorted_validators[slot]
+            </div>
+            <p>Validated on 20-node testnet: all four validators achieved within <strong>2% of equal distribution</strong> (approximately 25% each) over 2,000+ blocks.</p>
+
+            <!-- Section 6 -->
+            <h1>06. <span class="accent">System Architecture</span></h1>
+
+            <h2>6.1 <span class="accent">Five-Layer Stack</span></h2>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Layer</th><th>Name</th><th>Role</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Aethelas Base Chain</td><td>Settlement layer. Chain ID: aethelas-mainnet-1. Rust + Tokio + RocksDB + Ed25519.</td></tr>
+                        <tr><td>2</td><td>Execution Mesh (ASEEs)</td><td>Application-Specific Execution Environments — sovereign chains settling cryptographic proofs to Base Chain.</td></tr>
+                        <tr><td>3</td><td>AI Intelligence Layer</td><td>On-chain AI compute, model weight storage, verifiable inference.</td></tr>
+                        <tr><td>4</td><td>Interoperability (ACCM)</td><td>Aethelas Cross-Chain Mesh — trustless communication via light-client bridge verification.</td></tr>
+                        <tr><td>5</td><td>Developer Interface</td><td>REST API (8000), JSON-RPC (8545), Prometheus metrics (9090), CLI wallet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 7 -->
+            <h1>07. <span class="accent">Cryptographic Primitives</span></h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Primitive</th><th>Algorithm</th><th>Library</th><th>Application</th></tr></thead>
+                    <tbody>
+                        <tr><td>Digital Signatures</td><td>Ed25519</td><td>ed25519-dalek v2</td><td>TX signing, block proposal, vote signing, AI decision attestation</td></tr>
+                        <tr><td>Cryptographic Hashing</td><td>SHA-256</td><td>sha2 (RustCrypto)</td><td>TX hash, block hash, Merkle tree, address derivation</td></tr>
+                        <tr><td>Key Exchange</td><td>X25519 ECDH</td><td>x25519-dalek v2</td><td>Ephemeral per-connection key agreement — forward secrecy</td></tr>
+                        <tr><td>Authenticated Encryption</td><td>ChaCha20-Poly1305</td><td>chacha20poly1305 v0.10</td><td>All P2P frames — per-message nonce counter</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 8 -->
+            <h1>08. <span class="accent">Security Model</span> — Comprehensive Hardening</h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Category</th><th>Attack Vector</th><th>Result</th><th>Defence Mechanism</th></tr></thead>
+                    <tbody>
+                        <tr><td>Transaction</td><td>Signature forgery</td><td class="highlight-cell">BLOCKED</td><td>Ed25519 signature verification — mathematically intractable to forge</td></tr>
+                        <tr><td>Transaction</td><td>Replay attack</td><td class="highlight-cell">BLOCKED</td><td>TX hash persisted to RocksDB — duplicate detection</td></tr>
+                        <tr><td>Transaction</td><td>Integer overflow</td><td class="highlight-cell">BLOCKED</td><td>MAX_TX_AMOUNT enforced in Transaction.verify()</td></tr>
+                        <tr><td>Transaction</td><td>Zero amount</td><td class="highlight-cell">BLOCKED</td><td>amount &gt; 0 validated before signature check</td></tr>
+                        <tr><td>Transaction</td><td>Self-transfer</td><td class="highlight-cell">BLOCKED</td><td>from not equal to enforced — prevents balance loops</td></tr>
+                        <tr><td>Transaction</td><td>Null address</td><td class="highlight-cell">BLOCKED</td><td>Null address rejection in Transaction.verify()</td></tr>
+                        <tr><td>Injection</td><td>SQL/JSON injection</td><td class="highlight-cell">BLOCKED</td><td>Strict 64-character lowercase hex validation — rejects all non-hex</td></tr>
+                        <tr><td>API</td><td>DDoS (200+ rapid requests)</td><td class="highlight-cell">BLOCKED</td><td>Per-IP: 30 req/s. Global: 200 req/s. Auto-ban after 100 violations.</td></tr>
+                        <tr><td>Governance</td><td>Pause without validator key</td><td class="highlight-cell">BLOCKED</td><td>Ed25519 verified against genesis validator set</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="paper-note">
+                <div class="note-label">🔒 Security Audit History</div>
+                <p><strong>Trail of Bits</strong> — Protocol layer, consensus algorithm, BFT safety proofs (Q3 2024) — Complete</p>
+                <p><strong>Halborn</strong> — Smart contract runtime, REST API security, JWT (Q4 2024) — Complete</p>
+                <p><strong>Quantstamp</strong> — Cryptographic primitives, Ed25519, key management (Q4 2024) — Complete</p>
+                <p><strong>Internal Red Team</strong> — Full-stack, 18 attack categories (Q2 2026) — 18/18 blocked</p>
+            </div>
+
+            <!-- Section 9 -->
+            <h1>09. <span class="accent">Developer APIs</span></h1>
+
+            <h2>9.1 <span class="accent">REST API</span> (Axum 0.7) — Port 8000</h2>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>GET</td><td>/health</td><td>Node health, version, chain_id</td></tr>
+                        <tr><td>GET</td><td>/block/latest</td><td>Latest finalised block — full header, transactions, evidence</td></tr>
+                        <tr><td>GET</td><td>/block/:number</td><td>Block by height — deterministic retrieval</td></tr>
+                        <tr><td>GET</td><td>/balance/:address</td><td>Account balance in base units</td></tr>
+                        <tr><td>GET</td><td>/nonce/:address</td><td>Account nonce — required for transaction construction</td></tr>
+                        <tr><td>POST</td><td>/tx</td><td>Submit signed transaction — full 11-step validation pipeline</td></tr>
+                        <tr><td>POST</td><td>/wallet</td><td>Generate Ed25519 keypair via OS CSPRNG</td></tr>
+                        <tr><td>POST</td><td>/faucet</td><td>Request 100 AET (testnet) — 1 per address per 24 hours</td></tr>
+                        <tr><td>GET</td><td>/ai/scores</td><td>Validator AI scores, reward multiplier, threat level</td></tr>
+                        <tr><td>POST</td><td>/chain/pause</td><td>Emergency pause — validator Ed25519 required</td></tr>
+                        <tr><td>POST</td><td>/chain/resume</td><td>Resume paused chain — validator Ed25519 required</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 10 -->
+            <h1>10. <span class="accent">Governance and Emergency Controls</span></h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Parameter</th><th>Value</th><th>Rationale</th></tr></thead>
+                    <tbody>
+                        <tr><td>Voting Threshold</td><td class="highlight-cell">66.67% (6,667 basis points)</td><td>Supermajority prevents capture by minority validators</td></tr>
+                        <tr><td>Proposal Expiry</td><td>1,440 blocks (~2 hours)</td><td>Urgency mechanism for security-critical decisions</td></tr>
+                        <tr><td>Eligible Voters</td><td>Genesis validator set only</td><td>Stake-aligned — financial skin in the game required</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 11 -->
+            <h1>11. <span class="accent">Aethelas Services Ecosystem</span></h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Service</th><th>Core Proposition</th><th>Target ARR (2030)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Aethelas Services</td><td>Managed blockchain API, AI fraud scoring, enterprise subnets</td><td class="highlight-cell">Rs 4,680 Crore</td></tr>
+                        <tr><td>Aethelas Drive</td><td>S3-compatible, DPDP-compliant, blockchain-verified Indian cloud</td><td>Rs 102 Crore</td></tr>
+                        <tr><td>Aethelas AI</td><td>On-chain AI inference, Fraud Shield, AI Model Marketplace</td><td class="highlight-cell">Rs 1,700 Crore</td></tr>
+                        <tr><td>Aethelas Edge</td><td>500 city-level edge nodes — LEO satellite connected</td><td>Enables all above</td></tr>
+                        <tr><td>Aethelas Intellect</td><td>Distributed GPU/TPU — verifiable decentralised AI</td><td class="highlight-cell">Rs 1,900 Crore</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 12 -->
+            <h1>12. <span class="accent">Aethelas Services</span> — Blockchain-as-a-Service</h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Product</th><th>Description</th><th>Price Point</th><th>Launch</th></tr></thead>
+                    <tbody>
+                        <tr><td>RPCaaS</td><td>Managed JSON-RPC + REST with JWT auth, rate limiting, billing</td><td>Rs 0-75,000/month</td><td>Phase 0</td></tr>
+                        <tr><td>Managed Validator Nodes</td><td>Dedicated nodes with 99.99% uptime SLA</td><td>Rs 8,000-1,50,000/month</td><td>Phase 0</td></tr>
+                        <tr><td>AI Fraud Shield API</td><td>Real-time TX risk scoring — approve/reject at mempool boundary</td><td>Rs 5,000-40,000/month</td><td>Phase 0 beta</td></tr>
+                        <tr><td>AdaptiveGas Oracle</td><td>AI fee prediction 12 blocks ahead — Ed25519-signed, verifiable</td><td>Rs 2,000-10,000/month</td><td>Phase 1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 13 -->
+            <h1>13. <span class="accent">Aethelas Drive</span> — Sovereign Cloud Storage</h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Feature</th><th>Specification</th><th>Competitive Advantage</th></tr></thead>
+                    <tbody>
+                        <tr><td>API Compatibility</td><td>S3-compatible REST API</td><td>Zero code changes for existing applications</td></tr>
+                        <tr><td>Redundancy</td><td>Erasure coding (RAID-6 equivalent)</td><td>Tolerates 2 simultaneous node failures</td></tr>
+                        <tr><td>Compliance</td><td>DPDP Act 2023 certificate</td><td>Blockchain-backed proof — regulator-admissible evidence</td></tr>
+                        <tr><td>Pricing</td><td>Rs 0.65-0.80/GB/month</td><td>Competitive with AWS S3 India — with sovereign compliance premium</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 14 -->
+            <h1>14. <span class="accent">Aethelas AI</span> — On-Chain Intelligence</h1>
+            <p>OpenAI trained on text. Google trained on search. Aethelas trains on financial transaction intelligence — an entirely different and enormously valuable domain. 4.8 million daily transactions × 365 days = <strong>1.75 billion labeled financial records per year</strong>. This corpus is worth more than the code. It grows every day. It cannot be bought. It cannot be copied.</p>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Product</th><th>Codebase Source</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>Fraud Shield API</td><td><code>ai.rs verify_ai() + AIDecision</code></td><td>Real-time pre-mempool TX risk scoring</td></tr>
+                        <tr><td>ContractAuditor AI</td><td><code>aivm.rs</code> AIVM + audit modules</td><td>AI smart contract audit in minutes vs weeks</td></tr>
+                        <tr><td>Security Mesh</td><td><code>consensus.rs</code> + mempool monitor</td><td>Distributed 5-algorithm threat detection</td></tr>
+                        <tr><td>AdaptiveGas Oracle</td><td>AdaptiveGas engine</td><td>AI fee prediction 12 blocks ahead</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 15 -->
+            <h1>15. <span class="accent">Aethelas Edge</span> — Physical Infrastructure</h1>
+            <p>Jio spent Rs 1,50,000 Crore to cover India with mobile internet. Aethelas covers India with city-level edge compute for Rs 750 Crore — because the node operator model means local businesses and ISPs buy the hardware, earn AETH rewards, and Aethelas never pays for physical assets directly.</p>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Component</th><th>Specification</th><th>Cost (Rs)</th><th>Purpose</th></tr></thead>
+                    <tbody>
+                        <tr><td>CPU</td><td>AMD EPYC 7313P — 16 cores / 32 threads</td><td>Rs 1,20,000</td><td>All workloads</td></tr>
+                        <tr><td>RAM</td><td>128 GB DDR4 ECC</td><td>Rs 80,000</td><td>AI inference + full blockchain state</td></tr>
+                        <tr><td>NVMe SSD</td><td>2×4TB Samsung 980 Pro</td><td>Rs 60,000</td><td>Chain data, RocksDB, AI model weights</td></tr>
+                        <tr><td>HDD Array</td><td>6×8TB Seagate Exos RAID-6 (~32TB usable)</td><td>Rs 1,20,000</td><td>Aethelas Drive distributed storage</td></tr>
+                        <tr><td>GPU</td><td>NVIDIA RTX 4090 24GB or A4000 16GB</td><td>Rs 1,80,000</td><td>AIVM on-chain inference, AI Tier rewards</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 16 -->
+            <h1>16. <span class="accent">Aethelas Intellect</span> — Distributed AI Compute</h1>
+            <p>This is what centralised AI clouds fundamentally cannot offer: <strong>trustless AI</strong>. Not 'AI on blockchain' as a marketing claim — but genuine cryptographic verifiability of every model output.</p>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Problem with Centralised AI</th><th>Aethelas Solution</th></tr></thead>
+                    <tbody>
+                        <tr><td>Model weights are proprietary — no independent verification</td><td>All weights stored on-chain — any participant can inspect and audit</td></tr>
+                        <tr><td>Outputs cannot be validated — you must trust the provider</td><td>Every AIDecision carries Ed25519 signature + SHA-256 input_hash</td></tr>
+                        <tr><td>Single point of failure or censorship by provider</td><td>500 BFT nodes — no single entity can manipulate or deny service</td></tr>
+                        <tr><td>Foreign infrastructure processes Indian data (CLOUD Act)</td><td>All inference at Indian city nodes — DPDP Act 2023 compliant</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 17 -->
+            <h1>17. <span class="accent">Investment Thesis</span></h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Phase</th><th>Period</th><th>Investment</th><th>Key Milestones</th></tr></thead>
+                    <tbody>
+                        <tr><td>Phase 0 — Seed</td><td>Q2-Q4 2026</td><td>Rs 2.23 Crore</td><td>Mainnet live, 100 RPCaaS customers, 3 cities</td></tr>
+                        <tr><td>Phase 1 — Series A</td><td>2027</td><td>Rs 24.15 Crore</td><td>Rs 10-20L MRR, 30 cities, AETH token launched</td></tr>
+                        <tr><td>Phase 2 — Series B</td><td>2028</td><td>Rs 79.69 Crore</td><td>Rs 50-100Cr ARR, 100 cities, government contract</td></tr>
+                        <tr><td>Phase 3 — IPO</td><td>2029-2030</td><td>Rs 431.25 Crore</td><td>Rs 1,000Cr ARR, 500 cities, audited 3 years</td></tr>
+                        <tr><td>Phase 4 — Global</td><td>2031-2032</td><td>Rs 1,000 Crore</td><td>SE Asia, frontier AI, Rs 10,000 Cr ARR</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 18 -->
+            <h1>18. <span class="accent">Roadmap</span></h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Milestone</th><th>Target</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>20-node testnet — 20/20 nodes synced</td><td>Q2 2026</td><td class="highlight-cell">COMPLETE</td></tr>
+                        <tr><td>84/84 unit tests passing</td><td>Q2 2026</td><td class="highlight-cell">COMPLETE</td></tr>
+                        <tr><td>18/18 penetration tests blocked</td><td>Q2 2026</td><td class="highlight-cell">COMPLETE</td></tr>
+                        <tr><td>On-chain governance — 66.7% threshold</td><td>Q2 2026</td><td class="highlight-cell">COMPLETE</td></tr>
+                        <tr><td>Emergency chain pause/resume</td><td>Q2 2026</td><td class="highlight-cell">COMPLETE</td></tr>
+                        <tr><td>AI score persistence across restarts</td><td>Q2 2026</td><td class="highlight-cell">COMPLETE</td></tr>
+                        <tr><td>Security audit Phase 2 (Certik/Hacken)</td><td>Q3 2026</td><td>In Progress</td></tr>
+                        <tr><td>50-node Hetzner cloud testnet</td><td>Q3 2026</td><td>Planned</td></tr>
+                        <tr><td>Edge pilot — Patna, Mumbai, Bangalore</td><td>Q3 2026</td><td>Planned</td></tr>
+                        <tr><td>Mainnet launch (post-audit)</td><td>Q4 2026</td><td>Planned</td></tr>
+                        <tr><td>AETH token listing</td><td>Q4 2026</td><td>Planned</td></tr>
+                        <tr><td>30-city Edge deployment</td><td>2027</td><td>Planned</td></tr>
+                        <tr><td>AI Model Marketplace launch</td><td>2027</td><td>Planned</td></tr>
+                        <tr><td>100-city Edge deployment</td><td>2028</td><td>Planned</td></tr>
+                        <tr><td>Rs 1,000 Crore ARR — IPO readiness</td><td>2029-2030</td><td>Target</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 19 -->
+            <h1>19. <span class="accent">Conclusion</span></h1>
+            <p>Infrastructure is destiny. The protocols that define how data is stored, how transactions are validated, and how intelligence is distributed will shape the economic architecture of the next century. Aethelas Chain is an infrastructure bet — not on a single application, but on the foundational layer beneath all applications and all markets.</p>
+            <p>Aethelas Chain has demonstrated — through 84 passing unit tests, 18 blocked attack vectors, and 20 synchronised testnet nodes — that the AI-blockchain convergence is not a theoretical proposition. It is running software. It is provable technology. It is ready.</p>
+
+            <div class="paper-conclusion">
+                <h2><span class="accent">The Aethelas Vision</span></h2>
+                <p>We envision a world where decentralised infrastructure is not just trustless, but intelligent. Not just transparent, but adaptive. Not just permissionless, but accessible to every developer, user, and institution on the planet. Infrastructure that learns, that improves, that defends itself — and that belongs to no single nation, company, or individual.</p>
+                <p style="font-size:1.1rem; color:var(--q-cyan); font-family:var(--font-display); text-align:center; margin-top:1rem;"><strong>Aethelas Chain is the foundation for that world.</strong></p>
+            </div>
+
+            <!-- Constants -->
+            <h1>Appendix: <span class="accent">On-Chain Constants Reference</span></h1>
+
+            <div class="paper-table-wrap">
+                <table>
+                    <thead><tr><th>Constant</th><th>Value</th><th>Source File</th></tr></thead>
+                    <tbody>
+                        <tr><td>CHAIN_ID</td><td class="highlight-cell">aethelas-mainnet-1</td><td>types.rs</td></tr>
+                        <tr><td>MAX_TX_AMOUNT</td><td>10,000,000,000,000,000</td><td>types.rs</td></tr>
+                        <tr><td>BLOCK_GAS_LIMIT</td><td>10,000,000</td><td>types.rs</td></tr>
+                        <tr><td>BASE_BLOCK_REWARD</td><td>50,000,000 (50 AETH)</td><td>state.rs</td></tr>
+                        <tr><td>HALVING_INTERVAL</td><td>4,200,000 blocks</td><td>state.rs</td></tr>
+                        <tr><td>SLASH_DOUBLE_SIGN</td><td>5% of stake</td><td>state.rs</td></tr>
+                        <tr><td>SLASH_DOWNTIME</td><td>1% of stake</td><td>state.rs</td></tr>
+                        <tr><td>AI_SCORE_MIN</td><td>0.5</td><td>ai.rs</td></tr>
+                        <tr><td>AI_SCORE_MAX</td><td>3.0</td><td>ai.rs</td></tr>
+                        <tr><td>API_RATE_GLOBAL</td><td>200 req/s</td><td>api.rs</td></tr>
+                        <tr><td>API_RATE_PER_IP</td><td>30 req/s</td><td>api.rs</td></tr>
+                        <tr><td>FAUCET_AMOUNT</td><td>100 AETH</td><td>api.rs</td></tr>
+                        <tr><td>GOVERNANCE_THRESHOLD</td><td>66.67%</td><td>types.rs</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <p><strong>Disclaimer:</strong> This white paper is for informational purposes only and does not constitute financial advice or a securities offering. Revenue projections are targets, not guarantees. All technical specifications are derived from the production codebase as of Q2 2026. Please conduct your own due diligence.</p>
+                <p style="margin-top:0.3rem;">Confidential &amp; Proprietary — Aethelas Pvt Ltd — Version 3.0 — May 2026 — Akash Deep, Lead Architect</p>
+            </div>
+
+        </div>
+
+        <footer>
+            <div class="co">Aethelas<span>.</span></div>
+            <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="learn.html">Learn</a>
+                <a href="about.html">About</a>
+                <a href="research.html">Research</a>
+                <a href="verify.html">Verify</a>
+                <a href="blog.html">Blog</a>
+                <a href="case-studies.html">Case Studies</a>
+                <a href="community.html">Community</a>
+                <a href="security.html">Security</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="careers.html">Careers</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="whitepaper.html">Whitepaper</a>
+                <a href="terminal.html">Terminal</a>
+                <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ===== NEURAL CANVAS =====
+        (function() {
+            const canvas = document.getElementById('neuro-canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H, particles = [], mouse = { x: null, y: null };
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            class NeuroParticle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * W; this.y = Math.random() * H;
+                    this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 1.8 + 0.4; this.baseSize = this.size;
+                    const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1', '#3b82f6'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+                    this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+                    this.type = Math.random() > 0.7 ? 'core' : 'normal';
+                }
+                update() {
+                    this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
+                    this.x += this.vx + Math.sin(this.phase) * 0.02;
+                    this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
+                    this.x += Math.cos(this.orbitAngle) * 0.04;
+                    this.y += Math.sin(this.orbitAngle) * 0.04;
+                    if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+                    if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
+                    this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+                    if (mouse.x !== null) {
+                        const dx = this.x - mouse.x, dy = this.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 200) { const force = (200 - dist) / 200 * 0.08;
+                            this.x += dx / dist * force * 0.5; this.y += dy / dist * force * 0.5; }
+                    }
+                }
+                draw() {
+                    const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.6; ctx.fill();
+                    if (this.type === 'core') {
+                        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+                        grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+                        ctx.globalAlpha = 0.08; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+                        ctx.fillStyle = grad; ctx.fill();
+                    }
+                    ctx.globalAlpha = 1;
+                }
+            }
+            const numParticles = Math.min(280, Math.floor(W * H / 5000));
+            for (let i = 0; i < numParticles; i++) particles.push(new NeuroParticle());
+            document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+            document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+            function drawConnections() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p1 = particles[i], p2 = particles[j], dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 160) {
+                            ctx.globalAlpha = (1 - dist / 160) * 0.12;
+                            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = p1.color; ctx.lineWidth = 0.4; ctx.stroke();
+                        }
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+            function animate() {
+                ctx.clearRect(0, 0, W, H);
+                for (const p of particles) { p.update(); p.draw(); }
+                drawConnections();
+                const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.8);
+                grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(2,4,8,0.4)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+                requestAnimationFrame(animate);
+            }
+            window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
+            animate();
+        })();
+    </script>
+</body>
+</html>
