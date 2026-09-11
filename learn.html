@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aethelas — Learn</title>
+  <meta name="description" content="Learn about Aethelas — Verifiable AI Memory. Understand how it works, its core principles, and how to use it safely." />
+  <link rel="canonical" href="https://aethelas.in/learn.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ============================================================
+       GLOBAL RESET & VARIABLES
+       ============================================================ */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --cyan: #00d4ff;
+      --purple: #a855f7;
+      --pink: #f472b6;
+      --gold: #fbbf24;
+      --teal: #2dd4bf;
+      --bg: #05080f;
+      --bg-card: rgba(8,14,30,0.6);
+      --border: rgba(0,212,255,0.08);
+      --text: #d0dce8;
+      --text-secondary: #7a8aa0;
+      --text-muted: #3a4a6a;
+      --font-display: 'Orbitron', monospace;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-serif: 'Merriweather', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; box-shadow: 0 0 30px rgba(0,212,255,0.3); }
+
+    /* ============================================================
+       BACKGROUND
+       ============================================================ */
+    #neuro-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85; }
+    #aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(168,85,247,0.03) 0%, transparent 50%); filter: blur(60px); animation: auroraDrift 25s ease-in-out infinite alternate; }
+    @keyframes auroraDrift { 0% { transform: translate(0,0) scale(1); opacity:0.6; } 100% { transform: translate(80px,-60px) scale(1.3); opacity:0.9; } }
+    #grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px); background-size: 80px 80px; opacity: 0.3; mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%); }
+    #scanlines { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px); opacity: 0.2; }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 10px 36px; background: rgba(5,8,15,0.55); backdrop-filter: blur(28px) saturate(1.5); -webkit-backdrop-filter: blur(28px) saturate(1.5); border-bottom: 1px solid rgba(0,212,255,0.05); box-shadow: 0 4px 50px rgba(0,0,0,0.4); min-height: 64px; flex-wrap: wrap; gap: 0.5rem; }
+    .nav-brand { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 0.06em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .nav-brand .dot { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,212,255,0.15); animation: pulseDot 2.8s ease-in-out infinite; }
+    @keyframes pulseDot { 0%,100% { opacity:0.4; transform:scale(0.7); } 50% { opacity:1; transform:scale(1.3); } }
+    .nav-brand span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2px; align-items: center; flex-wrap: wrap; }
+    .nav-links a { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; padding: 6px 16px; border-radius: 100px; transition: all 0.3s; border: 1px solid transparent; position: relative; }
+    .nav-links a:hover { color: var(--text); background:rgba(0,212,255,0.03); }
+    .nav-links a.active { color: var(--cyan); border-color: rgba(0,212,255,0.12); background: rgba(0,212,255,0.04); }
+    .nav-cta { color: #05080f !important; background: var(--cyan) !important; border: none !important; font-weight: 700 !important; box-shadow: 0 0 40px rgba(0,212,255,0.15); padding: 6px 20px !important; }
+    .nav-cta:hover { background: #fff !important; color: #05080f !important; box-shadow: 0 0 70px rgba(0,212,255,0.3); transform: scale(1.04); }
+    .nav-mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+    /* ============================================================
+       LAYOUT — Sidebar + Content
+       ============================================================ */
+    .wrap { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; display: flex; gap: 2rem; padding: 100px 2rem 4rem; }
+
+    /* Sidebar */
+    .learn-sidebar { position: sticky; top: 100px; flex: 0 0 260px; max-height: calc(100vh - 120px); overflow-y: auto; padding-right: 1rem; }
+    .learn-sidebar::-webkit-scrollbar { width: 2px; }
+    .learn-sidebar::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 10px; }
+    .learn-sidebar .sidebar-title { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); opacity: 0.5; margin-bottom: 1.5rem; }
+    .learn-sidebar .sidebar-section { margin-bottom: 1.5rem; }
+    .learn-sidebar .section-label { font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.4; margin-bottom: 0.5rem; padding-left: 0.8rem; }
+    .learn-sidebar .sidebar-link { display: block; padding: 0.4rem 0.8rem; border-radius: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.8rem; transition: all 0.3s; border-left: 2px solid transparent; }
+    .learn-sidebar .sidebar-link:hover { color: var(--text); background: rgba(0,212,255,0.04); }
+    .learn-sidebar .sidebar-link.active { color: var(--cyan); border-left-color: var(--cyan); background: rgba(0,212,255,0.04); }
+    .learn-sidebar .sidebar-divider { border: none; border-top: 1px solid rgba(255,255,255,0.04); margin: 1rem 0; }
+
+    /* Content */
+    .learn-content { flex: 1; min-width: 0; }
+    .learn-content .page-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.8rem, 4vw, 3rem); color: #fff; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .learn-content .page-title .gradient { background: linear-gradient(135deg, var(--cyan), var(--purple), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .learn-content .page-subtitle { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2.5rem; opacity: 0.75; }
+
+    .learn-content section { padding: 2rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); scroll-margin-top: 90px; }
+    .learn-content section:last-child { border-bottom: none; }
+    .learn-content section h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: #fff; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+    .learn-content section h2 .accent { color: var(--cyan); }
+    .learn-content section .section-meta { font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); opacity: 0.5; margin-bottom: 1rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .learn-content section p { font-size: 0.95rem; line-height: 1.9; color: var(--text-secondary); margin-bottom: 1rem; font-family: var(--font-serif); }
+    .learn-content section p strong { color: var(--text); font-weight: 600; }
+    .learn-content section ul, .learn-content section ol { padding-left: 1.8rem; margin-bottom: 1rem; font-family: var(--font-serif); }
+    .learn-content section ul li, .learn-content section ol li { font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 0.4rem; }
+    .learn-content section a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(0,212,255,0.2); }
+    .learn-content section a:hover { border-bottom-color: var(--cyan); }
+
+    .learn-content .highlight-box { background: rgba(0,212,255,0.02); border-left: 3px solid var(--cyan); padding: 1.2rem 1.8rem; margin: 1.2rem 0; border-radius: 0 8px 8px 0; font-family: var(--font-body); font-size: 0.9rem; color: var(--text-secondary); }
+    .learn-content .highlight-box strong { color: var(--text); }
+
+    .learn-content .code-block { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+    .learn-content .code-block .code-label { font-family: var(--font-mono); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--cyan); opacity: 0.4; margin-bottom: 0.3rem; display: block; }
+    .learn-content .code-block .json-key { color: var(--cyan); }
+    .learn-content .code-block .json-string { color: var(--gold); }
+    .learn-content .code-block .json-number { color: var(--pink); }
+    .learn-content .code-block .json-bool { color: var(--purple); }
+
+    .learn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+    .learn-grid .grid-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 1.2rem; text-align: center; transition: all 0.3s; backdrop-filter: blur(8px); }
+    .learn-grid .grid-item:hover { border-color: rgba(0,212,255,0.15); transform: translateY(-3px); }
+    .learn-grid .grid-item .icon { font-size: 2rem; display: block; margin-bottom: 0.4rem; }
+    .learn-grid .grid-item h4 { font-family: var(--font-display); font-size: 0.85rem; color: #fff; margin-bottom: 0.2rem; letter-spacing: -0.01em; }
+    .learn-grid .grid-item p { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0; font-family: var(--font-body); }
+
+    /* Quiz */
+    .quiz-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; margin: 1.2rem 0; backdrop-filter: blur(12px); }
+    .quiz-section h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+    .quiz-section .quiz-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .quiz-section .quiz-option { display: block; width: 100%; padding: 0.7rem 1.1rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; color: var(--text-secondary); text-align: left; cursor: pointer; transition: all 0.3s; margin-bottom: 0.5rem; font-size: 0.8rem; font-family: var(--font-body); }
+    .quiz-section .quiz-option:hover { border-color: rgba(0,212,255,0.15); background: rgba(0,212,255,0.04); }
+    .quiz-section .quiz-option.correct { border-color: var(--teal); background: rgba(45,212,191,0.06); color: var(--teal); }
+    .quiz-section .quiz-option.wrong { border-color: var(--pink); background: rgba(244,114,182,0.06); color: var(--pink); }
+    .quiz-section .quiz-feedback { padding: 0.8rem 1.2rem; border-radius: 8px; margin-top: 0.5rem; font-size: 0.8rem; display: none; }
+    .quiz-section .quiz-feedback.show { display: block; }
+    .quiz-section .quiz-feedback.correct { background: rgba(45,212,191,0.06); border: 1px solid rgba(45,212,191,0.1); color: var(--teal); }
+    .quiz-section .quiz-feedback.wrong { background: rgba(244,114,182,0.06); border: 1px solid rgba(244,114,182,0.1); color: var(--pink); }
+
+    /* Video */
+    .video-placeholder { background: rgba(0,0,0,0.3); border: 2px dashed rgba(0,212,255,0.08); border-radius: 12px; padding: 3rem 2rem; text-align: center; color: var(--text-muted); margin: 1rem 0; }
+    .video-placeholder i { font-size: 3rem; display: block; margin-bottom: 0.6rem; opacity: 0.3; color: var(--cyan); }
+    .video-placeholder p { font-family: var(--font-body); font-size: 0.9rem; }
+    .video-placeholder strong { color: var(--text); display: block; margin-bottom: 0.3rem; font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer { padding: 2.5rem 2rem 3rem; text-align: center; background: rgba(5,8,15,0.3); border-top: 1px solid rgba(0,212,255,0.02); margin-top: 4rem; }
+    .footer .co { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.1rem; letter-spacing: 0.06em; }
+    .footer .co span { color: var(--cyan); }
+    .footer .meta { font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.6rem; opacity: 0.5; }
+    .footer-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-social { display: flex; gap: 0.8rem; justify-content: center; margin-top: 0.6rem; }
+    .footer-social a { color: var(--text-muted); font-size: 1.2rem; transition: color 0.3s; }
+    .footer-social a:hover { color: var(--cyan); }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .wrap { flex-direction: column; padding-top: 120px; }
+      .learn-sidebar { position: static; flex: auto; max-height: none; padding-right: 0; margin-bottom: 1.5rem; }
+      .learn-sidebar .sidebar-links { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+      .learn-sidebar .sidebar-link { font-size: 0.7rem; padding: 0.3rem 0.8rem; border-left: none; border-bottom: 2px solid transparent; }
+      .learn-sidebar .sidebar-link.active { border-bottom-color: var(--cyan); border-left-color: transparent; }
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 10px 16px; }
+      .nav-mobile-toggle { display: block; }
+      .nav-links { display: none; width: 100%; flex-direction: column; align-items: center; gap: 0.3rem; padding: 0.5rem 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 9px; padding: 4px 12px; }
+      .wrap { padding: 100px 1.2rem 3rem; }
+      .learn-grid { grid-template-columns: 1fr 1fr; }
+      .learn-content .page-title { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .learn-grid { grid-template-columns: 1fr; }
+      .learn-content .page-title { font-size: 1.4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      #aurora, #grid, #scanlines { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BACKGROUND ===== -->
+  <canvas id="neuro-canvas"></canvas>
+  <div id="aurora"></div>
+  <div id="grid"></div>
+  <div id="scanlines"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="main-nav">
+    <a href="index.html" class="nav-brand">
+      <span class="dot"></span>Aethelas<span>.</span>
+    </a>
+    <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="learn.html" class="active">Learn</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="verify.html">Verify</a>
+      <a href="blog.html">Blog</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="community.html">Community</a>
+      <a href="security.html">Security</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="careers.html">Careers</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="terminal.html" class="nav-cta">Terminal</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="learn-sidebar">
+      <div class="sidebar-title">✦ Learn Aethelas</div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Getting Started</div>
+        <div class="sidebar-links">
+          <a href="#overview" class="sidebar-link active">Overview</a>
+          <a href="#what-is" class="sidebar-link">What is Aethelas?</a>
+          <a href="#how-works" class="sidebar-link">How Aethelas Works</a>
+          <a href="#core-principles" class="sidebar-link">Core Principles</a>
+        </div>
+      </div>
+
+      <hr class="sidebar-divider" />
+
+      <div class="sidebar-section">
+        <div class="section-label">Deep Dive</div>
+        <div class="sidebar-links">
+          <a href="#four-operations" class="sidebar-link">The Four Operations</a>
+          <a href="#technology" class="sidebar-link">Technology</a>
+          <a href="#aethelas-l1" class="sidebar-link">Aethelas L1 Network</a>
+          <a href="#aethelas-token" class="sidebar-link">Aethelas Token (AETHL)</a>
+        </div>
+      </div>
+
+      <hr class="sidebar-divider" />
+
+      <div class="sidebar-section">
+        <div class="section-label">Practical</div>
+        <div class="sidebar-links">
+          <a href="#use-cases" class="sidebar-link">How People Use Aethelas</a>
+          <a href="#staying-safe" class="sidebar-link">Staying Safe</a>
+          <a href="#quiz" class="sidebar-link">Test Your Knowledge</a>
+          <a href="#videos" class="sidebar-link">Videos</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== CONTENT ===== -->
+    <main class="learn-content">
+
+      <h1 class="page-title">Learn <span class="gradient">Aethelas</span></h1>
+      <p class="page-subtitle">Everything you need to know about Verifiable AI Memory</p>
+
+      <!-- ===== OVERVIEW ===== -->
+      <section id="overview" class="reveal">
+        <h2>Overview</h2>
+        <div class="section-meta">✦ All things verifiable AI memory education</div>
+        <p>Aethelas is a <strong>trust layer for AI memory</strong> — an infrastructure that makes AI verifiable, auditable, and provably forgettable on demand. It wraps any AI model with a cryptographic ledger, ensuring that everything the model learns, remembers, proves, or unlearns is recorded and verifiable.</p>
+
+        <div class="highlight-box">
+          <strong>Why it matters:</strong> Most AI systems are "black boxes" — you can't prove what they learned, when they learned it, or how to remove specific data. Aethelas solves this by making AI memory transparent and auditable.
+        </div>
+
+        <p>Aethelas is built on four core operations: <strong>Learn, Remember, Prove, and Unlearn</strong>. These operations work together to create a complete, verifiable memory system for any AI.</p>
+
+        <div class="learn-grid">
+          <div class="grid-item"><span class="icon">🧬</span><h4>Learn</h4><p>Train continuously without full retraining</p></div>
+          <div class="grid-item"><span class="icon">🧠</span><h4>Remember</h4><p>Resist catastrophic forgetting</p></div>
+          <div class="grid-item"><span class="icon">🔮</span><h4>Prove</h4><p>Cryptographic verification of past states</p></div>
+          <div class="grid-item"><span class="icon">🌀</span><h4>Unlearn</h4><p>Remove data with cryptographic proof</p></div>
+        </div>
+      </section>
+
+      <!-- ===== WHAT IS AETHELAS ===== -->
+      <section id="what-is" class="reveal">
+        <h2>What is <span class="accent">Aethelas</span>?</h2>
+        <div class="section-meta">✦ Understand what makes Aethelas special</div>
+        <p>Aethelas is a <strong>verifiable AI memory infrastructure</strong> — not a foundation model, not general intelligence, and not a recursively self-improving system. It is a <strong>trust layer</strong> that can be wrapped around any AI model to make its memory verifiable, auditable, and provably forgettable.</p>
+
+        <p>Think of Aethelas as an <strong>immutable audit trail for AI memory</strong>. Every training event, every decision, and every memory operation is recorded on a cryptographic ledger. This means you can always prove:</p>
+
+        <ul>
+          <li>What data the model learned</li>
+          <li>When it learned it</li>
+          <li>What the model knew at any past point</li>
+          <li>That specific data was deleted on request</li>
+        </ul>
+
+        <div class="highlight-box">
+          <strong>💡 Aethelas in one sentence:</strong> A trust layer that provides verified, auditable, provably-forgettable memory around any AI.
+        </div>
+
+        <p>In testing, Aethelas achieved <strong>89.5% overall</strong> on its internal benchmark suite, with perfect scores on hallucination detection, mathematical correctness, value alignment, planning, and trust calibration.</p>
+      </section>
+
+      <!-- ===== HOW AETHELAS WORKS ===== -->
+      <section id="how-works" class="reveal">
+        <h2>How <span class="accent">Aethelas</span> Works</h2>
+        <div class="section-meta">✦ The technology behind verifiable AI memory</div>
+        <p>Aethelas works by wrapping AI models with a <strong>cryptographic ledger</strong> that records every training event and decision. Here's how each component works:</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">1. The Ledger (Aethelas L1)</h3>
+        <p>At the heart of Aethelas is a Rust-implemented Layer-1 blockchain with iPoS consensus (~5s block times, WASM VM, 20+ active nodes). Every transaction carries an AIDecision record, and the AI decision process is embedded directly into transaction validation.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">2. The Continual Learning Module</h3>
+        <p>The on-chain neural network uses a 7-16-8-1 architecture (273 trainable parameters), trained online via stochastic gradient descent as transactions arrive.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">3. The Knowledge Engine</h3>
+        <p>Genesis-seeded domain knowledge is stored as versioned, keyword-searchable entries. Every factual claim in a response traces to a specific, versioned knowledge entry rather than being generated freely.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">4. The Verification Fence</h3>
+        <p>A guardrail that sits between any LLM and the user. Every factual claim must cite a specific memory entry, and the fence checks citations, numeric accuracy, and coverage. Performance: Precision 1.00, Recall 0.929, F1 0.963.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">5. Decentralized Storage with Provable Deletion</h3>
+        <p>Each file is erasure-coded into n fragments, recoverable from any k. The on-chain commitment is a Merkle root over fragment hashes. Deletion proof: post-deletion challenge confirms zero fragments survive, and the root hash change provides tamper-evident proof.</p>
+
+        <div class="highlight-box">
+          <strong>🔒 Trust through cryptography:</strong> Every operation — learn, remember, prove, unlearn — is recorded on the ledger with cryptographic guarantees, making the system auditable without trusting any single party.
+        </div>
+      </section>
+
+      <!-- ===== CORE PRINCIPLES ===== -->
+      <section id="core-principles" class="reveal">
+        <h2><span class="accent">Core Principles</span> of Aethelas</h2>
+        <div class="section-meta">✦ Understand the principles Aethelas is built on</div>
+        <ul>
+          <li><strong>Verifiability</strong> — Every AI decision and memory operation can be independently verified using cryptographic proof.</li>
+          <li><strong>Auditability</strong> — Complete, immutable audit trail of all training events and decisions.</li>
+          <li><strong>Provable Deletion</strong> — Data can be removed on request with cryptographic proof of erasure.</li>
+          <li><strong>Trust Through Transparency</strong> — No black boxes; every component is measured and its limits are reported honestly.</li>
+          <li><strong>Continuous Learning</strong> — Train continuously as new data arrives without full retraining.</li>
+          <li><strong>Cryptographic Guarantees</strong> — All proofs are based on SHA-256 commitments and Ed25519 signatures.</li>
+          <li><strong>Honest Reporting</strong> — The system publishes its ceilings (e.g., 70% on continual learning) alongside its strengths.</li>
+        </ul>
+
+        <div class="highlight-box">
+          <strong>🎯 The Aethelas promise:</strong> A system whose value is trust reports its ceilings rather than hiding them. The benchmark publishes a 70% continual-learning score alongside its strengths.
+        </div>
+      </section>
+
+      <!-- ===== FOUR OPERATIONS ===== -->
+      <section id="four-operations" class="reveal">
+        <h2>The <span class="accent">Four Operations</span> of Aethelas</h2>
+        <div class="section-meta">✦ Learn, Remember, Prove, Unlearn</div>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">🧬 Learn</h3>
+        <p>New training examples are appended to the ledger as they are encountered. The model trains continuously as new data arrives — without full retraining. This enables <strong>lifelong learning</strong> without the cost of retraining from scratch.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">🧠 Remember</h3>
+        <p>Past examples are replayed from the ledger during ongoing training to resist catastrophic forgetting. In tests, unbounded ledger replay reached <strong>98.6–100.0% retention</strong> across sequential tasks.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">🔮 Prove</h3>
+        <p>The model's parameter state at any past point can be verified against a cryptographic commitment recorded at that point. The proof consists of: original weights hash, new weights hash, and a Merkle root over the replayed event set.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">🌀 Unlearn</h3>
+        <p>Specific data can be removed by rolling back to the state before it was learned and replaying the remaining history excluding it. In testing, removing one contributor's data: changed the storage root hash (cryptographic evidence), removed 100% of that contributor's entries, and left other contributors' data intact.</p>
+
+        <div class="highlight-box">
+          <strong>💡 The insight:</strong> Forgetting-resistance and unlearning are not separate mechanisms — they are the same replay operation run forward (include everything) or with an exclusion set (omit specific examples).
+        </div>
+      </section>
+
+      <!-- ===== TECHNOLOGY ===== -->
+      <section id="technology" class="reveal">
+        <h2>The <span class="accent">Technology</span> Behind Aethelas</h2>
+        <div class="section-meta">✦ A deep dive into the architecture</div>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">Rust-Implemented Layer-1 Blockchain</h3>
+        <p>Aethelas L1 is built in Rust for performance and safety. It uses <strong>iPoS (intelligent Proof of Stake)</strong> where validator voting power is weighted by an AI-derived reliability score.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">Continual Neural Network</h3>
+        <p>The on-chain neural network uses a <strong>7-16-8-1 architecture</strong> with 273 trainable parameters, trained online via stochastic gradient descent. The weights hash serves as a content fingerprint for verification.</p>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">Cryptographic Proof Layer</h3>
+        <ul>
+          <li><strong>SHA-256 commitments</strong> — over transactions, decisions, and rules</li>
+          <li><strong>Ed25519 signatures</strong> — for authentication and non-repudiation</li>
+          <li><strong>Merkle roots</strong> — for compact, verifiable commitment to data sets</li>
+        </ul>
+
+        <h3 style="font-family:var(--font-display); font-size:1.05rem; color:#fff; margin:1.5rem 0 0.5rem;">Decentralized Storage</h3>
+        <p>Erasure-coded storage with <strong>provable deletion</strong>: k=3, n=5 configuration provides 96% recovery at 20% node failure rate, and every deletion produces a cryptographic proof.</p>
+
+        <div class="code-block">
+          <span class="code-label">Example: Model status from live API</span>
+          <span class="json-key">"architecture"</span>: <span class="json-string">"7-16-8-1"</span>,<br />
+          <span class="json-key">"weight_count"</span>: <span class="json-number">273</span>,<br />
+          <span class="json-key">"weights_hash"</span>: <span class="json-string">"73e5d1cb4788beb2"</span>,<br />
+          <span class="json-key">"never_stops"</span>: <span class="json-bool">true</span>,<br />
+          <span class="json-key">"model_type"</span>: <span class="json-string">"continual_neural_network"</span>
+        </div>
+      </section>
+
+      <!-- ===== AETHELAS L1 NETWORK ===== -->
+      <section id="aethelas-l1" class="reveal">
+        <h2>Aethelas <span class="accent">L1</span> Network</h2>
+        <div class="section-meta">✦ Understand what the Aethelas network is</div>
+        <p>Aethelas L1 is the Layer-1 blockchain that powers the Aethelas ecosystem. It is a <strong>Rust-implemented, BFT consensus network</strong> where AI-driven decisions are embedded directly into transaction validation and consensus.</p>
+        <ul>
+          <li><strong>Consensus:</strong> iPoS (intelligent Proof of Stake) — validator voting power weighted by AI-derived reliability score</li>
+          <li><strong>Block time:</strong> ~5 seconds</li>
+          <li><strong>Nodes:</strong> 20 active nodes running on real infrastructure</li>
+          <li><strong>Smart contracts:</strong> WASM VM execution</li>
+          <li><strong>Security:</strong> 18/18 red-team attacks blocked</li>
+        </ul>
+        <div class="highlight-box">
+          <strong>🔗 Live network:</strong> Aethelas L1 is running on a public test network with 20 active nodes. The chain is live and transactionally active.
+        </div>
+      </section>
+
+      <!-- ===== AETHELAS TOKEN ===== -->
+      <section id="aethelas-token" class="reveal">
+        <h2>Aethelas Token <span class="accent">(AETHL)</span></h2>
+        <div class="section-meta">✦ Understand Aethelas's native token</div>
+        <p>AETHL is the native cryptocurrency of the Aethelas network. It serves as the economic backbone of the ecosystem, enabling:</p>
+        <ul>
+          <li><strong>Validator staking</strong> — AETHL holders can stake tokens to become validators or delegate to existing validators</li>
+          <li><strong>Transaction fees</strong> — AETHL is used to pay for all network operations</li>
+          <li><strong>AI decision verification</strong> — Verifying AI decisions requires a small AETHL fee</li>
+          <li><strong>Storage payments</strong> — Decentralized storage costs are paid in AETHL</li>
+          <li><strong>Governance</strong> — AETHL holders can participate in network governance</li>
+        </ul>
+        <p>The token economics are designed to align incentives across validators, developers, and users — ensuring the network remains secure, decentralized, and efficient.</p>
+      </section>
+
+      <!-- ===== USE CASES ===== -->
+      <section id="use-cases" class="reveal">
+        <h2>How People Use <span class="accent">Aethelas</span></h2>
+        <div class="section-meta">✦ Real stories of how people use Aethelas</div>
+
+        <div class="learn-grid">
+          <div class="grid-item"><span class="icon">🏦</span><h4>Financial Compliance</h4><p>Reduced audit time by 73% with verifiable AI decisions</p></div>
+          <div class="grid-item"><span class="icon">🏥</span><h4>Healthcare Data</h4><p>Provable deletion for patient data under DPDP Act</p></div>
+          <div class="grid-item"><span class="icon">🤖</span><h4>AI Safety</h4><p>LLM hallucination prevention with perfect precision</p></div>
+          <div class="grid-item"><span class="icon">📦</span><h4>Supply Chain</h4><p>Verifiable traceability with 82% dispute reduction</p></div>
+          <div class="grid-item"><span class="icon">🏛️</span><h4>Government</h4><p>Citizen services with cryptographic audit trails</p></div>
+          <div class="grid-item"><span class="icon">⚡</span><h4>Energy</h4><p>Smart grid compliance with 99.97% uptime</p></div>
+        </div>
+        <p>From finance to healthcare to government, organizations are using Aethelas to build <strong>trustworthy, auditable AI systems</strong> that meet regulatory requirements.</p>
+      </section>
+
+      <!-- ===== STAYING SAFE ===== -->
+      <section id="staying-safe" class="reveal">
+        <h2>Staying <span class="accent">Safe</span> with Aethelas</h2>
+        <div class="section-meta">✦ Protect yourself while using Aethelas</div>
+        <ul>
+          <li><strong>Verify everything:</strong> Use the verification tool to check any record against the ledger</li>
+          <li><strong>Use the Verification Fence:</strong> Never trust LLM outputs without citation grounding</li>
+          <li><strong>Exercise your deletion rights:</strong> Request provable deletion of your data at any time</li>
+          <li><strong>Check the audit trail:</strong> All decisions are recorded on the immutable ledger</li>
+          <li><strong>Stay informed:</strong> Follow the official channels for security updates</li>
+          <li><strong>Report issues:</strong> Contact the team if you discover any vulnerabilities</li>
+        </ul>
+        <div class="highlight-box">
+          <strong>🛡️ Aethelas is built for trust:</strong> The system is designed to be transparent and auditable. Every component that could be faked is instead measured against a baseline, and the boundaries of autonomy are reported as findings.
+        </div>
+      </section>
+
+      <!-- ===== QUIZ ===== -->
+      <section id="quiz" class="reveal">
+        <h2>Test Your <span class="accent">Knowledge</span></h2>
+        <div class="section-meta">✦ Find out how well you understand Aethelas</div>
+
+        <div class="quiz-section">
+          <h3>Question 1: What are the four operations of Aethelas?</h3>
+          <p class="quiz-sub">Select the correct answer</p>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. The four operations are Learn, Remember, Prove, and Unlearn.">Train, Deploy, Monitor, Scale</button>
+          <button class="quiz-option" data-correct="true" data-feedback="✅ Correct! Learn, Remember, Prove, and Unlearn are the four core operations.">Learn, Remember, Prove, Unlearn</button>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. The four operations are Learn, Remember, Prove, and Unlearn.">Store, Retrieve, Verify, Delete</button>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. The four operations are Learn, Remember, Prove, and Unlearn.">Train, Validate, Test, Deploy</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-section">
+          <h3>Question 2: What makes Aethelas different from other AI systems?</h3>
+          <p class="quiz-sub">Select the correct answer</p>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. Aethelas provides a trust layer for any AI with cryptographic verification.">It's the only AI that can learn</button>
+          <button class="quiz-option" data-correct="true" data-feedback="✅ Correct! Aethelas provides verifiable, auditable, and provably-forgettable memory around any AI.">It provides verifiable, auditable, provably-forgettable memory</button>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. Aethelas provides a trust layer for any AI with cryptographic verification.">It's the fastest AI in the world</button>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. Aethelas provides a trust layer for any AI with cryptographic verification.">It's the only AI that can generate images</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-section">
+          <h3>Question 3: What is the overall benchmark score of Aethelas?</h3>
+          <p class="quiz-sub">Select the correct answer</p>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. The overall benchmark score is 89.5%.">75.0%</button>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. The overall benchmark score is 89.5%.">82.3%</button>
+          <button class="quiz-option" data-correct="true" data-feedback="✅ Correct! Aethelas scored 89.5% overall (34/38).">89.5%</button>
+          <button class="quiz-option" data-correct="false" data-feedback="Incorrect. The overall benchmark score is 89.5%.">95.0%</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <!-- ===== VIDEOS ===== -->
+      <section id="videos" class="reveal">
+        <h2>Watch Educational <span class="accent">Videos</span></h2>
+        <div class="section-meta">✦ Watch videos about Aethelas</div>
+        <div class="video-placeholder">
+          <i class="fas fa-play-circle"></i>
+          <strong>Video Coming Soon</strong>
+          <p>Educational videos explaining Aethelas, verifiable AI memory, and real-world use cases will be available here.</p>
+          <p style="font-size:0.7rem; margin-top:0.5rem; opacity:0.5;">Subscribe to stay notified</p>
+        </div>
+        <div class="learn-grid" style="margin-top:1rem;">
+          <div class="grid-item"><span class="icon">🎬</span><h4>Coming Soon</h4><p>What is Aethelas? (2 min)</p></div>
+          <div class="grid-item"><span class="icon">🎬</span><h4>Coming Soon</h4><p>The Four Operations Explained (5 min)</p></div>
+          <div class="grid-item"><span class="icon">🎬</span><h4>Coming Soon</h4><p>Real-World Deployments (8 min)</p></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="co">Aethelas<span>.</span></div>
+    <div class="meta">DPIIT-Recognized · Verifiable AI Memory</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="learn.html">Learn</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="verify.html">Verify</a>
+      <a href="blog.html">Blog</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="community.html">Community</a>
+      <a href="security.html">Security</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="careers.html">Careers</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="terminal.html">Terminal</a>
+    </div>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/akash-deep-45781a158" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/adgroup158/aethelas-website" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+  <script>
+    // ============================================================
+    // 1. NEURAL CANVAS
+    // ============================================================
+    (function() {
+      const canvas = document.getElementById('neuro-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [], mouse = { x: null, y: null };
+
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resize); resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * W; this.y = Math.random() * H;
+          this.vx = (Math.random() - 0.5) * 0.2; this.vy = (Math.random() - 0.5) * 0.2;
+          this.size = Math.random() * 1.8 + 0.3; this.baseSize = this.size;
+          const colors = ['#00d4ff', '#a855f7', '#f472b6', '#2dd4bf', '#fbbf24', '#6366f1'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.phase = Math.random() * Math.PI * 2; this.pulseSpeed = 0.3 + Math.random() * 0.4;
+          this.orbitAngle = Math.random() * Math.PI * 2; this.orbitSpeed = (Math.random() - 0.5) * 0.02;
+          this.type = Math.random() > 0.7 ? 'core' : 'normal';
+        }
+        update() {
+          this.phase += 0.01; this.orbitAngle += this.orbitSpeed;
+          this.x += this.vx + Math.sin(this.phase) * 0.015;
+          this.y += this.vy + Math.cos(this.phase * 0.7) * 0.015;
+          this.x += Math.cos(this.orbitAngle) * 0.03;
+          this.y += Math.sin(this.orbitAngle) * 0.03;
+          if (this.x < -20) this.x = W + 20; if (this.x > W + 20) this.x = -20;
+          if (this.y < -20) this.y = H + 20; if (this.y > H + 20) this.y = -20;
+          this.size = this.baseSize * (1 + 0.3 * Math.sin(this.phase * this.pulseSpeed));
+          if (mouse.x !== null) {
+            const dx = this.x - mouse.x, dy = this.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 200) { const force = (200 - dist) / 200 * 0.06;
+              this.x += dx / dist * force; this.y += dy / dist * force; }
+          }
+        }
+        draw() {
+          const alpha = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(this.phase * this.pulseSpeed));
+          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color; ctx.globalAlpha = alpha * 0.5; ctx.fill();
+          if (this.type === 'core') {
+            const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+            grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
+            ctx.globalAlpha = 0.06; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+            ctx.fillStyle = grad; ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      const numParticles = Math.min(240, Math.floor(W * H / 5500));
+      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+      document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+      function drawConnections() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i], p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.1;
+              ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = p1.color; ctx.lineWidth = 0.3; ctx.stroke();
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) { p.update(); p.draw(); }
+        drawConnections();
+        const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.7);
+        grad.addColorStop(0, 'transparent'); grad.addColorStop(1, 'rgba(5,8,15,0.4)');
+        ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+        requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', () => { resize(); for (const p of particles) { p.x = Math.random() * W; p.y = Math.random() * H; } });
+      animate();
+    })();
+
+    // ============================================================
+    // 2. SIDEBAR SCROLL SPY
+    // ============================================================
+    (function() {
+      const links = document.querySelectorAll('.sidebar-link');
+      const sections = document.querySelectorAll('.learn-content section[id]');
+      if (!links.length) return;
+
+      function updateActiveLink() {
+        const scrollPos = window.scrollY + 120;
+        let currentSection = null;
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (scrollPos >= sectionTop) currentSection = section;
+        });
+        links.forEach(link => {
+          link.classList.remove('active');
+          if (currentSection && link.getAttribute('href') === '#' + currentSection.id) {
+            link.classList.add('active');
+          }
+        });
+      }
+      window.addEventListener('scroll', updateActiveLink);
+      window.addEventListener('load', updateActiveLink);
+    })();
+
+    // ============================================================
+    // 3. QUIZ LOGIC
+    // ============================================================
+    (function() {
+      document.querySelectorAll('.quiz-section').forEach(section => {
+        const options = section.querySelectorAll('.quiz-option');
+        const feedback = section.querySelector('.quiz-feedback');
+        let answered = false;
+
+        options.forEach(option => {
+          option.addEventListener('click', function() {
+            if (answered) return;
+            answered = true;
+
+            const isCorrect = this.dataset.correct === 'true';
+            const message = this.dataset.feedback;
+
+            if (isCorrect) {
+              this.classList.add('correct');
+              feedback.className = 'quiz-feedback show correct';
+              feedback.textContent = message;
+            } else {
+              this.classList.add('wrong');
+              feedback.className = 'quiz-feedback show wrong';
+              feedback.textContent = message;
+              options.forEach(opt => {
+                if (opt.dataset.correct === 'true') opt.classList.add('correct');
+              });
+            }
+          });
+        });
+      });
+    })();
+
+    // ============================================================
+    // 4. SCROLL REVEAL
+    // ============================================================
+    (function() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    })();
+
+    // ============================================================
+    // 5. MOBILE NAV TOGGLE
+    // ============================================================
+    document.getElementById('nav-toggle')?.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
